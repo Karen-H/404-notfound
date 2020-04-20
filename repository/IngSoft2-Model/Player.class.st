@@ -2,7 +2,13 @@ Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'position'
+		'position',
+		'player',
+		'result',
+		'resuelt',
+		'double',
+		'col',
+		'aPlayer'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -47,6 +53,22 @@ Player class >> startingPosition: aPositionOnBoard [
 		initializeWithPosition: aPositionOnBoard.
 		
 	
+]
+
+{ #category : #'as yet unclassified' }
+Player class >> withAll: aPlayerSet [
+	
+	^ self new initializeWithAll: aPlayerSet.
+]
+
+{ #category : #composing }
+Player >> + aaPlayer [
+	|a b|
+	a:=OrderedCollection withAll:({self.aaPlayer}flattened).
+	b:=a flattened.
+	^b.
+	
+	"^(OrderedCollection withAll:{self. aPlayer})flatten."
 ]
 
 { #category : #'as yet unclassified' }
