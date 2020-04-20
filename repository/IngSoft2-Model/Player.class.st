@@ -2,13 +2,7 @@ Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'position',
-		'player',
-		'result',
-		'resuelt',
-		'double',
-		'col',
-		'aPlayer'
+		'position'
 	],
 	#category : #'IngSoft2-Model'
 }
