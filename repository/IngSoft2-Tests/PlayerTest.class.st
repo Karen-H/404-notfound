@@ -14,6 +14,16 @@ PlayerTest >> testPlayerGoTo [
 ]
 
 { #category : #tests }
+PlayerTest >> testPlayerGoToAll [
+	|players p1 p2|
+	p1:=Player startingPosition: 1.
+	p2:=Player startingPosition: 1.
+	players:=p1+p2.
+	self assert: (players first)  equals:p1;
+		  assert: (players second) equals:p2.
+]
+
+{ #category : #tests }
 PlayerTest >> testPlayerGoToMaxPosition [
 
 	| player |

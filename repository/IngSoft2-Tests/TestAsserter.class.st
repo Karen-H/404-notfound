@@ -34,6 +34,12 @@ TestAsserter class >> classForTestSuite [
 	^ TestSuite
 ]
 
+{ #category : #accessing }
+TestAsserter class >> defaultPrecisionsForCloseToComparison [
+	"This number comes from the one used in Float>>#closeTo: implementation."
+	^ 0.0001
+]
+
 { #category : #logging }
 TestAsserter class >> failureLog [
 	^Transcript
@@ -69,6 +75,15 @@ TestAsserter >> assert: actualNumber closeTo: expectedNumber [
 
 	^ self
 		assert: (actualNumber closeTo: expectedNumber)
+		description: [ self comparingStringBetween: actualNumber and: expectedNumber ]
+]
+
+{ #category : #asserting }
+TestAsserter >> assert: actualNumber closeTo: expectedNumber precision: epsilon [
+	"Tell whether the actualNumber and expectedNumber ARE close to each others with a margin of epsilon."
+
+	^ self
+		assert: (actualNumber closeTo: expectedNumber precision: epsilon)
 		description: [ self comparingStringBetween: actualNumber and: expectedNumber ]
 ]
 
@@ -159,6 +174,22 @@ TestAsserter >> assertCollection: actual includesAll: subcollection [
 	^ self
 		assert: (actual includesAll: subcollection)
 		description: [ actual asString , ' does not include all in ' , subcollection asString ]
+]
+
+{ #category : #asserting }
+TestAsserter >> assertCollection: actualCollection includesAny: subcollection [
+	"Raises an AssertionFailure if actualCollection does not include any of the elements of 
+	 expectedCollection (using #includesAny: message).
+    I also provide a specialized message for the AssertionFailure in case I fail.
+ 	"
+	^ self
+		assert: (actualCollection includesAny: subcollection)
+		description: [ actualCollection asString , ' does not include any of ' , subcollection asString ]
+]
+
+{ #category : #asserting }
+TestAsserter >> assertEmpty: aCollection [
+	^ self assert: aCollection isEmpty description: aCollection asString , ' should have been empty'
 ]
 
 { #category : #factory }
@@ -273,6 +304,23 @@ TestAsserter >> deny: aBooleanOrBlock [
 ]
 
 { #category : #asserting }
+TestAsserter >> deny: actualNumber closeTo: expectedNumber [
+	"Tell whether the actualNumber and expectedNumber are NOT close to each others with a margin of
+	 the default precision (see class-side method #defaultPrecisionsForCloseToComparison).
+	"
+	self deny: actualNumber closeTo: expectedNumber precision: self class defaultPrecisionsForCloseToComparison
+]
+
+{ #category : #asserting }
+TestAsserter >> deny: actualNumber closeTo: expectedNumber precision: epsilon [
+	"Tell whether the actualNumber and expectedNumber are NOT close to each others with a margin of epsilon."
+
+	^ self
+		assert: (actualNumber closeTo: expectedNumber precision: epsilon) not
+		description: [ self comparingStringBetween: actualNumber and: expectedNumber ]
+]
+
+{ #category : #asserting }
 TestAsserter >> deny: aBooleanOrBlock description: aString [
 	self assert: aBooleanOrBlock value not description: aString
 			
@@ -308,6 +356,42 @@ TestAsserter >> denyCollection: actual equals: expected [
 	^ self
 		deny: expected = actual
 		description: [ self unexpectedEqualityStringBetween: actual and: expected ]
+]
+
+{ #category : #asserting }
+TestAsserter >> denyCollection: actual hasSameElements: expected [
+	"Deny that a collection contains the same elements as the given collection. Order is not checked, only the presence/absence of elements."
+
+	self
+		deny: ((actual difference: expected) isEmpty and: [ (expected difference: actual) isEmpty ])
+		description: 'Given collections match!'
+]
+
+{ #category : #asserting }
+TestAsserter >> denyCollection: actualCollection includesAll: subcollection [
+	"Raises an AssertionFailure if actualCollection INCLUDES all the elements of expectedCollection (by negating result of #includesAll: message).
+	 I also provide a specialized message for the AssertionFailure in case I fail.
+	"
+	
+	^ self
+		assert: (actualCollection includesAll: subcollection) not
+		description: [ actualCollection asString , ' does not include all in ' , subcollection asString ]
+]
+
+{ #category : #asserting }
+TestAsserter >> denyCollection: actualCollection includesAny: subcollection [
+	"Raises an AssertionFailure if actualCollection includes any of the elements of 
+	 expectedCollection (by negating result of #includesAny: message).
+    I also provide a specialized message for the AssertionFailure in case I fail.
+ 	"
+	^ self
+		assert: (actualCollection includesAny: subcollection) not
+		description: [ actualCollection asString , ' includes one element of ' , subcollection asString ]
+]
+
+{ #category : #asserting }
+TestAsserter >> denyEmpty: aCollection [
+	^ self assert: aCollection isNotEmpty description: aCollection asString , ' should not have been empty'
 ]
 
 { #category : #asserting }

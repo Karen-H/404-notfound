@@ -50,6 +50,22 @@ Player class >> startingPosition: aPositionOnBoard [
 ]
 
 { #category : #'as yet unclassified' }
+Player class >> withAll: aPlayerSet [
+	
+	^ self new initializeWithAll: aPlayerSet.
+]
+
+{ #category : #composing }
+Player >> + aaPlayer [
+	|a b|
+	a:=OrderedCollection withAll:({self.aaPlayer}flattened).
+	b:=a flattened.
+	^b.
+	
+	"^(OrderedCollection withAll:{self. aPlayer})flatten."
+]
+
+{ #category : #'as yet unclassified' }
 Player >> canMoveToPosition: diceSum max: boardSquares [
 
 	^ self returnPosition + diceSum <= boardSquares.
