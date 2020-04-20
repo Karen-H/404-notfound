@@ -19,7 +19,7 @@ Game class >> assertBoardSquaresGreaterThanOne: numberOfSquares [
 { #category : #validating }
 Game class >> assertPlayersGreaterThanZero: players [
 
-	players isEmpty
+	players size == 0
 		ifTrue: [ InstanceCreationFailed signal: 'There must be at least 1 player' ]
 ]
 
