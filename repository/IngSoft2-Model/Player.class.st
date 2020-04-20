@@ -56,13 +56,12 @@ Player class >> withAll: aPlayerSet [
 ]
 
 { #category : #composing }
-Player >> + aaPlayer [
-	|a b|
-	a:=OrderedCollection withAll:({self.aaPlayer}flattened).
-	b:=a flattened.
-	^b.
-	
-	"^(OrderedCollection withAll:{self. aPlayer})flatten."
+Player >> + aPlayer [
+
+	| players |
+	players := OrderedCollection withAll: ({ self . aPlayer } flattened).
+	^ players.
+
 ]
 
 { #category : #'as yet unclassified' }

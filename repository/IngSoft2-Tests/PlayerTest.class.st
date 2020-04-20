@@ -5,7 +5,20 @@ Class {
 }
 
 { #category : #tests }
-PlayerTest >> testPlayerGoTo [
+PlayerTest >> testCreatePlayersList [
+
+	| player1 player2 players |
+	player1 := Player startingPosition: 8.
+	player2 := Player startingPosition: 5.
+	players := player1 + player2.
+	self 
+		assert: (players first) equals: player1;
+		assert: (players second) equals: player2;
+		assert: players size equals: 2.
+]
+
+{ #category : #tests }
+PlayerTest >> testPlayerMove [
 
 	| player |
 	player := Player startingPosition: 1.
@@ -14,17 +27,7 @@ PlayerTest >> testPlayerGoTo [
 ]
 
 { #category : #tests }
-PlayerTest >> testPlayerGoToAll [
-	|players p1 p2|
-	p1:=Player startingPosition: 1.
-	p2:=Player startingPosition: 1.
-	players:=p1+p2.
-	self assert: (players first)  equals:p1;
-		  assert: (players second) equals:p2.
-]
-
-{ #category : #tests }
-PlayerTest >> testPlayerGoToMaxPosition [
+PlayerTest >> testPlayerMoveToMaxPosition [
 
 	| player |
 	player := Player startingPosition: 1.

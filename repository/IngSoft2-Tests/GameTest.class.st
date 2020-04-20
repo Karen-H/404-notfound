@@ -5,34 +5,24 @@ Class {
 }
 
 { #category : #tests }
-GameTest >> testAddPlayers [
-
-	| player1 player2 players |
-	player1 := Player startingPosition: 1.
-	player2 := Player startingPosition: 5.
-	players:=player1 +player2.
-	self assert: players size equals: 2.
-	self assert: players first equals: player1.
-]
-
-{ #category : #tests }
 GameTest >> testGameCreation [
 
-	| game player1 player2 players |
+	| player1 player2 players game |
 	player1 := Player startingPosition: 1.
 	player2 := Player startingPosition: 1.
-	players:=player1 +player2.
+	players := player1 + player2.
 	game := Game createWithBoard: 20 allPlayers: players.
-	self assert: game returnBoardSquares equals: 20.
-	self assert: game returnNumberOfPlayers equals: 2.
+	self 
+		assert: game returnBoardSquares equals: 20;
+		assert: game returnNumberOfPlayers equals: 2.
 ]
 
 { #category : #tests }
 GameTest >> testOnePlayerRollsUntilGameOver [
 
-	| game player d4 players |
+	| player players game d4 |
 	player := Player startingPosition: 1.
-	players := OrderedCollection with:player.
+	players := OrderedCollection with: player.
 	game := Game createWithBoard: 20 allPlayers: players.
 	d4 := Die of: 4.
 	game play: d4.
@@ -47,7 +37,7 @@ GameTest >> testPlayUntilGameOver4Players [
 	player2 := Player startingPosition: 1.
 	player3 := Player startingPosition: 1.
 	player4 := Player startingPosition: 1.
-	players :=(player1+player2+player3+player4).
+	players := player1 + player2 + player3 + player4.
 	game := Game createWithBoard: 20 allPlayers: players.
 	d10 := Die of: 10 rolling: #(1 2 3 4 5 1 2 3 4).
 	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
@@ -59,7 +49,7 @@ GameTest >> testPlayUntilGameOver4Players [
 		assert: player2 returnPosition equals: 18;
 		assert: player3 returnPosition equals: 20;
 		assert: player4 returnPosition equals: 14;
-		assert: (game whoWon: players) equals: player3.
+		assert: game whoWon equals: player3.
 ]
 
 { #category : #tests }
@@ -68,7 +58,7 @@ GameTest >> testPlayUntilGameOverWinsPlayer1 [
 	| game player1 player2 d10 d15 dice players |
 	player1 := Player startingPosition: 1.
 	player2 := Player startingPosition: 1.
-	players := player1+player2.
+	players := player1 + player2.
 	game := Game createWithBoard: 20 allPlayers: players.
 	d10 := Die of: 10 rolling: #(1 2 10 4 1 2 3).
 	d15 := Die of: 15 rolling: #(5 6 7 8 1 2 3).
@@ -78,7 +68,7 @@ GameTest >> testPlayUntilGameOverWinsPlayer1 [
 	self 
 		assert: player1 returnPosition equals: 20;
 		assert: player2 returnPosition equals: 9;
-		assert: (game whoWon: players) equals: player1.
+		assert: game whoWon equals: player1.
 ]
 
 { #category : #tests }
@@ -87,7 +77,7 @@ GameTest >> testPlayUntilGameOverWinsPlayer2 [
 	| game player1 player2 d4 d8 dice players |
 	player1 := Player startingPosition: 1.
 	player2 := Player startingPosition: 1.
-	players := player1+player2.
+	players := player1 + player2.
 	game := Game createWithBoard: 20 allPlayers: players.
 	d4 := Die of: 4 rolling: #(1 2 3 4 1 2 3).
 	d8 := Die of: 8 rolling: #(5 6 7 8 1 2 3).
@@ -97,7 +87,7 @@ GameTest >> testPlayUntilGameOverWinsPlayer2 [
 	self 
 		assert: player1 returnPosition equals: 17;
 		assert: player2 returnPosition equals: 20;
-		assert: (game whoWon: players) equals: player2.
+		assert: game whoWon equals: player2.
 ]
 
 { #category : #tests }
@@ -114,13 +104,11 @@ GameTest >> testPlayerMaxPosition [
 { #category : #tests }
 GameTest >> testPlayersPosition [
 
-	| player1 player2 players positions|
+	| player1 player2 players positions |
 	player1 := Player startingPosition: 1.
 	player2 := Player startingPosition: 5.
-	positions := OrderedCollection new.
-	positions add: 1. 
-	positions add: 5.
-	players:=(player1+player2)asOrderedCollection .
+	players := player1 + player2.
+	positions := OrderedCollection with: 1 with: 5.
 	self assert: (players collect: [ :player | player returnPosition ]) equals: positions.
 
 ]

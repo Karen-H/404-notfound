@@ -19,7 +19,7 @@ Game class >> assertBoardSquaresGreaterThanOne: numberOfSquares [
 { #category : #validating }
 Game class >> assertPlayersGreaterThanZero: players [
 
-	players size == 0
+	players isEmpty
 		ifTrue: [ InstanceCreationFailed signal: 'There must be at least 1 player' ]
 ]
 
@@ -43,20 +43,20 @@ Game >> initializeWithBoard: numberOfSquares players: playersList [
 ]
 
 { #category : #testing }
-Game >> isOver: playersList [
+Game >> isOver [
 
-	^ playersList anySatisfy: [ :player | player returnPosition == board ].
+	^ players anySatisfy: [ :player | player returnPosition == board ].
 ]
 
 { #category : #'as yet unclassified' }
 Game >> play: dice [
 	
-	[ self isOver: players ] 
+	[ self isOver ] 
 		whileFalse:
 			[ players do: 
 				[ :player | players 
 				detect: 
-					[ :gamer | gamer returnPosition == board ] 
+					[ :gamer | gamer returnPosition == board ]
 				ifNone: 
 					[ player move: dice roll limit: board ] ] ] .
 	
@@ -75,9 +75,9 @@ Game >> returnNumberOfPlayers [
 ]
 
 { #category : #testing }
-Game >> whoWon: playersList [
+Game >> whoWon [
 
 	| winner |
-	winner := playersList detect: [ :player | player returnPosition == board ].
+	winner := players detect: [ :player | player returnPosition == board ].
 	^ winner.
 ]
