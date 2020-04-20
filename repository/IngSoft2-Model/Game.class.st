@@ -42,13 +42,13 @@ Game >> initializeWithBoard: numberOfSquares players: playersList [
 	players := playersList.
 ]
 
-{ #category : #testing }
+{ #category : #playing }
 Game >> isOver [
 
 	^ players anySatisfy: [ :player | player returnPosition == board ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 Game >> play: dice [
 	
 	[ self isOver ] 
@@ -62,19 +62,19 @@ Game >> play: dice [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Game >> returnBoardSquares [
 
 	^ board.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Game >> returnNumberOfPlayers [
 
 	^ players size.
 ]
 
-{ #category : #testing }
+{ #category : #playing }
 Game >> whoWon [
 
 	| winner |

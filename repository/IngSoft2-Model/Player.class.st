@@ -49,13 +49,13 @@ Player class >> startingPosition: aPositionOnBoard [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Player class >> withAll: aPlayerSet [
 	
 	^ self new initializeWithAll: aPlayerSet.
 ]
 
-{ #category : #composing }
+{ #category : #collection }
 Player >> + aPlayer [
 
 	| players |
@@ -64,7 +64,7 @@ Player >> + aPlayer [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #boolean }
 Player >> canMoveToPosition: diceSum max: boardSquares [
 
 	^ self returnPosition + diceSum <= boardSquares.
@@ -84,7 +84,7 @@ Player >> move: diceSum limit: boardSquares [
 		ifFalse: [ boardSquares ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Player >> returnPosition [
 
 	^ position.
