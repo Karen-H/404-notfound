@@ -47,7 +47,7 @@ GameTest >> testPlayUntilGameOver4Players [
 	player2 := Player startingPosition: 1.
 	player3 := Player startingPosition: 1.
 	player4 := Player startingPosition: 1.
-	players :=(player1+player2+player3+player4)flattened.
+	players :=(player1+player2+player3+player4).
 	game := Game createWithBoard: 20 allPlayers: players.
 	d10 := Die of: 10 rolling: #(1 2 3 4 5 1 2 3 4).
 	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
