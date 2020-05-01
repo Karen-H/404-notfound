@@ -64,6 +64,11 @@ Player >> + aPlayer [
 
 ]
 
+{ #category : #'instance creation' }
+Player >> adaptToCollection: aCollection andSend: aString [ 
+	self shouldBeImplemented.
+]
+
 { #category : #boolean }
 Player >> canMoveToPosition: diceSum max: boardSquares [
 

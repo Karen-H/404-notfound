@@ -18,24 +18,6 @@ PlayerTest >> testCreatePlayersList [
 ]
 
 { #category : #tests }
-PlayerTest >> testPlayerMove [
-
-	| player |
-	player := Player startingPosition: 1.
-	player move: 5 limit: 10.
-	self assert: player returnPosition equals: 6.
-]
-
-{ #category : #tests }
-PlayerTest >> testPlayerMoveToMaxPosition [
-
-	| player |
-	player := Player startingPosition: 1.
-	player move: 15 limit: 10.
-	self assert: player returnPosition equals: 10.
-]
-
-{ #category : #tests }
 PlayerTest >> testPlayerRollDice [
 
 	| player d3 d5 dice |
