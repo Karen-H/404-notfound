@@ -7,52 +7,10 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #validating }
-Player class >> assertPositionGreaterThanZero: aPosition [
-
-	aPosition > 0
-		ifFalse: [ InstanceCreationFailed signal: 'A player must start at least in position 1' ]
-]
-
-{ #category : #constants }
-Player class >> blue [
-	
-	^ self startingPosition: 1.
-]
-
-{ #category : #constants }
-Player class >> green [
-	
-	^ self startingPosition: 1.
-]
-
-{ #category : #constants }
-Player class >> orange [
-	
-	^ self startingPosition: 1.
-]
-
-{ #category : #constants }
-Player class >> red [
-	
-	^ self startingPosition: 1.
-]
-
 { #category : #'instance creation' }
-Player class >> startingPosition: aPositionOnBoard [
+Player class >> ready [
 
-	self assertPositionGreaterThanZero: aPositionOnBoard.
-
-	^ self new
-		initializeWithPosition: aPositionOnBoard.
-		
-	
-]
-
-{ #category : #'instance creation' }
-Player class >> withAll: aPlayerSet [
-	
-	^ self new initializeWithAll: aPlayerSet.
+	^ self new initializeWithPosition: 1.
 ]
 
 { #category : #collection }
@@ -64,28 +22,29 @@ Player >> + aPlayer [
 
 ]
 
-{ #category : #boolean }
-Player >> canMoveToPosition: diceSum max: boardSquares [
+{ #category : #asserting }
+Player >> assertPositionGreaterThanZero: aPosition [
 
-	^ self returnPosition + diceSum <= boardSquares.
+	aPosition > 0
+		ifFalse: [ InstanceCreationFailed signal: 'A player must start at least in position 1' ]
+]
+
+{ #category : #accessing }
+Player >> goTo: newPosition [
+
+	position := newPosition.
 ]
 
 { #category : #initialization }
 Player >> initializeWithPosition: positionOnBoard [
 
+	self assertPositionGreaterThanZero: positionOnBoard.
+
 	position := positionOnBoard.
 ]
 
 { #category : #accessing }
-Player >> move: diceSum limit: boardSquares [
-
-	position := (self canMoveToPosition: diceSum max: boardSquares)
-		ifTrue: [ self returnPosition + diceSum ]
-		ifFalse: [ boardSquares ]
-]
-
-{ #category : #accessing }
-Player >> returnPosition [
+Player >> position [
 
 	^ position.
 ]
