@@ -148,6 +148,51 @@ GameTest >> testGameNotOver [
 ]
 
 { #category : #tests }
+GameTest >> testGameNotOverFourPlayers [
+	| player1 player2 player3 player4 players game "d10 d12 dice" |
+	player1 := Player startingPosition: 1.
+	player2 := Player startingPosition: 1.
+	player3 := Player startingPosition: 1.
+	player4 := Player startingPosition: 1.
+	players := player1 + player2 + player3 + player4.
+	game := Game createWithBoard: 20 allPlayers: players.
+	"d10 := Die of: 10 rolling: #(1 2 3 4 5 1 2 3 4).
+	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6)."
+	"Turno1: ( 8 10 12 14 )	Turno2: ( 19 18 20(22, se pasa) 14(no llega a tirar) )	Gana: player3"		
+	"dice := d10 + d12.	
+	game play: dice."
+	self 
+		assert: (player1 returnPosition between: 1 and: game returnBoardSquares);
+		assert: (player2 returnPosition between: 1 and: game returnBoardSquares);
+		assert: (player3 returnPosition between: 1 and: game returnBoardSquares);
+		assert: (player4 returnPosition between: 1 and: game returnBoardSquares).
+]
+
+{ #category : #tests }
+GameTest >> testPlayUntilGameOverFourPlayers [
+
+	| player1 player2 player3 player4 players game d10 d12 dice |
+	player1 := Player startingPosition: 1.
+	player2 := Player startingPosition: 1.
+	player3 := Player startingPosition: 1.
+	player4 := Player startingPosition: 1.
+	players := player1 + player2 + player3 + player4.
+	game := Game createWithBoard: 20 allPlayers: players.
+	d10 := Die of: 10 rolling: #(1 2 3 4 5 1 2 3 4).
+	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
+	"Turno1: ( 8 10 12 14 )	Turno2: ( 19 18 20(22, se pasa) 14(no llega a tirar) )	Gana: player3."		
+	dice := d10 + d12.	
+	
+	game play: dice.
+	self 
+		assert: player1 returnPosition equals: 19;
+		assert: player2 returnPosition equals: 18;
+		assert: player3 returnPosition equals: 20;
+		assert: player4 returnPosition equals: 14;
+		assert: game whoWon equals: player3.
+]
+
+{ #category : #tests }
 GameTest >> testPlayUntilGameOverWinsPlayerOne [
 
 	| game player1 player2 d10 d15 dice players |
