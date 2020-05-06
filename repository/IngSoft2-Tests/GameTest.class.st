@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GameTest >> test01 [
+	^0.
+]
+
+{ #category : #tests }
 GameTest >> testGameCreationComposition [
 
 	| player1 player2 players game |
