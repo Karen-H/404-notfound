@@ -50,7 +50,13 @@ Game >> initializeWithBoard: numberOfSquares players: playersList [
 { #category : #playing }
 Game >> isOver [
 
-	^ players anySatisfy: [ :player | player position = boardSize ].
+  ^ players anySatisfy: [ :player | player position = boardSize ].
+]
+
+{ #category : #'as yet unclassified' }
+Game >> orderPosition: listPlayer [
+	
+	^listPlayer asSortedCollection:[:aPlayer :otherPlayer|aPlayer returnPosition >otherPlayer returnPosition].
 ]
 
 { #category : #accessing }

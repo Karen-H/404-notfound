@@ -18,21 +18,11 @@ PlayerTest >> testCreatePlayersList [
 ]
 
 { #category : #tests }
-PlayerTest >> testPlayerMove [
-
-	| player |
-	player := Player ready.
-	Handler move: player with: 5 limit: 10.
-	self assert: player position equals: 6.
-]
-
-{ #category : #tests }
-PlayerTest >> testPlayerMoveToMaxPosition [
-
-	| player |
-	player := Player ready.
-	Handler move: player with: 15 limit: 10.
-	self assert: player position equals: 10.
+PlayerTest >> testCreationFailsWithPositionNegative [
+	self
+	should:[Player startingPosition: -1]
+	raise:InstanceCreationFailed
+	withMessageText:'A player must start at least in position 1'
 ]
 
 { #category : #tests }

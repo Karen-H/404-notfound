@@ -22,6 +22,12 @@ Player >> + aPlayer [
 
 ]
 
+
+{ #category : #'instance creation' }
+Player >> adaptToCollection: aCollection andSend: aString [ 
+	self shouldBeImplemented.
+]
+
 { #category : #asserting }
 Player >> assertPositionGreaterThanZero: aPosition [
 
