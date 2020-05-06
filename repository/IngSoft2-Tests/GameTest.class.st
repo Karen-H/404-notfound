@@ -1,6 +1,9 @@
 Class {
 	#name : #GameTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'ord'
+	],
 	#category : #'IngSoft2-Tests'
 }
 
@@ -169,23 +172,26 @@ GameTest >> testGameNotOver [
 
 { #category : #tests }
 GameTest >> testGameNotOverFourPlayers [
-	| player1 player2 player3 player4 players game "d10 d12 dice" |
+	| player1 player2 player3 player4 players game d10 d12 dice|
 	player1 := Player startingPosition: 1.
 	player2 := Player startingPosition: 1.
 	player3 := Player startingPosition: 1.
 	player4 := Player startingPosition: 1.
 	players := player1 + player2 + player3 + player4.
 	game := Game createWithBoard: 20 allPlayers: players.
-	"d10 := Die of: 10 rolling: #(1 2 3 4 5 1 2 3 4).
-	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6)."
-	"Turno1: ( 8 10 12 14 )	Turno2: ( 19 18 20(22, se pasa) 14(no llega a tirar) )	Gana: player3"		
-	"dice := d10 + d12.	
-	game play: dice."
+	d10 := Die of: 10 rolling: #(1 2 3 4 5 1 2 3 4).
+	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
+	"Turno1: ( 8 10 12 14 )	Turno2: ( 19 18 20(22, se pasa) 14(no llega a tirar) )	Gana: player3"	
+	"positions: (19 18 20 14)"	
+	dice := d10 + d12.	
+	game play: dice.
+	players:= game orderPosition:players.
 	self 
-		assert: (player1 returnPosition between: 1 and: game returnBoardSquares);
-		assert: (player2 returnPosition between: 1 and: game returnBoardSquares);
-		assert: (player3 returnPosition between: 1 and: game returnBoardSquares);
-		assert: (player4 returnPosition between: 1 and: game returnBoardSquares).
+		assert: players first equals: player3;
+		assert: players second equals: player1;
+		assert: players third  equals: player2;
+		assert: players last equals: player4.
+		"assert: (player4 returnPosition between: 1 and: game returnBoardSquares)" 
 ]
 
 { #category : #tests }

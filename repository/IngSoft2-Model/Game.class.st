@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'position',
 		'players',
-		'board'
+		'board',
+		'game'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -46,6 +47,12 @@ Game >> initializeWithBoard: numberOfSquares players: playersList [
 Game >> isOver [
 
 	^ players anySatisfy: [ :player | player returnPosition == board ].
+]
+
+{ #category : #'as yet unclassified' }
+Game >> orderPosition: listPlayer [
+	
+	^listPlayer asSortedCollection:[:aPlayer :otherPlayer|aPlayer returnPosition >otherPlayer returnPosition].
 ]
 
 { #category : #playing }
