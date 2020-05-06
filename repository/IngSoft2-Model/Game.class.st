@@ -2,10 +2,8 @@ Class {
 	#name : #Game,
 	#superclass : #Object,
 	#instVars : [
-		'position',
 		'players',
-		'board',
-		'game'
+		'boardSize'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -25,7 +23,7 @@ Game class >> assertPlayersGreaterThanZero: players [
 ]
 
 { #category : #'instance creation' }
-Game class >> createWithBoard: numberOfSquares allPlayers: players [
+Game class >> playedBy: players with: numberOfSquares [
 
 	self 
 		assertBoardSquaresGreaterThanOne: numberOfSquares;
@@ -36,17 +34,23 @@ Game class >> createWithBoard: numberOfSquares allPlayers: players [
 		players: players.
 ]
 
+{ #category : #accessing }
+Game >> boardSquares [
+
+	^ boardSize.
+]
+
 { #category : #initialization }
 Game >> initializeWithBoard: numberOfSquares players: playersList [
 
-	board := numberOfSquares.
+	boardSize := numberOfSquares.
 	players := playersList.
 ]
 
 { #category : #playing }
 Game >> isOver [
 
-	^ players anySatisfy: [ :player | player returnPosition == board ].
+  ^ players anySatisfy: [ :player | player position = boardSize ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -55,36 +59,25 @@ Game >> orderPosition: listPlayer [
 	^listPlayer asSortedCollection:[:aPlayer :otherPlayer|aPlayer returnPosition >otherPlayer returnPosition].
 ]
 
-{ #category : #playing }
-Game >> play: dice [
-	
-	[ self isOver ] 
-		whileFalse:
-			[ players do: 
-				[ :player | players 
-				detect: 
-					[ :gamer | gamer returnPosition == board ]
-				ifNone: 
-					[ player move: dice roll limit: board ] ] ] .
-	
-]
-
 { #category : #accessing }
-Game >> returnBoardSquares [
-
-	^ board.
-]
-
-{ #category : #accessing }
-Game >> returnNumberOfPlayers [
+Game >> numberOfPlayers [
 
 	^ players size.
 ]
 
 { #category : #playing }
+Game >> play: dice [
+
+	[ self isOver ] whileFalse: [
+		players do: [ :player | 
+			self isOver ifFalse: [ Handler move: player with: dice roll limit: boardSize ] ] ]
+]
+
+{ #category : #playing }
 Game >> whoWon [
 
-	| winner |
-	winner := players detect: [ :player | player returnPosition == board ].
-	^ winner.
+	players 
+		detect: [ :player | player position == boardSize ]
+		ifFound: [ :winner | ^ winner ]
+		ifNone: [ GameException signal: 'Play, you fools!' ]
 ]
