@@ -10,6 +10,26 @@ GameTest >> test01 [
 ]
 
 { #category : #tests }
+GameTest >> testCreationFailsWithEmptyBoard [
+
+	self
+		should:[Game createWithBoard: 0 allPlayers: #(1)]
+		raise: InstanceCreationFailed
+		withMessageText:'The board must have at least 2 squares'
+
+]
+
+{ #category : #tests }
+GameTest >> testCreationFailsWithEmptyPlayers [
+
+	self
+		should:[Game createWithBoard: 20 allPlayers: #()]
+		raise: InstanceCreationFailed
+		withMessageText:'There must be at least 1 player'
+
+]
+
+{ #category : #tests }
 GameTest >> testGameCreationComposition [
 
 	| player1 player2 players game |

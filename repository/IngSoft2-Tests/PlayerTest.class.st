@@ -18,6 +18,15 @@ PlayerTest >> testCreatePlayersList [
 ]
 
 { #category : #tests }
+PlayerTest >> testCreationFailsWithPositionNegative [
+	self
+	should:[Player startingPosition: -1]
+	raise:InstanceCreationFailed
+	withMessageText:'A player must start at least in position 1'
+
+]
+
+{ #category : #tests }
 PlayerTest >> testPlayerRollDice [
 
 	| player d3 d5 dice |
