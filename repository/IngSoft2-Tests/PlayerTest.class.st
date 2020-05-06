@@ -42,11 +42,3 @@ PlayerTest >> testPlayerRollDie [
 	player move: die roll limit: 10.
 	self assert: player returnPosition equals: 4.
 ]
-
-{ #category : #tests }
-PlayerTest >> testPlayerStartingPosition [
-
-	| player |
-	player := Player startingPosition: 1.
-	self assert: player returnPosition equals: 1.
-]

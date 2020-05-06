@@ -144,7 +144,7 @@ GameTest >> testGameNotOver [
 	game := Game createWithBoard: 20 allPlayers: players.
 	"d4 := Die of: 4."
 	"game play: d4."
-	self assert: (player returnPosition between: 1 and:game returnBoardSquares).
+	self assert: (player returnPosition < game returnBoardSquares).
 ]
 
 { #category : #tests }
@@ -233,22 +233,14 @@ GameTest >> testPlayUntilGameOverWinsPlayerTwo [
 { #category : #tests }
 GameTest >> testPlayerMaxPosition [
 
-	| player players game |
+	| player players game die|
 	player := Player startingPosition: 5.
 	players := OrderedCollection with: player.
 	game := Game createWithBoard: 20 allPlayers: players.
-	player move: 30 limit: game returnBoardSquares.
-	self assert: player returnPosition equals: 20.
-]
-
-{ #category : #tests }
-GameTest >> testPlayersPosition [
-
-	| player1 player2 players positions |
-	player1 := Player startingPosition: 1.
-	player2 := Player startingPosition: 5.
-	players := player1 + player2.
-	positions := OrderedCollection with: 1 with: 5.
-	self assert: (players collect: [ :player | player returnPosition ]) equals: positions.
-
+	die:=Die of: 10 rolling:#(5 10). 
+	player move:die roll limit:20.
+	player move:die roll limit:20.
+	"player move: 30 limit: game returnBoardSquares."
+	self assert: player returnPosition equals: 20;
+		  assert: game returnBoardSquares equals:20.
 ]
