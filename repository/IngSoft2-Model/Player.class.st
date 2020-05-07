@@ -13,15 +13,6 @@ Player class >> ready [
 	^ self new initializeWithPosition: 1.
 ]
 
-{ #category : #collection }
-Player >> + aPlayer [
-
-	| players |
-	players := OrderedCollection withAll: ({ self . aPlayer } flattened).
-	^ players.
-
-]
-
 { #category : #asserting }
 Player >> assertPositionGreaterThanZero: aPosition [
 
