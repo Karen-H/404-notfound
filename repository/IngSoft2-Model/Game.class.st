@@ -1,3 +1,4 @@
+
 Class {
 	#name : #Game,
 	#superclass : #Object,
@@ -7,6 +8,14 @@ Class {
 	],
 	#category : #'IngSoft2-Model'
 }
+
+{ #category : #asserting }
+Game class >> assert: players startInside: board [
+
+	(players select: [ :player | player position > board ]) isEmpty
+		ifFalse: [ InstanceCreationFailed signal: 'The player must start on a valid position' ]
+
+]
 
 { #category : #validating }
 Game class >> assertBoardSquaresGreaterThanOne: numberOfSquares [
@@ -27,7 +36,8 @@ Game class >> playedBy: players with: numberOfSquares [
 
 	self 
 		assertBoardSquaresGreaterThanOne: numberOfSquares;
-		assertPlayersGreaterThanZero: players.
+		assertPlayersGreaterThanZero: players;
+		assert: players startInside: numberOfSquares.
 
 	^ self new
 		initializeWithBoard: numberOfSquares
@@ -50,13 +60,7 @@ Game >> initializeWithBoard: numberOfSquares players: playersList [
 { #category : #playing }
 Game >> isOver [
 
-  ^ players anySatisfy: [ :player | player position = boardSize ].
-]
-
-{ #category : #'as yet unclassified' }
-Game >> orderPosition: listPlayer [
-	
-	^listPlayer asSortedCollection:[:aPlayer :otherPlayer|aPlayer returnPosition >otherPlayer returnPosition].
+	^ players anySatisfy: [ :player | player position = boardSize ].
 ]
 
 { #category : #accessing }
@@ -70,7 +74,13 @@ Game >> play: dice [
 
 	[ self isOver ] whileFalse: [
 		players do: [ :player | 
-			self isOver ifFalse: [ Handler move: player with: dice roll limit: boardSize ] ] ]
+			self isOver ifFalse: [ GameHandler move: player with: dice roll limit: boardSize ] ] ]
+]
+
+{ #category : #playing }
+Game >> results: playersList [
+
+	^ playersList asSortedCollection: [ :aPlayer :anotherPlayer | aPlayer position > anotherPlayer position ]
 ]
 
 { #category : #playing }

@@ -1,3 +1,4 @@
+
 Class {
 	#name : #Player,
 	#superclass : #Object,
@@ -11,21 +12,6 @@ Class {
 Player class >> ready [
 
 	^ self new initializeWithPosition: 1.
-]
-
-{ #category : #collection }
-Player >> + aPlayer [
-
-	| players |
-	players := OrderedCollection withAll: ({ self . aPlayer } flattened).
-	^ players.
-
-]
-
-
-{ #category : #'instance creation' }
-Player >> adaptToCollection: aCollection andSend: aString [ 
-	self shouldBeImplemented.
 ]
 
 { #category : #asserting }

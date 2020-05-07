@@ -1,17 +1,17 @@
 Class {
-	#name : #Handler,
+	#name : #GameHandler,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #testing }
-Handler class >> canMove: player with: dice max: boardSize [
+GameHandler class >> canMove: player with: dice max: boardSize [
 
 	^ player position + dice <= boardSize.
 ]
 
-{ #category : #'as yet unclassified' }
-Handler class >> move: player with: dice limit: boardSize [
+{ #category : #playing }
+GameHandler class >> move: player with: dice limit: boardSize [
 
 	| newPosition |
 	newPosition := (self canMove: player with: dice max: boardSize)
