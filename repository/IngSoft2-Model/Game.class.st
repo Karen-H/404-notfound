@@ -1,3 +1,4 @@
+
 Class {
 	#name : #Game,
 	#superclass : #Object,

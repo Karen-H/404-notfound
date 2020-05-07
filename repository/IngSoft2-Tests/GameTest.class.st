@@ -1,3 +1,4 @@
+
 Class {
 	#name : #GameTest,
 	#superclass : #TestCase,
