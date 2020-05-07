@@ -5,30 +5,119 @@ Class {
 }
 
 { #category : #tests }
-GameTest >> testGameCreation [
-	| player1 player2 players game |
+GameTest >> testGameCreationFailsWithInvalidBoardSize [
+
+	| player1 player2 players |
 	player1 := Player ready.
 	player2 := Player ready.
 	players := player1 + player2.
-	game := Game playedBy: players with: 20.
+
 	self
-		assert: game boardSquares equals: 20;
-		assert: game numberOfPlayers equals: 2
+		should: [ Game playedBy: players with: 0 ]
+		raise: InstanceCreationFailed
+		withMessageText: 'The board must have at least 2 squares'
+
+
 ]
 
 { #category : #tests }
-GameTest >> testOnePlayerRollsUntilGameOver [
+GameTest >> testGameCreationFailsWithoutPlayers [
+
+	| players |
+	players := #().
+
+	self
+		should: [ Game playedBy: players with: 20 ]
+		raise: InstanceCreationFailed
+		withMessageText: 'There must be at least 1 player'
+
+
+]
+
+{ #category : #tests }
+GameTest >> testGameIsOverWhenPlayerReachesFinalPosition [
+
 	| player players game d4 |
 	player := Player ready.
 	players := OrderedCollection with: player.
 	game := Game playedBy: players with: 20.
 	d4 := Die of: 4.
 	game play: d4.
+	
 	self assert: player position equals: game boardSquares
 ]
 
 { #category : #tests }
-GameTest >> testPlayUntilGameOver4Players [
+GameTest >> testGameNotOver [
+
+	| player players game |
+	player := Player ready.
+	players := OrderedCollection with: player.
+	game := Game playedBy: players with: 20.
+		
+	self
+		should: [ game whoWon ]
+		raise: GameException
+		withMessageText: 'Play, you fools!'
+]
+
+{ #category : #tests }
+GameTest >> testPlayUntilGameOverWinsPlayerOne [
+
+	| player1 player2 players game d10 d15 dice |
+	player1 := Player ready.
+	player2 := Player ready.
+	players := player1 + player2.
+	game := Game playedBy: players with: 20.
+	d10 := Die of: 10 rolling: #(1 2 10 4 1 2 3).
+	d15 := Die of: 15 rolling: #(5 6 7 8 1 2 3).
+	dice := d10 + d15.
+	game play: dice.
+	
+	self
+		assert: player1 position equals: 20;
+		assert: player2 position equals: 9;
+		assert: game whoWon equals: player1
+]
+
+{ #category : #tests }
+GameTest >> testPlayUntilGameOverWinsPlayerTwo [
+
+	| player1 player2 players game d4 d8 dice |
+	player1 := Player ready.
+	player2 := Player ready.
+	players := player1 + player2.
+	game := Game playedBy: players with: 20.
+	d4 := Die of: 4 rolling: #(1 2 3 4 1 2 3).
+	d8 := Die of: 8 rolling: #(5 6 7 8 1 2 3).
+	dice := d4 + d8.
+	game play: dice.
+	
+	self
+		assert: player1 position equals: 17;
+		assert: player2 position equals: 20;
+		assert: game whoWon equals: player2
+]
+
+{ #category : #tests }
+GameTest >> testPlayerCantExceedMaxPosition [
+
+	| player players d8 d9 dice game |
+	player := Player ready.
+	players := OrderedCollection with: player.
+	d8 := Die of: 8 rolling: #(3 6).
+	d9 := Die of: 9 rolling: #(5 8).
+	dice := d8 + d9.
+	game := Game playedBy: players with: 20.
+	game play: dice.
+	
+	self assert: player position equals: 20.
+
+]
+
+{ #category : #tests }
+GameTest >> testPlayersFinalPositions [
+
 	| player1 player2 player3 player4 players game d10 d12 dice |
 	player1 := Player ready.
 	player2 := Player ready.
@@ -40,56 +129,18 @@ GameTest >> testPlayUntilGameOver4Players [
 	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
 	dice := d10 + d12.
 	game play: dice.
+	
 	self
 		assert: player1 position equals: 19;
 		assert: player2 position equals: 18;
 		assert: player3 position equals: 20;
 		assert: player4 position equals: 14;
-		assert: game whoWon equals: player3
-]
-
-{ #category : #tests }
-GameTest >> testPlayUntilGameOverWinsPlayer1 [
-	| game player1 player2 d10 d15 dice players |
-	player1 := Player ready.
-	player2 := Player ready.
-	players := player1 + player2.
-	game := Game playedBy: players with: 20.
-	d10 := Die of: 10 rolling: #(1 2 10 4 1 2 3).
-	d15 := Die of: 15 rolling: #(5 6 7 8 1 2 3).
-	dice := d10 + d15.
-	game play: dice.
-	self
-		assert: player1 position equals: 20;
-		assert: player2 position equals: 9;
-		assert: game whoWon equals: player1
-]
-
-{ #category : #tests }
-GameTest >> testPlayUntilGameOverWinsPlayer2 [
-	| game player1 player2 d4 d8 dice players |
-	player1 := Player ready.
-	player2 := Player ready.
-	players := player1 + player2.
-	game := Game playedBy: players with: 20.
-	d4 := Die of: 4 rolling: #(1 2 3 4 1 2 3).
-	d8 := Die of: 8 rolling: #(5 6 7 8 1 2 3).
-	dice := d4 + d8.
-	game play: dice.
-	self
-		assert: player1 position equals: 17;
-		assert: player2 position equals: 20;
-		assert: game whoWon equals: player2
-]
-
-{ #category : #tests }
-GameTest >> testPlayersPosition [
-"habria que borrarlo? antes se inicializaban con posiciones 1 y 5"
-	| player1 player2 players positions |
-	player1 := Player ready.
-	player2 := Player ready.
-	players := player1 + player2.
-	positions := OrderedCollection with: 1 with: 1.
-	self assert: (players collect: [ :player | player position ]) equals: positions.
-
+		assert: game whoWon equals: player3.
+		
+	players := game results: players.
+	self 
+		assert: players first equals: player3;
+		assert: players second equals: player1;
+		assert: players third equals: player2;
+		assert: players last equals: player4.
 ]
