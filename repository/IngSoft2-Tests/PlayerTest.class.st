@@ -1,4 +1,3 @@
-
 Class {
 	#name : #PlayerTest,
 	#superclass : #TestCase,
@@ -22,9 +21,11 @@ PlayerTest >> testCreatePlayersList [
 { #category : #tests }
 PlayerTest >> testPlayerMoveToMaxPosition [
 
-	| player |
+	| player players game |
 	player := Player ready.
-	GameHandler move: player with: 15 limit: 10.
+	players := OrderedCollection with: player.
+	game := Game playedBy: players with: 10 laps: 0.
+	GameHandler move: player with: 15 of: game.
 	self assert: player position equals: 10.
 ]
 

@@ -1,9 +1,9 @@
-
 Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'position'
+		'position',
+		'lap'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -11,7 +11,9 @@ Class {
 { #category : #'instance creation' }
 Player class >> ready [
 
-	^ self new initializeWithPosition: 1.
+	^ self new 
+		initializeWithPosition: 1
+		lap: 0.
 ]
 
 { #category : #asserting }
@@ -22,17 +24,30 @@ Player >> assertPositionGreaterThanZero: aPosition [
 ]
 
 { #category : #accessing }
-Player >> goTo: newPosition [
+Player >> changeLap: aNumber [
 
-	position := newPosition.
+	lap := lap + aNumber.
+]
+
+{ #category : #accessing }
+Player >> goTo: aNumber [
+
+	lap := lap + aNumber.
 ]
 
 { #category : #initialization }
-Player >> initializeWithPosition: positionOnBoard [
+Player >> initializeWithPosition: positionOnBoard lap: round [
 
 	self assertPositionGreaterThanZero: positionOnBoard.
 
 	position := positionOnBoard.
+	lap := round.
+]
+
+{ #category : #accessing }
+Player >> lap [
+
+	^ lap.
 ]
 
 { #category : #accessing }
