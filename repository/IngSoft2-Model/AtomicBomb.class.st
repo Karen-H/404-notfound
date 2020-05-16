@@ -11,6 +11,6 @@ AtomicBomb class >> on: boardNumber [
 		
 	^ self new 
 		initializeWith: boardNumber
-		effect: boardNumber negated
+		effect: boardNumber negated + 1
 		type: 'AtomicBomb'.
 ]

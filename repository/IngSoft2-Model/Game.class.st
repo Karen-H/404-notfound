@@ -38,6 +38,48 @@ Game class >> assertPlayersGreaterThanZero: players [
 		ifTrue: [ InstanceCreationFailed signal: 'There must be at least 1 player' ]
 ]
 
+{ #category : #'as yet unclassified' }
+Game class >> boardWith: squares [
+
+	| tiles atomicBombNum moonWalkNum speedUpNum wormHoleNum panel |
+	tiles := (1 to: squares) asOrderedCollection.
+	atomicBombNum := (2 percent * squares) asInteger.
+	moonWalkNum := (10 percent * squares) asInteger.
+	speedUpNum := (20 percent * squares) asInteger.
+	wormHoleNum := (20 percent * squares) asInteger.
+	panel := { atomicBombNum. moonWalkNum. speedUpNum. wormHoleNum }.
+	^ self distribute: panel with: tiles.
+]
+
+{ #category : #'as yet unclassified' }
+Game class >> distribute: squares with: tiles [
+
+	| square panel |
+	panel := OrderedCollection new.
+	
+	(squares at: 1) timesRepeat: [ 
+		panel := panel + ( AtomicBomb on: (square := tiles atRandom) ).
+		tiles remove: square ].
+	
+	(squares at: 2) timesRepeat: [ 
+		panel := panel + ( MoonWalk on: (square := tiles atRandom) ).
+		tiles remove: square ].
+	
+	(squares at: 3) timesRepeat: [ 
+		panel := panel + ( SpeedUp on: (square := tiles atRandom) ).
+		tiles remove: square ].
+	
+	(squares at: 4) timesRepeat: [ 
+		panel := panel + ( WormHole on: (square := tiles atRandom) ).
+		tiles remove: square ].
+	
+	tiles size timesRepeat: [ 
+		panel := panel + ( NoEffect on: (square := tiles atRandom) ).
+		tiles remove: square ].
+	
+	^ panel.
+]
+
 { #category : #'instance creation' }
 Game class >> playedBy: players with: board laps: aNumber [
 
@@ -118,7 +160,7 @@ Game >> initializeWith: panel players: playersList laps: round [
 { #category : #playing }
 Game >> isOver [
 
-	^ players anySatisfy: [ :player | player position = board size and: player lap = laps].
+	^ players anySatisfy: [ :player | player position = board size and: player lap = laps ].
 ]
 
 { #category : #accessing }
@@ -149,8 +191,10 @@ Game >> players [
 
 { #category : #playing }
 Game >> results: playersList [
-
-	^ playersList asSortedCollection: [ :aPlayer :anotherPlayer | aPlayer position > anotherPlayer position ]
+	
+	^ playersList sort: [ :aPlayer :anotherPlayer |
+		aPlayer position > anotherPlayer position
+			or: [ aPlayer position = anotherPlayer position and: [ aPlayer lap > anotherPlayer lap ] ] ]
 ]
 
 { #category : #playing }

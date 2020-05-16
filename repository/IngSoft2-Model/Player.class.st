@@ -17,6 +17,13 @@ Player class >> ready [
 ]
 
 { #category : #asserting }
+Player >> assertLapsDifferentThanZero: rounds [
+
+	rounds ~= 0
+		ifTrue: [ InstanceCreationFailed signal: 'The player can´t start with previous laps' ]
+]
+
+{ #category : #asserting }
 Player >> assertPositionGreaterThanZero: aPosition [
 
 	aPosition > 0
@@ -26,19 +33,20 @@ Player >> assertPositionGreaterThanZero: aPosition [
 { #category : #accessing }
 Player >> changeLap: aNumber [
 
-	lap := lap + aNumber.
+	lap := aNumber.
 ]
 
 { #category : #accessing }
 Player >> goTo: aNumber [
 
-	lap := lap + aNumber.
+	position := aNumber.
 ]
 
 { #category : #initialization }
 Player >> initializeWithPosition: positionOnBoard lap: round [
 
 	self assertPositionGreaterThanZero: positionOnBoard.
+	self assertLapsDifferentThanZero: round.
 
 	position := positionOnBoard.
 	lap := round.

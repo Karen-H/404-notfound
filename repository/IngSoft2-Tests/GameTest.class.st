@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'karen',
 		'andre',
-		'simpleBoard10'
+		'simpleBoard10',
+		'juli',
+		'fran'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -20,9 +22,24 @@ GameTest >> setUp [
 	super setUp.
 	karen := self newPlayer.
 	andre := self newPlayer.
+	juli := self newPlayer.
+	fran := self newPlayer.
 	simpleBoard10 := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (NoEffect on: 5) + (NoEffect on: 6) + (NoEffect on: 7) + (NoEffect on: 8) + (NoEffect on: 9) + (NoEffect on: 10).
 	
 
+]
+
+{ #category : #tests }
+GameTest >> testBoardDistribution [
+
+	| board |
+	board := Game boardWith: 100.
+	self
+		assert: ( board select: [ :square | square type = 'AtomicBomb' ] ) size equals: 2;
+		assert: ( board select: [ :square | square type = 'MoonWalk' ] ) size equals: 10;
+		assert: ( board select: [ :square | square type = 'SpeedUp' ] ) size equals: 20;
+		assert: ( board select: [ :square | square type = 'WormHole' ] ) size equals: 20;
+		assert: ( board select: [ :square | square type = 'NoEffect' ] ) size equals: 48.
 ]
 
 { #category : #tests }
@@ -52,19 +69,6 @@ GameTest >> testGameCreationFailsWithoutPlayers [
 ]
 
 { #category : #tests }
-GameTest >> testGameIsOverWhenPlayerReachesFinalPosition [
-
-	| player players game d4 |
-	player := Player ready.
-	players := OrderedCollection with: player.
-	game := Game playedBy: players with: simpleBoard10 laps: 0.
-	d4 := Die of: 4.
-	game play: d4.
-	
-	self assert: player position equals: game boardSquares
-]
-
-{ #category : #tests }
 GameTest >> testGameNotOver [
 
 	| player players game |
@@ -81,83 +85,74 @@ GameTest >> testGameNotOver [
 { #category : #tests }
 GameTest >> testPlayUntilGameOverWinsPlayerOne [
 
-	| player1 player2 players game d10 d15 dice |
-	player1 := Player ready.
-	player2 := Player ready.
-	players := player1 + player2.
+	| players game d5 d6 dice |
+	players := karen + andre.
 	game := Game playedBy: players with: simpleBoard10 laps: 0.
-	d10 := Die of: 10 rolling: #(1 2 10 4 1 2 3).
-	d15 := Die of: 15 rolling: #(5 6 7 8 1 2 3).
-	dice := d10 + d15.
+	d5 := Die of: 5 rolling: #(1 4 2 3).
+	d6 := Die of: 6 rolling: #(2 3 5 1).
+	dice := d5 + d6.
 	game play: dice.
 	
 	self
-		assert: player1 position equals: 20;
-		assert: player2 position equals: 9;
-		assert: game whoWon equals: player1
+		assert: karen position equals: 10;
+		assert: andre position equals: 8;
+		assert: game whoWon equals: karen
 ]
 
 { #category : #tests }
 GameTest >> testPlayUntilGameOverWinsPlayerTwo [
 
-	| player1 player2 players game d4 d8 dice |
-	player1 := Player ready.
-	player2 := Player ready.
-	players := player1 + player2.
+	| players game d5 d6 dice |
+	players := karen + andre.
 	game := Game playedBy: players with: simpleBoard10 laps: 0.
-	d4 := Die of: 4 rolling: #(1 2 3 4 1 2 3).
-	d8 := Die of: 8 rolling: #(5 6 7 8 1 2 3).
-	dice := d4 + d8.
+	d5 := Die of: 5 rolling: #(1 5).
+	d6 := Die of: 6 rolling: #(2 6).
+	dice := d5 + d6.
 	game play: dice.
 	
 	self
-		assert: player1 position equals: 17;
-		assert: player2 position equals: 20;
-		assert: game whoWon equals: player2
+		assert: karen position equals: 4;
+		assert: andre position equals: 10;
+		assert: game whoWon equals: andre
 ]
 
 { #category : #tests }
-GameTest >> testPlayerCantExceedMaxPosition [
+GameTest >> testPlayerCantExceedMaxPositionOnFinalLap [
 
-	| player players d8 d9 dice game |
-	player := Player ready.
-	players := OrderedCollection with: player.
-	d8 := Die of: 8 rolling: #(3 6).
-	d9 := Die of: 9 rolling: #(5 8).
-	dice := d8 + d9.
-	game := Game playedBy: players with: simpleBoard10 laps: 0.
-	game play: dice.
+	| players d8 game |
+	players := OrderedCollection with: karen.
+	d8 := Die of: 8 rolling: #(3 6 2 7 5 2 4 8).
+	game := Game playedBy: players with: simpleBoard10 laps: 2.
+	game play: d8.
 	
-	self assert: player position equals: 20.
+	self 
+		assert: karen position equals: 10;
+		assert: karen lap equals: 2.
 
 ]
 
 { #category : #tests }
 GameTest >> testPlayersFinalPositions [
 
-	| player1 player2 player3 player4 players game d10 d12 dice |
-	player1 := Player ready.
-	player2 := Player ready.
-	player3 := Player ready.
-	player4 := Player ready.
-	players := player1 + player2 + player3 + player4.
-	game := Game playedBy: players with: simpleBoard10 laps: 0.
+	| players game d10 d12 dice |
+	players := karen + andre + juli + fran.
+	game := Game playedBy: players with: simpleBoard10 laps: 1.
 	d10 := Die of: 10 rolling: #(1 2 3 4 5 1 2 3 4).
 	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
 	dice := d10 + d12.
 	game play: dice.
 	
 	self
-		assert: player1 position equals: 19;
-		assert: player2 position equals: 18;
-		assert: player3 position equals: 20;
-		assert: player4 position equals: 14;
-		assert: game whoWon equals: player3.
+		assert: karen position equals: 9;
+		assert: andre position equals: 8;
+		assert: juli position equals: 10;
+		assert: fran position equals: 4;
+		assert: game whoWon equals: juli.
 		
 	players := game results: players.
 	self 
-		assert: players first equals: player3;
-		assert: players second equals: player1;
-		assert: players third equals: player2;
-		assert: players last equals: player4.
+		assert: players first equals: juli;
+		assert: players second equals: karen;
+		assert: players third equals: andre;
+		assert: players last equals: fran.
 ]

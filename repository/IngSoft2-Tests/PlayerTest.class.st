@@ -1,56 +1,44 @@
 Class {
 	#name : #PlayerTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'karen',
+		'andre',
+		'simpleBoard10'
+	],
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #tests }
-PlayerTest >> testCreatePlayersList [
+PlayerTest >> newPlayer [
+	^ Player ready
+]
 
-	| player1 player2 players |
-	player1 := Player ready.
-	player2 := Player ready.
-	players := player1 + player2.
-	
-	self 
-		assert: players first equals: player1;
-		assert: players second equals: player2;
-		assert: players size equals: 2.
+{ #category : #running }
+PlayerTest >> setUp [
+
+	super setUp.
+	karen := self newPlayer.
+	andre := self newPlayer.
+	simpleBoard10 := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (NoEffect on: 5) + (NoEffect on: 6) + (NoEffect on: 7) + (NoEffect on: 8) + (NoEffect on: 9) + (NoEffect on: 10).
+
 ]
 
 { #category : #tests }
-PlayerTest >> testPlayerMoveToMaxPosition [
+PlayerTest >> testPlayerCreationFailsWithInvalidStartingLap [
 
-	| player players game |
-	player := Player ready.
-	players := OrderedCollection with: player.
-	game := Game playedBy: players with: 10 laps: 0.
-	GameHandler move: player with: 15 of: game.
-	self assert: player position equals: 10.
+	self
+		should: [ Player new initializeWithPosition: 1 lap: 3 ]
+		raise: InstanceCreationFailed
+		withMessageText: 'The player can´t start with previous laps'
 ]
 
 { #category : #tests }
-PlayerTest >> testPlayerRollDice [
+PlayerTest >> testPlayerCreationFailsWithInvalidStartingPosition [
 
-	| player d3 d5 dice |
-	player := Player ready.
-	d3 := Die of: 3 rolling: #(1 2).
-	d5 := Die of: 5 rolling: #(3 4).
-	dice := d3 + d5.
-	GameHandler move: player with: dice roll limit: 10.
-	self assert: player position equals: 5.
-	GameHandler move: player with: dice roll limit: 10.
-	self assert: player position equals: 10.
-]
-
-{ #category : #tests }
-PlayerTest >> testPlayerRollDie [
-
-	| player die |
-	player := Player ready.
-	die := Die of: 4 rolling: #(1 2).
-	GameHandler move: player with: die roll limit: 10.
-	self assert: player position equals: 2.
-	GameHandler move: player with: die roll limit: 10.
-	self assert: player position equals: 4.
+	-1 to: 0 do: [ :invalidNumber |
+	self
+		should: [ Player new initializeWithPosition: invalidNumber lap: 0 ]
+		raise: InstanceCreationFailed
+		withMessageText: 'A player must start at least in position 1' ]
 ]
