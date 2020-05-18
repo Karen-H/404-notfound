@@ -19,7 +19,7 @@ GameHandler class >> fallsBehind: player with: aNumber max: boardSize [
 		ifTrue: [ 
 			lapCount := aNumber // boardSize.
 			tentativePosition := aNumber + (lapCount negated * boardSize).
-			player changeLap: lapCount ]
+			player changeLap: lapCount + player lap ]
 		ifFalse: [ tentativePosition := aNumber ].
 	^ tentativePosition.
 ]
@@ -61,8 +61,8 @@ GameHandler class >> move: player with: dice of: game [
 
 	| tentativePosition effect squareType |
 	tentativePosition := self moveForward: player with: player position + dice within: game.
-	effect := ( game board detect: [ :square | square number = tentativePosition ] ) effectNumber.
-	squareType := ( game board detect: [ :square | square number = tentativePosition ] ) type.
+	effect := ( game board at: tentativePosition ) effectNumber.
+	squareType := ( game board at: tentativePosition ) type.
 	player goTo: tentativePosition.
 	self move: player due: squareType with: effect within: game.
 ]

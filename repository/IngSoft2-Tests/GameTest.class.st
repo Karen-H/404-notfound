@@ -141,20 +141,20 @@ GameTest >> testPlayersFinalPositionsWithMixBoard [
 	| players game d12 |
 	players := andre + karen.
 	game := Game playedBy: players with: mixBoard20 laps: 1.
-	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
+	d12 := Die of: 12 rolling: #(6 7 8 9).
 	game play: d12.
 	
 	self
-		assert: karen position equals: 20;
-		assert: andre position equals: 18;
+		assert: karen position equals: 14;
+		assert: andre position equals: 20;
 		assert: karen lap equals: 1;
-		assert: andre lap equals: 0;
-		assert: game whoWon equals: karen.
+		assert: andre lap equals: 1;
+		assert: game whoWon equals: andre.
 		
 	players := game results: players.
 	self 
-		assert: players first equals: karen;
-		assert: players second equals: andre.
+		assert: players first equals: andre;
+		assert: players second equals: karen.
 
 ]
 
