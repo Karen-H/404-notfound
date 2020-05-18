@@ -12,6 +12,7 @@ SquareTest >> testSetOfSquares [
 
 	| board |
 	board := (NoEffect on: 1) + (SpeedUp on: 2) + (AtomicBomb on: 3) + (WormHole on: 4) + (MoonWalk on: 5).
+	
 	self 
 		assert: board size equals: 5;
 		assert: ( board at: 1 ) effectNumber equals: 0;

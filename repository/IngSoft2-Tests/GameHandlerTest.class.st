@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'simpleBoard10',
 		'karen',
-		'andre'
+		'andre',
+		'mixBoard20'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -22,16 +23,17 @@ GameHandlerTest >> setUp [
 	andre := self newPlayer.
 	simpleBoard10 := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (NoEffect on: 5) + (NoEffect on: 6) + (NoEffect on: 7) + (NoEffect on: 8) + (NoEffect on: 9) + (NoEffect on: 10).
 
+	mixBoard20 := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (SpeedUp on: 5) + (SpeedUp on: 6) + (SpeedUp on: 7) + (NoEffect on: 8) + (NoEffect on: 9) + (NoEffect on: 10) + (AtomicBomb on: 11) + (SpeedUp on: 12)+ (WormHole on: 13) + (MoonWalk on: 14) + (NoEffect on: 15) + (NoEffect on: 16) + (WormHole on: 17) + (WormHole on: 18) + (WormHole on: 19) + (MoonWalk on: 20).
 ]
 
 { #category : #tests }
 GameHandlerTest >> testMovementExceedsFinalPosition [
 
 	| players game |
-
 	players := OrderedCollection with: karen.
 	game := Game playedBy: players with: simpleBoard10 laps: 5.
-	karen goTo: (GameHandler exceedsMovement: karen with: 25 max: game).
+	karen goTo: (GameHandler moveForward: karen with: 25 within: game).
+	
 	self 
 		assert: karen lap equals: 2;
 		assert: karen position equals: 5.
@@ -41,124 +43,85 @@ GameHandlerTest >> testMovementExceedsFinalPosition [
 GameHandlerTest >> testMovementExceedsFinalPositionOnFinalLap [
 
 	| players game |
-
 	players := OrderedCollection with: karen.
 	game := Game playedBy: players with: simpleBoard10 laps: 0.
-	karen goTo: (GameHandler exceedsMovement: karen with: 15 max: game).
+	karen goTo: (GameHandler moveForward: karen with: 15 within: game).
+	
 	self 
 		assert: karen lap equals: 0;
-		assert: karen position equals: game boardSquares.
+		assert: karen position equals: game board size.
 ]
 
 { #category : #tests }
-GameHandlerTest >> testNumberExceedsFinalPosition [
+GameHandlerTest >> testPlayerDoesntMoveDueToNoEffect [
 
-	| result |
-	result := GameHandler exceedsFinalPosition: 15 max: 10.
-	self assert: result equals: true.
-	
+	| players game |
+	players := OrderedCollection with: karen.
+	game := Game playedBy: players with: mixBoard20 laps: 2.
+	GameHandler move: karen with: 3 of: game.
+
+	self assert: karen position equals: 4.
 ]
 
 { #category : #tests }
 GameHandlerTest >> testPlayerFallsBehind [
 
 	| players game |
-
 	players := OrderedCollection with: karen.
 	game := Game playedBy: players with: simpleBoard10 laps: 2.
-	karen goTo: (GameHandler fallsBehind: karen with: -5 max: game boardSquares).
+	karen goTo: (GameHandler fallsBehind: karen with: -5 max: game board size).
+	
 	self 
 		assert: karen lap equals: -1;
 		assert: karen position equals: 5.
 ]
 
 { #category : #tests }
-GameHandlerTest >> testPlayerMoves [
-
-	| players game d8 |
-
-	players := OrderedCollection with: karen.
-	game := Game playedBy: players with: simpleBoard10 laps: 2.
-	d8 := Die of: 8 rolling: #(3 6).
-	GameHandler move: karen with: d8 roll of: game.
-	self 
-		assert: karen lap equals: 0;
-		assert: karen position equals: 4.
-]
-
-{ #category : #tests }
 GameHandlerTest >> testPlayerMovesDueToAtomicBomb [
 
-	| players game effect |
+	| players game |
+	players := karen + andre.
+	game := Game playedBy: players with: mixBoard20 laps: 2.
+	andre goTo: 4.
+	GameHandler move: karen with: 10 of: game.
 
-	players := OrderedCollection with: karen.
-	game := Game playedBy: players with: simpleBoard10 laps: 2.
-	karen goTo: 5.
-	effect := (AtomicBomb on: 5) effectNumber.
-	GameHandler move: karen due: 'AtomicBomb' with: effect within: game.
 	self 
-		assert: karen lap equals: 0;
-		assert: karen position equals: 1.
+		assert: karen position equals: 1;
+		assert: andre position equals: 1.
 ]
 
 { #category : #tests }
 GameHandlerTest >> testPlayerMovesDueToMoonWalk [
 
-	| players game effect |
-
+	| players game |
 	players := karen + andre.
-	game := Game playedBy: players with: simpleBoard10 laps: 2.
-	karen goTo: 6.
+	game := Game playedBy: players with: mixBoard20 laps: 2.
 	andre goTo: 5.
-	effect := (MoonWalk on: 6) effectNumber.
-	GameHandler move: karen due: 'MoonWalk' with: effect within: game.
+	GameHandler move: karen with: 19 of: game.
+	
 	self 
-		assert: karen lap equals: 0;
-		assert: karen position equals: 6;
+		assert: karen position equals: 20;
 		assert: andre position equals: 3.
-]
-
-{ #category : #tests }
-GameHandlerTest >> testPlayerMovesDueToNoEffect [
-
-	| players game effect |
-
-	players := OrderedCollection with: karen.
-	game := Game playedBy: players with: simpleBoard10 laps: 2.
-	karen goTo: 2.
-	effect := (simpleBoard10 at: 2) effectNumber.
-	GameHandler move: karen due: 'NoEffect' with: effect within: game.
-	self 
-		assert: karen lap equals: 0;
-		assert: karen position equals: 2.
 ]
 
 { #category : #tests }
 GameHandlerTest >> testPlayerMovesDueToSpeedUp [
 
-	| players game effect |
-
+	| players game |
 	players := OrderedCollection with: karen.
-	game := Game playedBy: players with: simpleBoard10 laps: 2.
-	karen goTo: 8.
-	effect := (SpeedUp on: 8) effectNumber.
-	GameHandler move: karen due: 'SpeedUp' with: effect within: game.
-	self 
-		assert: karen lap equals: 1;
-		assert: karen position equals: 2.
+	game := Game playedBy: players with: mixBoard20 laps: 2.
+	GameHandler move: karen with: 4 of: game.
+	
+	self assert: karen position equals: 9.
 ]
 
 { #category : #tests }
 GameHandlerTest >> testPlayerMovesDueToWormHole [
 
-	| players game effect |
-
+	| players game |
 	players := OrderedCollection with: karen.
-	game := Game playedBy: players with: simpleBoard10 laps: 2.
-	karen goTo: 2.
-	effect := (WormHole on: 2) effectNumber.
-	GameHandler move: karen due: 'WormHole' with: effect within: game.
-	self 
-		assert: karen lap equals: -1;
-		assert: karen position equals: 8.
+	game := Game playedBy: players with: mixBoard20 laps: 2.
+	GameHandler move: karen with: 18 of: game.
+	
+	self assert: karen position equals: 15.
 ]

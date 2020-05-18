@@ -45,8 +45,9 @@ Player >> goTo: aNumber [
 { #category : #initialization }
 Player >> initializeWithPosition: positionOnBoard lap: round [
 
-	self assertPositionGreaterThanZero: positionOnBoard.
-	self assertLapsDifferentThanZero: round.
+	self 
+		assertPositionGreaterThanZero: positionOnBoard;
+		assertLapsDifferentThanZero: round.
 
 	position := positionOnBoard.
 	lap := round.

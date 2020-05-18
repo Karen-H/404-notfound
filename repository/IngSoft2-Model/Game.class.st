@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #asserting }
-Game class >> assert: players startInside: board [
+Game class >> assert: players startOn: board [
 
 	(players select: [ :player | player position > board size ]) isEmpty
 		ifFalse: [ InstanceCreationFailed signal: 'The player must start on a valid position' ]
@@ -25,9 +25,9 @@ Game class >> assertBoardSquaresGreaterThanOne: board [
 ]
 
 { #category : #validating }
-Game class >> assertLapsGreaterThanZero: round [
+Game class >> assertLapsGreaterThanZero: rounds [
 
-	round negative
+	rounds negative
 		ifTrue: [ InstanceCreationFailed signal: 'The winner must move around the board at least once' ]
 ]
 
@@ -38,7 +38,7 @@ Game class >> assertPlayersGreaterThanZero: players [
 		ifTrue: [ InstanceCreationFailed signal: 'There must be at least 1 player' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance variables' }
 Game class >> boardWith: squares [
 
 	| tiles atomicBombNum moonWalkNum speedUpNum wormHoleNum panel |
@@ -51,7 +51,7 @@ Game class >> boardWith: squares [
 	^ self distribute: panel with: tiles.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance variables' }
 Game class >> distribute: squares with: tiles [
 
 	| square panel |
@@ -81,18 +81,18 @@ Game class >> distribute: squares with: tiles [
 ]
 
 { #category : #'instance creation' }
-Game class >> playedBy: players with: board laps: aNumber [
+Game class >> playedBy: players with: board laps: rounds [
 
 	self 
 		assertBoardSquaresGreaterThanOne: board;
 		assertPlayersGreaterThanZero: players;
-		assert: players startInside: board;
-		assertLapsGreaterThanZero: aNumber.
+		assert: players startOn: board;
+		assertLapsGreaterThanZero: rounds.
 
 	^ self new
 		initializeWith: board
 		players: players
-		laps: aNumber.
+		laps: rounds.
 ]
 
 { #category : #accessing }
@@ -101,60 +101,12 @@ Game >> board [
 	^ board.
 ]
 
-{ #category : #accessing }
-Game >> boardSquares [
-
-	^ board size.
-]
-
-{ #category : #'as yet unclassified' }
-Game >> boardWith: squares [
-
-	| tiles atomicBombNum moonWalkNum speedUpNum wormHoleNum panel |
-	tiles := (1 to: squares) asOrderedCollection.
-	atomicBombNum := (2 percent * squares) asInteger.
-	moonWalkNum := (10 percent * squares) asInteger.
-	speedUpNum := (20 percent * squares) asInteger.
-	wormHoleNum := (20 percent * squares) asInteger.
-	panel := { atomicBombNum. moonWalkNum. speedUpNum. wormHoleNum }.
-	^ self distribute: panel with: tiles.
-]
-
-{ #category : #'as yet unclassified' }
-Game >> distribute: squares with: tiles [
-
-	| square panel |
-	panel := OrderedCollection new.
-	
-	(squares at: 1) timesRepeat: [ 
-		panel := panel + ( AtomicBomb on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 2) timesRepeat: [ 
-		panel := panel + ( MoonWalk on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 3) timesRepeat: [ 
-		panel := panel + ( SpeedUp on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 4) timesRepeat: [ 
-		panel := panel + ( WormHole on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	tiles size timesRepeat: [ 
-		panel := panel + ( NoEffect on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	^ panel.
-]
-
 { #category : #initialization }
-Game >> initializeWith: panel players: playersList laps: round [
+Game >> initializeWith: panel players: playersList laps: rounds [
 
 	board := panel.
 	players := playersList.
-	laps := round.
+	laps := rounds.
 ]
 
 { #category : #playing }
@@ -167,12 +119,6 @@ Game >> isOver [
 Game >> laps [
 
 	^ laps.
-]
-
-{ #category : #accessing }
-Game >> numberOfPlayers [
-
-	^ players size.
 ]
 
 { #category : #playing }

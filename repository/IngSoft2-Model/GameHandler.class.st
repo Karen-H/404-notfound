@@ -11,23 +11,6 @@ GameHandler class >> exceedsFinalPosition: aNumber max: boardSize [
 ]
 
 { #category : #testing }
-GameHandler class >> exceedsMovement: player with: aNumber max: game [
-
-	| tentativePosition lapCount |
-	( self exceedsFinalPosition: aNumber max: game boardSquares ) 
-		ifTrue: [ 
-			lapCount := aNumber // game boardSquares.
-			tentativePosition := aNumber - ( lapCount * game boardSquares ).
-			player lap + lapCount > game laps 
-				ifTrue: [ 
-					player changeLap: game laps.
-					tentativePosition := game boardSquares ]
-				ifFalse: [ player changeLap: player lap + lapCount ] ]
-		ifFalse: [ tentativePosition := aNumber ].
-	^ tentativePosition.
-]
-
-{ #category : #testing }
 GameHandler class >> fallsBehind: player with: aNumber max: boardSize [
 
 	| tentativePosition lapCount |
@@ -57,19 +40,19 @@ GameHandler class >> move: player due: type with: effect within: game [
 			ifTrue: [ otherPlayers := game players reject: [ :gamer | gamer = player ].
 				otherPlayers
 					do: [ :member | member goTo: 
-						(self fallsBehind: member with: member position + effect max: game boardSquares) ] ].
+						(self fallsBehind: member with: member position + effect max: game board size) ] ].
 		type = 'WormHole'
 			ifTrue: [ newPosition := self
 				fallsBehind: player
 				with: player position + effect
-				max: game boardSquares.
+				max: game board size.
 				player goTo: newPosition ].
 		(type = 'AtomicBomb' or: [ type = 'MoonWalk' or: type = 'WormHole' ])
 			ifTrue: [ ^ self ].
 			newPosition := self
-			exceedsMovement: player
+			moveForward: player
 			with: player position + effect
-			max: game.
+			within: game.
 			player goTo: newPosition
 ]
 
@@ -77,9 +60,26 @@ GameHandler class >> move: player due: type with: effect within: game [
 GameHandler class >> move: player with: dice of: game [
 
 	| tentativePosition effect squareType |
-	tentativePosition := self exceedsMovement: player with: player position + dice max: game.
+	tentativePosition := self moveForward: player with: player position + dice within: game.
 	effect := ( game board detect: [ :square | square number = tentativePosition ] ) effectNumber.
 	squareType := ( game board detect: [ :square | square number = tentativePosition ] ) type.
 	player goTo: tentativePosition.
 	self move: player due: squareType with: effect within: game.
+]
+
+{ #category : #testing }
+GameHandler class >> moveForward: player with: aNumber within: game [
+
+	| tentativePosition lapCount |
+	( self exceedsFinalPosition: aNumber max: game board size ) 
+		ifTrue: [ 
+			lapCount := aNumber // game board size.
+			tentativePosition := aNumber - ( lapCount * game board size ).
+			player lap + lapCount > game laps 
+				ifTrue: [ 
+					player changeLap: game laps.
+					tentativePosition := game board size ]
+				ifFalse: [ player changeLap: player lap + lapCount ] ]
+		ifFalse: [ tentativePosition := aNumber ].
+	^ tentativePosition.
 ]

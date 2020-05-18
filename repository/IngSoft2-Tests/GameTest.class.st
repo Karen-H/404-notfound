@@ -6,7 +6,8 @@ Class {
 		'andre',
 		'simpleBoard10',
 		'juli',
-		'fran'
+		'fran',
+		'mixBoard20'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -24,9 +25,10 @@ GameTest >> setUp [
 	andre := self newPlayer.
 	juli := self newPlayer.
 	fran := self newPlayer.
+	
 	simpleBoard10 := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (NoEffect on: 5) + (NoEffect on: 6) + (NoEffect on: 7) + (NoEffect on: 8) + (NoEffect on: 9) + (NoEffect on: 10).
 	
-
+	mixBoard20 := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (SpeedUp on:5) + (SpeedUp on: 6) + (SpeedUp on: 7) + (NoEffect on: 8) + (NoEffect on:9) + (NoEffect on: 10) + (AtomicBomb on: 11) + (SpeedUp on: 12)+ (WormHole on: 13) + (MoonWalk on: 14) + (NoEffect on: 15) + (NoEffect on: 16) + (WormHole on: 17) + (WormHole on: 18) + (WormHole on: 19) + (MoonWalk on: 20).
 ]
 
 { #category : #tests }
@@ -34,6 +36,7 @@ GameTest >> testBoardDistribution [
 
 	| board |
 	board := Game boardWith: 100.
+	
 	self
 		assert: ( board select: [ :square | square type = 'AtomicBomb' ] ) size equals: 2;
 		assert: ( board select: [ :square | square type = 'MoonWalk' ] ) size equals: 10;
@@ -48,6 +51,7 @@ GameTest >> testGameCreationFailsWithInvalidBoardSize [
 	| players board |
 	players := karen + andre.
 	board := #().
+	
 	self
 		should: [ Game playedBy: players with: board laps: 0 ]
 		raise: InstanceCreationFailed
@@ -132,7 +136,30 @@ GameTest >> testPlayerCantExceedMaxPositionOnFinalLap [
 ]
 
 { #category : #tests }
-GameTest >> testPlayersFinalPositions [
+GameTest >> testPlayersFinalPositionsWithMixBoard [
+
+	| players game d12 |
+	players := andre + karen.
+	game := Game playedBy: players with: mixBoard20 laps: 1.
+	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
+	game play: d12.
+	
+	self
+		assert: karen position equals: 20;
+		assert: andre position equals: 18;
+		assert: karen lap equals: 1;
+		assert: andre lap equals: 0;
+		assert: game whoWon equals: karen.
+		
+	players := game results: players.
+	self 
+		assert: players first equals: karen;
+		assert: players second equals: andre.
+
+]
+
+{ #category : #tests }
+GameTest >> testPlayersFinalPositionsWithSimpleBoard [
 
 	| players game d10 d12 dice |
 	players := karen + andre + juli + fran.

@@ -16,14 +16,6 @@ Square class >> assertNumberGreaterThanZero: boardNumber [
 		ifFalse: [ InstanceCreationFailed signal: 'Must assign a positive number to the square' ]
 ]
 
-{ #category : #arithmetic }
-Square >> + aSquare [
-
-	| board |
-	board := OrderedCollection withAll: ({ self . aSquare } flattened).
-	^ board.
-]
-
 { #category : #accessing }
 Square >> effectNumber [
 
