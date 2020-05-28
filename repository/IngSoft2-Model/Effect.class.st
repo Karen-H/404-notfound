@@ -1,43 +1,37 @@
 Class {
-	#name : #Square,
+	#name : #Effect,
 	#superclass : #Object,
 	#instVars : [
-		'number',
 		'effectNumber',
-		'type'
+		'type',
+		'positionOnBoard'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #asserting }
-Square class >> assertNumberGreaterThanZero: boardNumber [
+Effect class >> assertNumberGreaterThanZero: boardNumber [
 
 	boardNumber > 0
 		ifFalse: [ InstanceCreationFailed signal: 'Must assign a positive number to the square' ]
 ]
 
 { #category : #accessing }
-Square >> effectNumber [
+Effect >> effectNumber [
 
 	^ effectNumber.
 ]
 
 { #category : #initialization }
-Square >> initializeWith: boardNumber effect: aNumber type: name [
+Effect >> initialize: boardNumber with: effect type: name [
 
-	number := boardNumber.
-	effectNumber := aNumber.
+	positionOnBoard := boardNumber.
+	effectNumber := effect.
 	type := name.
 ]
 
 { #category : #accessing }
-Square >> number [ 
-
-	^ number.
-]
-
-{ #category : #accessing }
-Square >> type [
+Effect >> type [
 
 	^ type.
 ]

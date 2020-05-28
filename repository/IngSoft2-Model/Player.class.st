@@ -2,8 +2,7 @@ Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'position',
-		'lap'
+		'location'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -11,56 +10,36 @@ Class {
 { #category : #'instance creation' }
 Player class >> ready [
 
-	^ self new 
-		initializeWithPosition: 1
-		lap: 0.
-]
-
-{ #category : #asserting }
-Player >> assertLapsDifferentThanZero: rounds [
-
-	rounds ~= 0
-		ifTrue: [ InstanceCreationFailed signal: 'The player can´t start with previous laps' ]
-]
-
-{ #category : #asserting }
-Player >> assertPositionGreaterThanZero: aPosition [
-
-	aPosition > 0
-		ifFalse: [ InstanceCreationFailed signal: 'A player must start at least in position 1' ]
+	^ self new.
 ]
 
 { #category : #accessing }
-Player >> changeLap: aNumber [
+Player >> boardSquare [
 
-	lap := aNumber.
-]
-
-{ #category : #accessing }
-Player >> goTo: aNumber [
-
-	position := aNumber.
+	^ location boardSquare.
 ]
 
 { #category : #initialization }
-Player >> initializeWithPosition: positionOnBoard lap: round [
+Player >> initialize [
 
-	self 
-		assertPositionGreaterThanZero: positionOnBoard;
-		assertLapsDifferentThanZero: round.
-
-	position := positionOnBoard.
-	lap := round.
+	super initialize.
+	location := Position start.
 ]
 
 { #category : #accessing }
 Player >> lap [
 
-	^ lap.
+	^ location lap.
+]
+
+{ #category : #accessing }
+Player >> location [
+
+	^ location.
 ]
 
 { #category : #accessing }
 Player >> position [
 
-	^ position.
+	^ location boardSquare.
 ]

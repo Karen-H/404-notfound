@@ -506,7 +506,7 @@ TestAsserter >> should: aBlock raise: anException withExceptionDo: anotherBlock 
 	^self assert: (self executeShould: aBlock inScopeOf: anException withExceptionDo: anotherBlock)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #asserting }
 TestAsserter >> should: aBlock raise: anException withMessageText: aString [
 
 	self

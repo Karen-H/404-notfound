@@ -1,19 +1,30 @@
 Class {
 	#name : #SpeedUp,
-	#superclass : #Square,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
 SpeedUp class >> on: boardNumber [
 
-	| aNumber |
-	aNumber := 4.
+	| effectNumber |
+	effectNumber := 4.
 	
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initializeWith: boardNumber
-		effect: aNumber
+		initialize: boardNumber
+		with: effectNumber
 		type: 'SpeedUp'.
+]
+
+{ #category : #playing }
+SpeedUp >> move: player within: game [
+
+	| newPosition |
+	newPosition := GameHandler new
+	moveForward: player
+	to: player position + effectNumber
+	within: game.
+	player location changeSquare: newPosition
 ]
