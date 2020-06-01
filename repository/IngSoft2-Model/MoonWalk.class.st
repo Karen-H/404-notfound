@@ -25,7 +25,13 @@ MoonWalk >> move: player within: game [
 
 	| otherPlayers |
 	otherPlayers := game players reject: [ :gamer | gamer = player ].
-	otherPlayers
-		do: [ :member | member location changeSquare: 
+	self moving:otherPlayers in:game.
+		
+]
+
+{ #category : #playing }
+MoonWalk >> moving:otherPlayers in:game [
+	otherPlayers 
+	do: [ :member | member location changeSquare: 
 			(GameHandler new moveBackwards: member to: member position + effectNumber limitedBy: game board size) ].
 ]
