@@ -38,50 +38,8 @@ Game class >> assertPlayersGreaterThanZero: players [
 		ifTrue: [ InstanceCreationFailed signal: 'There must be at least 1 player' ]
 ]
 
-{ #category : #'instance variables' }
-Game class >> boardWith: squares [
-
-	| tiles atomicBombNum moonWalkNum speedUpNum wormHoleNum panel |
-	tiles := (1 to: squares) asOrderedCollection.
-	atomicBombNum := (2 percent * squares) asInteger.
-	moonWalkNum := (10 percent * squares) asInteger.
-	speedUpNum := (20 percent * squares) asInteger.
-	wormHoleNum := (20 percent * squares) asInteger.
-	panel := { atomicBombNum. moonWalkNum. speedUpNum. wormHoleNum }.
-	^ self distribute: panel with: tiles.
-]
-
-{ #category : #'instance variables' }
-Game class >> distribute: squares with: tiles [
-
-	| square panel |
-	panel := OrderedCollection new.
-	
-	(squares at: 1) timesRepeat: [ 
-		panel := panel + ( AtomicBomb on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 2) timesRepeat: [ 
-		panel := panel + ( MoonWalk on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 3) timesRepeat: [ 
-		panel := panel + ( SpeedUp on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 4) timesRepeat: [ 
-		panel := panel + ( WormHole on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	tiles size timesRepeat: [ 
-		panel := panel + ( NoEffect on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	^ panel.
-]
-
 { #category : #'instance creation' }
-Game class >> playedBy: players with: board laps: rounds [
+Game class >> playedBy: players on: board with: rounds [
 
 	self 
 		assertBoardSquaresGreaterThanOne: board;
@@ -90,9 +48,9 @@ Game class >> playedBy: players with: board laps: rounds [
 		assertLapsGreaterThanZero: rounds.
 
 	^ self new
-		initializeWith: board
-		players: players
-		laps: rounds.
+		initialize: board
+		playedBy: players
+		with: rounds.
 ]
 
 { #category : #accessing }
@@ -102,7 +60,7 @@ Game >> board [
 ]
 
 { #category : #initialization }
-Game >> initializeWith: panel players: playersList laps: rounds [
+Game >> initialize: panel playedBy: playersList with: rounds [
 
 	board := panel.
 	players := playersList.
@@ -126,7 +84,7 @@ Game >> play: dice [
 
 	[ self isOver ] whileFalse: [
 		players do: [ :player | 
-			self isOver ifFalse: [ GameHandler move: player with: dice roll of: self ] ] ]
+			self isOver ifFalse: [ GameHandler new move: player rolling: dice roll within: self ] ] ]
 ]
 
 { #category : #accessing }
@@ -136,11 +94,12 @@ Game >> players [
 ]
 
 { #category : #playing }
-Game >> results: playersList [
+Game >> results [
 	
-	^ playersList sort: [ :aPlayer :anotherPlayer |
+	^ players sort: [ :aPlayer :anotherPlayer |
 		aPlayer position > anotherPlayer position
-			or: [ aPlayer position = anotherPlayer position and: [ aPlayer lap > anotherPlayer lap ] ] ]
+			or: [ aPlayer position = anotherPlayer position
+				and: [ aPlayer position > anotherPlayer lap ] ] ]
 ]
 
 { #category : #playing }

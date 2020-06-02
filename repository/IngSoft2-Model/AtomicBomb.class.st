@@ -1,6 +1,6 @@
 Class {
 	#name : #AtomicBomb,
-	#superclass : #Square,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
@@ -10,7 +10,13 @@ AtomicBomb class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initializeWith: boardNumber
-		effect: boardNumber negated + 1
+		initialize: boardNumber
+		with: boardNumber negated + 1
 		type: 'AtomicBomb'.
+]
+
+{ #category : #playing }
+AtomicBomb >> move: player within: game [
+
+	game players do: [ :gamer | gamer location changeSquare: 1 ].
 ]

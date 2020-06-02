@@ -1,7 +1,7 @@
-Extension { #name : #Square }
+Extension { #name : #Effect }
 
 { #category : #'*IngSoft2-Tests' }
-Square >> + aSquare [
+Effect >> + aSquare [
 
 	| board |
 	board := OrderedCollection withAll: ({ self . aSquare } flattened).

@@ -1,19 +1,19 @@
 Class {
 	#name : #NoEffect,
-	#superclass : #Square,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
 NoEffect class >> on: boardNumber [
 
-	| aNumber |
-	aNumber := 0.
+	| effectNumber |
+	effectNumber := 0.
 	
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initializeWith: boardNumber
-		effect: aNumber
+		initialize: boardNumber
+		with: effectNumber
 		type: 'NoEffect'.
 ]

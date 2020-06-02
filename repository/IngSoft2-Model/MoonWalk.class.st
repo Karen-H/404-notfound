@@ -1,21 +1,37 @@
 Class {
 	#name : #MoonWalk,
-	#superclass : #Square,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
 MoonWalk class >> on: boardNumber [
 
-	| aNumber |
-	aNumber := boardNumber even
+	| effectNumber |
+	effectNumber := boardNumber even
 		ifTrue: [ -2 ]
 		ifFalse: [ -3 ].
 		
 	self assertNumberGreaterThanZero: boardNumber.
 	
 	^ self new 
-		initializeWith: boardNumber 
-		effect: aNumber
+		initialize: boardNumber 
+		with: effectNumber
 		type: 'MoonWalk'.
+]
+
+{ #category : #playing }
+MoonWalk >> move: player within: game [
+
+	| otherPlayers |
+	otherPlayers := game players reject: [ :gamer | gamer = player ].
+	self moving:otherPlayers in:game.
+		
+]
+
+{ #category : #playing }
+MoonWalk >> moving:otherPlayers in:game [
+	otherPlayers 
+	do: [ :member | member location changeSquare: 
+			(GameHandler new moveBackwards: member to: member position + effectNumber limitedBy: game board size) ].
 ]
