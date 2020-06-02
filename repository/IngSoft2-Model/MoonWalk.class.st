@@ -21,7 +21,7 @@ MoonWalk class >> on: boardNumber [
 ]
 
 { #category : #playing }
-MoonWalk >> move: player within: game [
+MoonWalk >> applyEffectOn: player within: game [
 
 	| otherPlayers |
 	otherPlayers := game players reject: [ :gamer | gamer = player ].

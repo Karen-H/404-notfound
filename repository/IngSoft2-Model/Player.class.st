@@ -2,15 +2,39 @@ Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'location'
+		'location',
+		'hand'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
-Player class >> ready [
+{ #category : #asserting }
+Player class >> assertOnlyValid: cards on: deck [
 
-	^ self new.
+	(cards
+		anySatisfy:
+			[ :card | deck includes: card ])
+		ifTrue: [ InstanceCreationFailed
+				signal: 'Must play with valid cards' ]
+]
+
+{ #category : #'instance creation' }
+Player class >> assertTwoCardsAreDrawn: cards [
+
+	cards size ~= 2
+		ifTrue: [ InstanceCreationFailed
+				signal: 'The player must draw two cards at the beginning of the game' ].
+			
+	
+]
+
+{ #category : #'as yet unclassified' }
+Player class >> drawing: cards from: deck [
+	
+	self assertTwoCardsAreDrawn: cards.
+	self assertOnlyValid: cards on: deck.
+	
+	^ self new initializeWith: cards.
 ]
 
 { #category : #accessing }
@@ -19,11 +43,23 @@ Player >> boardSquare [
 	^ location boardSquare.
 ]
 
-{ #category : #initialization }
-Player >> initialize [
+{ #category : #drawing }
+Player >> draw: card [
 
-	super initialize.
+	hand := hand + card.
+]
+
+{ #category : #accessing }
+Player >> hand [ 
+
+	^ hand.
+]
+
+{ #category : #initialization }
+Player >> initializeWith: cards [
+
 	location := Position start.
+	hand := cards.
 ]
 
 { #category : #accessing }

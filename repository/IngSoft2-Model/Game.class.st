@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'players',
 		'board',
-		'laps'
+		'laps',
+		'deck'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -24,6 +25,13 @@ Game class >> assertBoardSquaresGreaterThanOne: board [
 		ifFalse: [ InstanceCreationFailed signal: 'The board must have at least 2 squares' ]
 ]
 
+{ #category : #asserting }
+Game class >> assertDeckIsNotEmpty: deck [
+
+	deck isEmpty
+		ifTrue: [ InstanceCreationFailed signal: 'The deck must have cards' ]
+]
+
 { #category : #validating }
 Game class >> assertLapsGreaterThanZero: rounds [
 
@@ -39,18 +47,20 @@ Game class >> assertPlayersGreaterThanZero: players [
 ]
 
 { #category : #'instance creation' }
-Game class >> playedBy: players on: board with: rounds [
+Game class >> playedBy: players on: board with: rounds using: deck [
 
 	self 
 		assertBoardSquaresGreaterThanOne: board;
 		assertPlayersGreaterThanZero: players;
 		assert: players startOn: board;
-		assertLapsGreaterThanZero: rounds.
+		assertLapsGreaterThanZero: rounds;
+		assertDeckIsNotEmpty: deck.
 
 	^ self new
 		initialize: board
 		playedBy: players
-		with: rounds.
+		with: rounds
+		using: deck.
 ]
 
 { #category : #accessing }
@@ -59,12 +69,19 @@ Game >> board [
 	^ board.
 ]
 
+{ #category : #accessing }
+Game >> deck [
+
+	^ deck.
+]
+
 { #category : #initialization }
-Game >> initialize: panel playedBy: playersList with: rounds [
+Game >> initialize: panel playedBy: playersList with: rounds using: cards [
 
 	board := panel.
 	players := playersList.
 	laps := rounds.
+	deck := cards.
 ]
 
 { #category : #playing }

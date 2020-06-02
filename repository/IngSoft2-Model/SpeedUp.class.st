@@ -19,7 +19,7 @@ SpeedUp class >> on: boardNumber [
 ]
 
 { #category : #playing }
-SpeedUp >> move: player within: game [
+SpeedUp >> applyEffectOn: player within: game [
 
 	| newPosition |
 	newPosition := GameHandler new

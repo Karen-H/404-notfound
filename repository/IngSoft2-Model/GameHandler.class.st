@@ -16,14 +16,14 @@ GameHandler >> fallsBehindFinalPosition: tentativePosition [
 	^ tentativePosition < 1.
 ]
 
-{ #category : #playing }
+{ #category : #'as yet unclassified' }
 GameHandler >> move: player rolling: dice within: game [
 
 	| tentativePosition square |
 	tentativePosition := self moveForward: player to: player position + dice within: game.
 	player location changeSquare: tentativePosition.
 	square := game board at: tentativePosition.
-	square move: player within: game.
+	square applyEffectOn: player within: game.
 ]
 
 { #category : #testing }
