@@ -1,5 +1,5 @@
 Class {
 	#name : #Overload,
-	#superclass : #Card,
+	#superclass : #Permanent,
 	#category : #'IngSoft2-Model'
 }
