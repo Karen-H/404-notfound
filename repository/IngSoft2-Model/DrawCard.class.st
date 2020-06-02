@@ -1,11 +1,11 @@
 Class {
-	#name : #NoEffect,
+	#name : #DrawCard,
 	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-NoEffect class >> on: boardNumber [
+DrawCard class >> on: boardNumber [
 
 	| effectNumber |
 	effectNumber := 0.
@@ -15,16 +15,14 @@ NoEffect class >> on: boardNumber [
 	^ self new 
 		initialize: boardNumber
 		with: effectNumber
-		type: 'NoEffect'.
+		type: 'DrawCard'.
 ]
 
 { #category : #playing }
-NoEffect >> applyEffectOn: player within: game [
+DrawCard >> applyEffectOn: player within: game [
 
-	| newPosition |
-	newPosition := GameHandler new
-	moveForward: player
-	to: player position + effectNumber
-	within: game.
-	player location changeSquare: newPosition
+	| deck card |
+	deck := Deck assembled.
+	card := deck cards atRandom.
+	player draw: card.
 ]

@@ -48,10 +48,11 @@ GameTest >> testBoardDistribution [
 
 	self
 		assert: ( board count: [ :square | square type = 'AtomicBomb' ] ) equals: 2;
+		assert: ( board count: [ :square | square type = 'DrawCard' ] ) equals: 3;
 		assert: ( board count: [ :square | square type = 'MoonWalk' ] ) equals: 10;
 		assert: ( board count: [ :square | square type = 'SpeedUp' ] ) equals: 20;
 		assert: ( board count: [ :square | square type = 'WormHole' ] ) equals: 20;
-		assert: ( board count: [ :square | square type = 'NoEffect' ] ) equals: 48.
+		assert: ( board count: [ :square | square type = 'NoEffect' ] ) equals: 45.
 ]
 
 { #category : #tests }

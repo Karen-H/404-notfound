@@ -19,7 +19,7 @@ WormHole class >> on: boardNumber [
 ]
 
 { #category : #playing }
-WormHole >> move: player within: game [
+WormHole >> applyEffectOn: player within: game [
 
 	| newPosition |
 	newPosition := GameHandler new 

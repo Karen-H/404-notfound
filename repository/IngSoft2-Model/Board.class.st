@@ -15,14 +15,18 @@ Board class >> distribute: squares with: tiles [
 		tiles remove: square ].
 	
 	(squares at: 2) timesRepeat: [ 
-		panel := panel + ( MoonWalk on: (square := tiles atRandom) ).
+		panel := panel + ( DrawCard on: (square := tiles atRandom) ).
 		tiles remove: square ].
 	
 	(squares at: 3) timesRepeat: [ 
-		panel := panel + ( SpeedUp on: (square := tiles atRandom) ).
+		panel := panel + ( MoonWalk on: (square := tiles atRandom) ).
 		tiles remove: square ].
 	
 	(squares at: 4) timesRepeat: [ 
+		panel := panel + ( SpeedUp on: (square := tiles atRandom) ).
+		tiles remove: square ].
+	
+	(squares at: 5) timesRepeat: [ 
 		panel := panel + ( WormHole on: (square := tiles atRandom) ).
 		tiles remove: square ].
 	
@@ -51,12 +55,13 @@ Board class >> of: squares with: squareType at: position [
 { #category : #'instance creation' }
 Board class >> withRandomlyDistributed: squares [
 
-	| tiles atomicBombNum moonWalkNum speedUpNum wormHoleNum panel |
+	| tiles atomicBombNum moonWalkNum speedUpNum wormHoleNum panel drawCardNum |
 	tiles := (1 to: squares) asOrderedCollection.
 	atomicBombNum := (2 percent * squares) asInteger.
+	drawCardNum := (3 percent * squares) asInteger.
 	moonWalkNum := (10 percent * squares) asInteger.
 	speedUpNum := (20 percent * squares) asInteger.
 	wormHoleNum := (20 percent * squares) asInteger.
-	panel := { atomicBombNum. moonWalkNum. speedUpNum. wormHoleNum }.
+	panel := { atomicBombNum. drawCardNum. moonWalkNum. speedUpNum. wormHoleNum }.
 	^ self distribute: panel with: tiles.
 ]
