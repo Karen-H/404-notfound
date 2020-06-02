@@ -59,11 +59,6 @@ Game >> board [
 	^ board.
 ]
 
-{ #category : #accessing }
-Game >> effectAt:numberOfSquare [
-	^ board at:numberOfSquare.
-]
-
 { #category : #initialization }
 Game >> initialize: panel playedBy: playersList with: rounds [
 

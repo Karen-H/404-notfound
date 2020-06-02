@@ -31,7 +31,7 @@ Effect >> initialize: boardNumber with: effect type: name [
 ]
 
 { #category : #playing }
-Effect >> movee: player within: game [
+Effect >> move: player within: game [
 
 	| newPosition |
 	newPosition := GameHandler new

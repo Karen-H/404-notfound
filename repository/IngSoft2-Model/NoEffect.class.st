@@ -17,8 +17,3 @@ NoEffect class >> on: boardNumber [
 		with: effectNumber
 		type: 'NoEffect'.
 ]
-
-{ #category : #playing }
-NoEffect >> move: player within: game [
-	^ self movee: player within: game. 
-]

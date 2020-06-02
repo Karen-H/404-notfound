@@ -17,8 +17,3 @@ SpeedUp class >> on: boardNumber [
 		with: effectNumber
 		type: 'SpeedUp'.
 ]
-
-{ #category : #playing }
-SpeedUp >> move: player within: game [
-	^ self movee:player within: game. 
-]
