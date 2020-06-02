@@ -10,27 +10,27 @@ Board class >> distribute: squares with: tiles [
 	| square panel |
 	panel := OrderedCollection new.
 	
-	(squares at: 1) timesRepeat: [ 
-		panel := panel + ( AtomicBomb on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 2) timesRepeat: [ 
-		panel := panel + ( MoonWalk on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 3) timesRepeat: [ 
-		panel := panel + ( SpeedUp on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 4) timesRepeat: [ 
-		panel := panel + ( WormHole on: (square := tiles atRandom) ).
-		tiles remove: square ].
+	panel:=self distributing: squares of: panel with: tiles effectAt: AtomicBomb number:1. 
+	panel:=self distributing: squares of:panel with: tiles effectAt: MoonWalk number:2.
+	panel:=self distributing: squares of:panel with: tiles effectAt: SpeedUp number:3.
+	panel:=self distributing: squares of:panel with: tiles effectAt: WormHole number:4.
 	
 	tiles size timesRepeat: [ 
 		panel := panel + ( NoEffect on: (square := tiles atRandom) ).
 		tiles remove: square ].
 	
 	^ panel.
+
+]
+
+{ #category : #accessing }
+Board class >> distributing: squares of: panel with: tiles effectAt: effect number:number [
+	|square panelNew|
+	panelNew:=panel.
+	(squares at: number)timesRepeat: [
+		panelNew:= panelNew+ (effect on: (square:= tiles atRandom)).
+		tiles remove: square] .
+	^panelNew.
 ]
 
 { #category : #'instance creation' }
