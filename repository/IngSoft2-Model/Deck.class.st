@@ -2,7 +2,8 @@ Class {
 	#name : #Deck,
 	#superclass : #Object,
 	#instVars : [
-		'cards'
+		'cards',
+		'cardsPositionlist'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -23,6 +24,16 @@ Deck >> cards [
 Deck >> initialize [ 
 
 	super initialize.
-	cards := OrderedCollection new.
-	cards := Acceleration new + Cancellation new + Overload new + Redo new + Repeat new + Speed new.
+	cards := (Acceleration newCard) + (Cancellation newCard) + (Overload newCard) + 
+	         (Redo newCard) +(Repeat newCard) + (Speed newCard).
+	cardsPositionlist:=Die of: 6 rolling:#(1 2 3 4 5 6).
+	
+]
+
+{ #category : #accesing }
+Deck >> randomCard [
+	|positionTaken|
+	positionTaken:= cardsPositionlist roll.
+	^cards at:positionTaken.
+	
 ]

@@ -23,6 +23,6 @@ DrawCard >> applyEffectOn: player within: game [
 
 	| deck card |
 	deck := game deck.
-	card := deck cards atRandom.
+	card := deck randomCard.
 	player draw: card.
 ]

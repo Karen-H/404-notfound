@@ -1,13 +1,18 @@
 Class {
 	#name : #Card,
 	#superclass : #Object,
+	#instVars : [
+		'type'
+	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #arithmetic }
-Card >> + aCard [
+{ #category : #initialization }
+Card >> initializeWith:typeCard [
+	type:=typeCard.
+]
 
-	| deck |
-	deck := OrderedCollection withAll: ({ self . aCard } flattened).
-	^ deck.
+{ #category : #accessing }
+Card >> type [
+	^type.
 ]

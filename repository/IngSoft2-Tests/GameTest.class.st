@@ -22,7 +22,8 @@ GameTest >> newGameHandler [
 
 { #category : #tests }
 GameTest >> newPlayer [
-	^ Player ready
+	
+	^ Player new initializeWith:(Overload new+Overload new).
 ]
 
 { #category : #running }
@@ -58,24 +59,39 @@ GameTest >> testBoardDistribution [
 { #category : #tests }
 GameTest >> testGameCreationFailsWithInvalidBoardSize [
 
-	| players board |
+	| players board deck|
 	players := karen + andre.
 	board := #().
-	
+	deck:=Deck new initialize.
 	self
-		should: [ Game playedBy: players on: board with: 0 ]
+		should: [ Game playedBy: players on: board with: 0 using:deck]
 		raise: InstanceCreationFailed
 		withMessageText: 'The board must have at least 2 squares'
+		
+]
+
+{ #category : #tests }
+GameTest >> testGameCreationFailsWithInvalidDeck [
+
+	| players board deck|
+	players := karen + andre.
+	board := #(1 2).
+	deck:=#().
+	self
+		should: [ Game playedBy: players on: board with: 0 using:deck]
+		raise: InstanceCreationFailed
+		withMessageText: 'The deck must have cards'
+		
 ]
 
 { #category : #tests }
 GameTest >> testGameCreationFailsWithoutPlayers [
 
-	| players |
+	| players deck|
 	players := #().
-
+	deck:=Deck new initialize.
 	self
-		should: [ Game playedBy: players on: noEffect10SquaresBoard with: 0 ]
+		should: [ Game playedBy: players on: noEffect10SquaresBoard with: 0 using:deck]
 		raise: InstanceCreationFailed
 		withMessageText: 'There must be at least 1 player'
 
@@ -85,10 +101,12 @@ GameTest >> testGameCreationFailsWithoutPlayers [
 { #category : #tests }
 GameTest >> testGameNotOver [
 
-	| player players game |
-	player := Player ready.
+	| player players game cards deck|
+	cards:=(Speed new)+(Speed new).
+	deck:=Deck new initialize.
+	player := Player new initializeWith:cards.
 	players := OrderedCollection with: player.
-	game := Game playedBy: players on: noEffect10SquaresBoard with: 0.
+	game := Game playedBy: players on: noEffect10SquaresBoard with: 0 using:(deck cards).
 		
 	self
 		should: [ game whoWon ]
@@ -99,9 +117,10 @@ GameTest >> testGameNotOver [
 { #category : #tests }
 GameTest >> testPlayUntilGameOverWinsPlayerOne [
 
-	| players game d5 d6 dice |
+	| players game d5 d6 dice deck|
+	deck:=Deck new initialize.
 	players := karen + andre.
-	game := Game playedBy: players on: noEffect10SquaresBoard with: 0.
+	game := Game playedBy: players on: noEffect10SquaresBoard with: 0 using:deck cards.
 	d5 := Die of: 5 rolling: #(1 4 2 3).
 	d6 := Die of: 6 rolling: #(2 3 5 1).
 	dice := d5 + d6.
@@ -110,15 +129,16 @@ GameTest >> testPlayUntilGameOverWinsPlayerOne [
 	self
 		assert: karen position equals: 10;
 		assert: andre position equals: 8;
-		assert: game whoWon equals: karen
+		assert: game whoWon equals: karen.
 ]
 
 { #category : #tests }
 GameTest >> testPlayUntilGameOverWinsPlayerTwo [
 
-	| players game d5 d6 dice |
+	| players game d5 d6 dice deck|
+	deck:=Deck new initialize.
 	players := karen + andre.
-	game := Game playedBy: players on: noEffect10SquaresBoard with: 0.
+	game := Game playedBy: players on: noEffect10SquaresBoard with: 0 using:deck cards.
 	d5 := Die of: 5 rolling: #(1 5).
 	d6 := Die of: 6 rolling: #(2 6).
 	dice := d5 + d6.
@@ -133,10 +153,11 @@ GameTest >> testPlayUntilGameOverWinsPlayerTwo [
 { #category : #tests }
 GameTest >> testPlayerCantExceedMaxPositionOnFinalLap [
 
-	| players d8 game |
+	| players d8 game deck|
 	players := OrderedCollection with: karen.
 	d8 := Die of: 8 rolling: #(3 6 2 7 5 2 4 8).
-	game := Game playedBy: players on: noEffect10SquaresBoard with: 2.
+	deck:= Deck new initialize.
+	game := Game playedBy: players on: noEffect10SquaresBoard with:2 using:deck cards.
 	game play: d8.
 	
 	self 
@@ -148,10 +169,11 @@ GameTest >> testPlayerCantExceedMaxPositionOnFinalLap [
 { #category : #tests }
 GameTest >> testPlayerMovesDueToAtomicBomb [
 
-	| players board game |
+	| players board game deck|
+	deck:=Deck new initialize.
 	players := karen + andre.
 	board := Board of: 15 with: AtomicBomb at: 11.
-	game := Game playedBy: players on: board with: 2.
+	game := Game playedBy: players on: board with: 2 using:deck cards.
 	andre location changeSquare: 4.
 	gameHandler move: karen rolling: 10 within: game.
 	self
@@ -162,10 +184,11 @@ GameTest >> testPlayerMovesDueToAtomicBomb [
 { #category : #tests }
 GameTest >> testPlayerMovesDueToMoonWalk [
 
-	| players board game |
+	| players board game deck|
+	deck:=Deck new initialize.
 	players := karen + andre.
 	board := Board of: 25 with: MoonWalk at: 20.
-	game := Game playedBy: players on: board with: 2.
+	game := Game playedBy: players on: board with: 2 using:deck cards.
 	andre location changeSquare: 5.
 	gameHandler move: karen rolling: 19 within: game.
 	
@@ -177,10 +200,11 @@ GameTest >> testPlayerMovesDueToMoonWalk [
 { #category : #tests }
 GameTest >> testPlayerMovesDueToSpeedUp [
 
-	| players board game |
+	| players board game deck|
+	deck:=Deck new initialize.
 	players := OrderedCollection with: karen.
 	board := Board of: 15 with: SpeedUp at: 5.
-	game := Game playedBy: players on: board with: 2.
+	game := Game playedBy: players on: board with: 2 using:deck cards.
 	gameHandler move: karen rolling: 4 within: game.
 	
 	self assert: karen position equals: 9.
@@ -189,10 +213,11 @@ GameTest >> testPlayerMovesDueToSpeedUp [
 { #category : #tests }
 GameTest >> testPlayerMovesDueToWormHole [
 
-	| players board game |
+	| players board game deck|
+	deck:=Deck new initialize.
 	players := OrderedCollection with: karen.
 	board := Board of: 15 with: WormHole at: 10.
-	game := Game playedBy: players on: board with: 2.
+	game := Game playedBy: players on: board with: 2 using:deck cards.
 	gameHandler move: karen rolling: 9 within: game.
 	
 	self assert: karen position equals: 6.
@@ -201,10 +226,11 @@ GameTest >> testPlayerMovesDueToWormHole [
 { #category : #tests }
 GameTest >> testPlayerStaysAtSamePositionWhenItArrivesToASquareWithNoEffect [
 
-	| players board game |
+	| players board game deck|
+	deck:=Deck new initialize.
 	players := OrderedCollection with: karen.
 	board := Board of: 15 with: NoEffect at: 4.
-	game := Game playedBy: players on: board with: 2.
+	game := Game playedBy: players on: board with: 2 using:deck cards.
 	gameHandler move: karen rolling: 3 within: game.
 
 	self assert: karen position equals: 4.
@@ -213,9 +239,10 @@ GameTest >> testPlayerStaysAtSamePositionWhenItArrivesToASquareWithNoEffect [
 { #category : #tests }
 GameTest >> testPlayersFinalPositionsWithMixBoard [
 
-	| players game d12 |
+	| players game d12 deck|
+	deck:=Deck new initialize.
 	players := andre + karen.
-	game := Game playedBy: players on: diverseEffects20SquaresBoard with: 1.
+	game := Game playedBy: players on: diverseEffects20SquaresBoard with: 1 using:deck cards.
 	d12 := Die of: 12 rolling: #(6 7 8 9).
 	game play: d12.
 	
@@ -236,9 +263,10 @@ GameTest >> testPlayersFinalPositionsWithMixBoard [
 { #category : #tests }
 GameTest >> testPlayersFinalPositionsWithSimpleBoard [
 
-	| players game d10 d12 dice |
+	| players game d10 d12 dice deck|
+	deck:=Deck new initialize.
 	players := karen + andre + juli + fran.
-	game := Game playedBy: players on: noEffect10SquaresBoard with: 1.
+	game := Game playedBy: players on: noEffect10SquaresBoard with: 1 using:deck cards.
 	d10 := Die of: 10 rolling: #(1 2 3 4 5 1 2 3 4).
 	d12 := Die of: 12 rolling: #(6 7 8 9 6 7 8 9 6).
 	dice := d10 + d12.

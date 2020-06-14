@@ -56,3 +56,27 @@ GameHandler >> moveForward: player to: tentativePosition within: game [
 		ifFalse: [ newPosition := tentativePosition ].
 	^ newPosition.
 ]
+
+{ #category : #'as yet unclassified' }
+GameHandler >> moving: player rolling: dice within: game [ 
+	| tentativePosition square |
+	tentativePosition := self moveForward: player to: player position + dice within: game.
+	player location changeSquare: tentativePosition.
+	square := game board at: tentativePosition.
+	square applyEffectOn: player within: game.
+]
+
+{ #category : #testing }
+GameHandler >> throwingCard: player within:game [
+	((player hand)size =0)ifFalse:[
+		self utilizeThis: player throwCard on:player within:game.
+		].
+]
+
+{ #category : #'as yet unclassified' }
+GameHandler >> utilizeThis: card on: player within:game [
+	(card type='Permanent')
+		ifTrue:[card activateThisCardOf: player on: player inside: game.]
+		ifFalse:[
+card activateThisCardOf: player on: player inside:game cardChosenIs:card.].
+]

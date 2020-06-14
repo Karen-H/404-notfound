@@ -5,7 +5,9 @@ Class {
 		'players',
 		'board',
 		'laps',
-		'deck'
+		'deck',
+		'cardsOnTable',
+		'cardsusedInTheGame'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -63,10 +65,32 @@ Game class >> playedBy: players on: board with: rounds using: deck [
 		using: deck.
 ]
 
+{ #category : #adding }
+Game >> addCardUsed: card [
+	cardsusedInTheGame add:card.
+]
+
+{ #category : #adding }
+Game >> addCardUsedPermanet: card [
+	cardsOnTable add:card.
+]
+
 { #category : #accessing }
 Game >> board [
 
 	^ board.
+]
+
+{ #category : #'as yet unclassified' }
+Game >> cardOnTableInsideGame [
+	
+	^cardsOnTable.
+]
+
+{ #category : #accessing }
+Game >> cardsUsed [
+
+	^cardsusedInTheGame.
 ]
 
 { #category : #accessing }
@@ -82,6 +106,8 @@ Game >> initialize: panel playedBy: playersList with: rounds using: cards [
 	players := playersList.
 	laps := rounds.
 	deck := cards.
+	cardsOnTable := OrderedCollection new.
+	cardsusedInTheGame :=OrderedCollection new.
 ]
 
 { #category : #playing }
@@ -101,7 +127,8 @@ Game >> play: dice [
 
 	[ self isOver ] whileFalse: [
 		players do: [ :player | 
-			self isOver ifFalse: [ GameHandler new move: player rolling: dice roll within: self ] ] ]
+			self isOver ifFalse: [ 
+				GameHandler new move: player rolling: dice roll within: self ] ] ]
 ]
 
 { #category : #accessing }
@@ -117,6 +144,15 @@ Game >> results [
 		aPlayer position > anotherPlayer position
 			or: [ aPlayer position = anotherPlayer position
 				and: [ aPlayer position > anotherPlayer lap ] ] ]
+]
+
+{ #category : #playing }
+Game >> usingCardsplay: dice [
+	[self isOver]whileFalse:[
+		players do:[:player|
+			self isOver ifFalse:[
+				GameHandler new moving:player rolling:dice roll within:self.
+				GameHandler new throwingCard: player within:self.]]]
 ]
 
 { #category : #playing }

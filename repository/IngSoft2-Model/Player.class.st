@@ -37,6 +37,15 @@ Player class >> drawing: cards from: deck [
 	^ self new initializeWith: cards.
 ]
 
+{ #category : #'as yet unclassified' }
+Player class >> takeOn:cards [
+
+	self assertTwoCardsAreDrawn: cards.
+	
+	^self new 
+		initializeWith:cards.
+]
+
 { #category : #accessing }
 Player >> boardSquare [
 
@@ -78,4 +87,12 @@ Player >> location [
 Player >> position [
 
 	^ location boardSquare.
+]
+
+{ #category : #accesing }
+Player >> throwCard [
+	|selectedCard|
+	selectedCard := hand last.
+	hand removeLast.
+	^selectedCard.
 ]
