@@ -28,4 +28,5 @@ MoonWalk >> applyEffectOn: player within: game [
 	otherPlayers
 		do: [ :member | member location changeSquare: 
 			(GameHandler new moveBackwards: member to: member position + effectNumber limitedBy: game board size) ].
+	game lastSteppedOn: self.
 ]

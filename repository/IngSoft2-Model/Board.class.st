@@ -4,31 +4,28 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #'as yet unclassified' }
+Board class >> distribute: squares of: panel with: tiles using: effect at: index [
+
+	| square panelNew |
+	panelNew := panel.
+	(squares at: index) timesRepeat: [
+		panelNew := panelNew + (effect on: (square := tiles atRandom)).
+		tiles remove: square ].
+	^ panelNew.
+]
+
 { #category : #'instance variables' }
 Board class >> distribute: squares with: tiles [
 
 	| square panel |
 	panel := OrderedCollection new.
 	
-	(squares at: 1) timesRepeat: [ 
-		panel := panel + ( AtomicBomb on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 2) timesRepeat: [ 
-		panel := panel + ( DrawCard on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 3) timesRepeat: [ 
-		panel := panel + ( MoonWalk on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 4) timesRepeat: [ 
-		panel := panel + ( SpeedUp on: (square := tiles atRandom) ).
-		tiles remove: square ].
-	
-	(squares at: 5) timesRepeat: [ 
-		panel := panel + ( WormHole on: (square := tiles atRandom) ).
-		tiles remove: square ].
+	panel := self distribute: squares of: panel with: tiles using: AtomicBomb at: 1. 
+	panel := self distribute: squares of: panel with: tiles using: DrawCard at: 2.
+	panel := self distribute: squares of: panel with: tiles using: MoonWalk at: 3.
+	panel := self distribute: squares of: panel with: tiles using: SpeedUp at: 4.
+	panel := self distribute: squares of: panel with: tiles using: WormHole at: 5.
 	
 	tiles size timesRepeat: [ 
 		panel := panel + ( NoEffect on: (square := tiles atRandom) ).

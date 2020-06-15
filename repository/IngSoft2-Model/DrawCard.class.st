@@ -23,6 +23,7 @@ DrawCard >> applyEffectOn: player within: game [
 
 	| deck card |
 	deck := game deck.
-	card := deck cards atRandom.
+	card := deck atRandom.
 	player draw: card.
+	game lastSteppedOn: self.
 ]

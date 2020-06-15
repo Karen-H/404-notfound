@@ -17,14 +17,3 @@ NoEffect class >> on: boardNumber [
 		with: effectNumber
 		type: 'NoEffect'.
 ]
-
-{ #category : #playing }
-NoEffect >> applyEffectOn: player within: game [
-
-	| newPosition |
-	newPosition := GameHandler new
-	moveForward: player
-	to: player position + effectNumber
-	within: game.
-	player location changeSquare: newPosition
-]

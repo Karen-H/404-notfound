@@ -24,5 +24,6 @@ Deck >> initialize [
 
 	super initialize.
 	cards := OrderedCollection new.
-	cards := Acceleration new + Cancellation new + Overload new + Redo new + Repeat new + Speed new.
+	cards := Acceleration onDeck + Cancellation onDeck + Overload onDeck 
+				+ Redo onDeck + Repeat onDeck + Speed onDeck.
 ]

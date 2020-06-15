@@ -5,7 +5,10 @@ Class {
 		'players',
 		'board',
 		'laps',
-		'deck'
+		'deck',
+		'activeCards',
+		'lastCardUsed',
+		'lastSquareSteppedOn'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -64,6 +67,18 @@ Game class >> playedBy: players on: board with: rounds using: deck [
 ]
 
 { #category : #accessing }
+Game >> active: card [
+
+	activeCards := activeCards + card.
+]
+
+{ #category : #accessing }
+Game >> activeCards [
+
+	^ activeCards.
+]
+
+{ #category : #accessing }
 Game >> board [
 
 	^ board.
@@ -82,6 +97,9 @@ Game >> initialize: panel playedBy: playersList with: rounds using: cards [
 	players := playersList.
 	laps := rounds.
 	deck := cards.
+	activeCards := OrderedCollection new.
+	lastCardUsed := Card new.
+	lastSquareSteppedOn := Effect new.
 ]
 
 { #category : #playing }
@@ -94,6 +112,30 @@ Game >> isOver [
 Game >> laps [
 
 	^ laps.
+]
+
+{ #category : #accessing }
+Game >> lastCardUsed [
+
+	^ lastCardUsed.
+]
+
+{ #category : #accessing }
+Game >> lastSquareSteppedOn [
+
+	^ lastSquareSteppedOn.
+]
+
+{ #category : #accessing }
+Game >> lastSteppedOn: tile [
+
+	lastSquareSteppedOn := tile.
+]
+
+{ #category : #accessing }
+Game >> lastUsed: card [ 
+
+	lastCardUsed := card.
 ]
 
 { #category : #playing }
