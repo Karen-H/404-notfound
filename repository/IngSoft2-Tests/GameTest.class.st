@@ -4,6 +4,8 @@ Don't run all tests at the same time. You must run them one by one.
 In each test is commented how to use each one.
 WARNING:
 			if you run everything at the same time, you won't know what test is.
+ATTENTION:	
+make fast clicks in test: testPlayersFinalPositionsWithMixBoardUsingCards.Because the time is short""
 "
 Class {
 	#name : #GameTest,
@@ -312,7 +314,8 @@ GameTest >> testPlayersFinalPositionsWithMixBoard [
 
 { #category : #tests }
 GameTest >> testPlayersFinalPositionsWithMixBoardUsingCards [
-
+	"Select 'No' when prompted (all times)"
+	"warning : quick clicks, because you've a very limited time"
 	| players game d12 diverseEffects10SquaresBoard |
 	diverseEffects10SquaresBoard := (NoEffect on: 1) + (SpeedUp on: 2) + (SpeedUp on: 3) + (NoEffect on: 4) + 	(SpeedUp on: 5) + (NoEffect on: 6) + (WormHole on: 7) + (NoEffect on: 8) + (MoonWalk on: 9) + (NoEffect on: 10) + 	(SpeedUp on: 11) + (NoEffect on: 12)+ (WormHole on: 13) + (MoonWalk on: 14) + (NoEffect on: 15) + 
 	(DrawCard on: 16) + (NoEffect on: 17) + (WormHole on: 18) + (WormHole on: 19) + (NoEffect on: 20).
@@ -321,8 +324,8 @@ GameTest >> testPlayersFinalPositionsWithMixBoardUsingCards [
 	d12 := Die of: 12 rolling: #(6 7 8 9).
 	game play: d12.
 	
-	"self
-		assert: karen position equals: 14;
+	self
+		assert: karen position equals: 17;
 		assert: andre position equals: 20;
 		assert: karen lap equals: 1;
 		assert: andre lap equals: 1;
@@ -331,7 +334,7 @@ GameTest >> testPlayersFinalPositionsWithMixBoardUsingCards [
 	players := game results.
 	self 
 		assert: players first equals: andre;
-		assert: players second equals: karen."
+		assert: players second equals: karen.
 
 ]
 
