@@ -17,6 +17,15 @@ Overload class >> onDeck [
 ]
 
 { #category : #'as yet unclassified' }
+Overload >> usedBy: player in:otherplayer within: game [
+
+	otherplayer active: self.
+	player remove: self from: player hand.
+	game lastUsed: self.
+	
+]
+
+{ #category : #'as yet unclassified' }
 Overload >> usedBy: player within: game [
 
 	| target |

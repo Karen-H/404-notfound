@@ -17,11 +17,17 @@ Speed class >> onDeck [
 ]
 
 { #category : #'as yet unclassified' }
+Speed >> usedBy: player in:otherPlayer within: game [
+
+	otherPlayer active: self.
+	player remove: self from: player hand.
+	game lastUsed: self.
+]
+
+{ #category : #'as yet unclassified' }
 Speed >> usedBy: player within: game [
 
-	| target |
-	target := player chooseTargetFrom: game.
-	target active: self.
+	player active: self.
 	player remove: self from: player hand.
 	game lastUsed: self.
 ]

@@ -107,13 +107,12 @@ CardsTest >> testCardDiscardedFromPlayersHandWhenUsed [
 { #category : #tests }
 CardsTest >> testKarenPicksSpeedFromHandAndUsesItOnHerself [
 	"You must choose first SPEED and second KAREN"
-	| karen andre players game card |
+	| karen andre players game|
 	karen := self newPlayer: 'Karen' drawing: self anOverload + self aSpeed.
 	andre := self newPlayer: 'Andre' drawing: self aRedo + self aRepeat.
 	players := karen + andre.
 	game := Game playedBy: players on: noEffect10SquaresBoard with: 1 using: deck.
-	card := karen pickACard.
-	card usedBy: karen within: game.
+	self aSpeed usedBy: karen in: karen within: game.
 	self 
 		assert: karen hand size equals: 1;
 		assert: karen effect equals: 1;
@@ -128,8 +127,8 @@ CardsTest >> testOverloadAppliesItsEffectOnKaren [
 	andre := self newPlayer: 'Andre' drawing: self anOverload + self anOverload.
 	players := karen + andre.
 	game := Game playedBy: players on: noEffect10SquaresBoard with: 1 using: deck.
-	self anOverload usedBy: andre within: game.
-	self anOverload usedBy: andre within: game.
+	self anOverload usedBy: andre in:karen within: game.
+	self anOverload usedBy: andre in:karen within: game.
 	self assert: karen effect equals: -4.
 ]
 
