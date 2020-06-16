@@ -314,18 +314,18 @@ GameTest >> testPlayersFinalPositionsWithMixBoard [
 
 { #category : #tests }
 GameTest >> testPlayersFinalPositionsWithMixBoardUsingCards [
-	"Select 'No' when prompted (all times)"
+	"4 no >> si>>overload >>andre si>>acceleration >>nononononono..."
 	"warning : quick clicks, because you've a very limited time"
 	| players game d12 diverseEffects10SquaresBoard |
 	diverseEffects10SquaresBoard := (NoEffect on: 1) + (SpeedUp on: 2) + (SpeedUp on: 3) + (NoEffect on: 4) + 	(SpeedUp on: 5) + (NoEffect on: 6) + (WormHole on: 7) + (NoEffect on: 8) + (MoonWalk on: 9) + (NoEffect on: 10) + 	(SpeedUp on: 11) + (NoEffect on: 12)+ (WormHole on: 13) + (MoonWalk on: 14) + (NoEffect on: 15) + 
 	(DrawCard on: 16) + (NoEffect on: 17) + (WormHole on: 18) + (WormHole on: 19) + (NoEffect on: 20).
 	players := andre + karen.
 	game := Game playedBy: players on: diverseEffects10SquaresBoard with: 1 using: deck.
-	d12 := Die of: 12 rolling: #(6 7 8 9).
+	d12 := Die of: 12 rolling: #(10 10)."6 7 8 9"
 	game play: d12.
 	
 	self
-		assert: karen position equals: 17;
+		assert: karen position equals: 15;
 		assert: andre position equals: 20;
 		assert: karen lap equals: 1;
 		assert: andre lap equals: 1;
