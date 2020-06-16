@@ -64,7 +64,7 @@ Player >> chooseTargetFrom: game [
 { #category : #drawing }
 Player >> draw: card [
 
-	hand := hand + card.
+	hand add:card.
 ]
 
 { #category : #accessing }
@@ -154,14 +154,10 @@ Player >> position [
 { #category : #removing }
 Player >> remove: card from: deck [
 
-	| usedCard deckCollection|
+	| usedCard |
 	usedCard := deck detect: [ :cardboard | cardboard name = card name ].
-	deckCollection :=deck.
-	deckCollection class=Array
-		ifTrue:[deckCollection :=deck asOrderedCollection.
-				  deckCollection remove:usedCard.
-				  self newHand:deckCollection.]
-		ifFalse:[deck remove: usedCard.]
+	
+	deck remove: usedCard.
 ]
 
 { #category : #accessing }

@@ -69,7 +69,7 @@ Game class >> playedBy: players on: board with: rounds using: deck [
 { #category : #accessing }
 Game >> active: card [
 
-	activeCards := activeCards + card.
+	activeCards add:card.
 ]
 
 { #category : #accessing }
