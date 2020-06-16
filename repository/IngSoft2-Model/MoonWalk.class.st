@@ -21,7 +21,7 @@ MoonWalk class >> on: boardNumber [
 ]
 
 { #category : #playing }
-MoonWalk >> move: player within: game [
+MoonWalk >> applyEffectOn: player within: game [
 
 	| otherPlayers |
 	otherPlayers := game players reject: [ :gamer | gamer = player ].
@@ -34,4 +34,5 @@ MoonWalk >> moving:otherPlayers in:game [
 	otherPlayers 
 	do: [ :member | member location changeSquare: 
 			(GameHandler new moveBackwards: member to: member position + effectNumber limitedBy: game board size) ].
+	game lastSteppedOn: self.
 ]

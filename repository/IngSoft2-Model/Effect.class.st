@@ -16,6 +16,18 @@ Effect class >> assertNumberGreaterThanZero: boardNumber [
 		ifFalse: [ InstanceCreationFailed signal: 'Must assign a positive number to the square' ]
 ]
 
+{ #category : #playing }
+Effect >> applyEffectOn: player within: game [
+
+	| newPosition |
+	newPosition := GameHandler new
+	moveForward: player
+	to: player position + effectNumber
+	within: game.
+	player location changeSquare: newPosition.
+	game lastSteppedOn: self.
+]
+
 { #category : #accessing }
 Effect >> effectNumber [
 

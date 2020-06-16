@@ -26,7 +26,7 @@ Position >> changeLap: newLap [
 	lap := newLap.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 Position >> changeSquare: newPosition [
 
 	boardSquare := newPosition.

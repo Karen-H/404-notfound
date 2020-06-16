@@ -54,7 +54,9 @@ Die class >> d8 [
 { #category : #'instance creation' }
 Die class >> of: aNumberOfSides [
 
-	^ self of: aNumberOfSides source: Random new
+	^ self 
+		of: aNumberOfSides 
+		source: Random new
 ]
 
 { #category : #'instance creation' }
