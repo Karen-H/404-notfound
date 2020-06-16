@@ -42,6 +42,17 @@ Effect >> initialize: boardNumber with: effect type: name [
 	type := name.
 ]
 
+{ #category : #playing }
+Effect >> move: player within: game [
+
+	| newPosition |
+	newPosition := GameHandler new
+	moveForward: player
+	to: player position + effectNumber
+	within: game.
+	player location changeSquare: newPosition
+]
+
 { #category : #accessing }
 Effect >> type [
 

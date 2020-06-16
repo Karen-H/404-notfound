@@ -4,6 +4,18 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #accessing }
+Board class >> distribute: squares of: panel with: tiles using: effect at: index [
+
+	|square panelNew|
+	panelNew := panel.
+	(squares at: index) timesRepeat: [
+		panelNew := panelNew + (effect on: (square := tiles atRandom)).
+		tiles remove: square ].
+	
+	^ panelNew.
+]
+
 { #category : #'instance variables' }
 Board class >> distribute: squares of: panel with: tiles using: effect at: index [
 
@@ -29,6 +41,7 @@ Board class >> distribute: squares with: tiles [
 		panel := panel + (NoEffect on: (square := tiles atRandom)).
 		tiles remove: square ].
 	^ panel.
+
 ]
 
 { #category : #'instance creation' }

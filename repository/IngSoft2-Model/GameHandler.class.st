@@ -16,7 +16,7 @@ GameHandler >> fallsBehindFinalPosition: tentativePosition [
 	^ tentativePosition < 1.
 ]
 
-{ #category : #testing }
+{ #category : #playing }
 GameHandler >> move: player rolling: dice within: game [
 
 	| tentativePosition square |
@@ -29,7 +29,7 @@ GameHandler >> move: player rolling: dice within: game [
 	player turn: false.
 ]
 
-{ #category : #testing }
+{ #category : #playing }
 GameHandler >> moveBackwards: player to: tentativePosition limitedBy: boardSize [
 
 	( self fallsBehindFinalPosition: tentativePosition )
@@ -37,25 +37,23 @@ GameHandler >> moveBackwards: player to: tentativePosition limitedBy: boardSize 
 		ifFalse: [ ^ tentativePosition ].
 ]
 
-{ #category : #testing }
+{ #category : #playing }
 GameHandler >> moveForward: player to: tentativePosition within: game [
 
 	( self exceedsFinalPosition: tentativePosition limitedBy: game board size ) 
 		ifTrue: [ ^ self shift: player to: tentativePosition within: game ]
 		ifFalse: [ ^ tentativePosition ].
-]
 
-{ #category : #testing }
+{ #category : #playing }
 GameHandler >> shift: player to: tentativePosition limitedBy: boardSize [
 
 	| lapCount |
 	lapCount := 0.
 	player location changeLap: lapCount + player lap.
 	^ (tentativePosition + (lapCount negated * boardSize)).
-]
 
-{ #category : #testing }
-GameHandler >> shift: player to: tentativePosition within: game [
+{ #category : #playing }
+GameHandler >> shift: player to: tentativePosition within: game [ 
 
 	| lapCount newPosition |
 	lapCount := tentativePosition // game board size.
