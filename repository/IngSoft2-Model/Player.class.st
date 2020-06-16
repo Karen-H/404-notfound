@@ -7,7 +7,8 @@ Class {
 		'effect',
 		'name',
 		'turn',
-		'activeCards'
+		'activeCards',
+		'player'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -109,6 +110,12 @@ Player >> name [
 ]
 
 { #category : #accessing }
+Player >> newHand: cardsHandNew [
+
+	hand:=cardsHandNew.
+]
+
+{ #category : #accessing }
 Player >> pickACard [
 
 	| card |
@@ -147,9 +154,14 @@ Player >> position [
 { #category : #removing }
 Player >> remove: card from: deck [
 
-	| usedCard |
+	| usedCard deckCollection|
 	usedCard := deck detect: [ :cardboard | cardboard name = card name ].
-	deck remove: usedCard.
+	deckCollection :=deck.
+	deckCollection class=Array
+		ifTrue:[deckCollection :=deck asOrderedCollection.
+				  deckCollection remove:usedCard.
+				  self newHand:deckCollection.]
+		ifFalse:[deck remove: usedCard.]
 ]
 
 { #category : #accessing }
