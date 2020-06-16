@@ -42,11 +42,10 @@ Cancellation >> pickActiveCardFrom: target [
 Cancellation >> usedBy: player within: game [
 
 	| target card players |
-	"players := game players
-		collect: [ :member | member activeCards isNotEmpty ].
+	players := game players
+		select: [ :member | member activeCards isNotEmpty ].
 	players isEmpty
-		ifTrue: [ ^ self ]."
-	players := game players.
+		ifTrue: [ ^ self ].
 	target := self chooseTargetBetween: players.
 	[ target isNil ] whileTrue: [ self chooseTargetBetween: players ].
 	card := self pickActiveCardFrom: target.

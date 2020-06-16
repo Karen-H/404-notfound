@@ -110,12 +110,6 @@ Player >> name [
 ]
 
 { #category : #accessing }
-Player >> newHand: cardsHandNew [
-
-	hand:=cardsHandNew.
-]
-
-{ #category : #accessing }
 Player >> pickACard [
 
 	| card |
