@@ -7,7 +7,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Deck class >> assembled [
 
 	^ self new.
@@ -23,7 +23,6 @@ Deck >> cards [
 Deck >> initialize [ 
 
 	super initialize.
-	cards := OrderedCollection new.
 	cards := Acceleration onDeck + Cancellation onDeck + Overload onDeck 
 				+ Redo onDeck + Repeat onDeck + Speed onDeck.
 ]

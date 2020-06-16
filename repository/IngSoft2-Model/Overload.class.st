@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Overload class >> onDeck [
 
 	| effectNumber |
@@ -16,7 +16,7 @@ Overload class >> onDeck [
 		type: 'Permanent'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 Overload >> usedBy: player within: game [
 
 	| target |
@@ -24,5 +24,4 @@ Overload >> usedBy: player within: game [
 	target active: self.
 	player remove: self from: player hand.
 	game lastUsed: self.
-	
 ]

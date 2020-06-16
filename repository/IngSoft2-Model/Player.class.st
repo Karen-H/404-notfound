@@ -7,8 +7,7 @@ Class {
 		'effect',
 		'name',
 		'turn',
-		'activeCards',
-		'player'
+		'activeCards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -23,7 +22,7 @@ Player class >> assertTwoCardsAreDrawn: cards [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Player class >> drawing: cards name: player [
 	
 	self assertTwoCardsAreDrawn: cards.
@@ -34,7 +33,7 @@ Player class >> drawing: cards name: player [
 { #category : #drawing }
 Player >> active: card [
 
-	activeCards add:card.
+	activeCards add: card.
 ]
 
 { #category : #accessing }
@@ -49,7 +48,7 @@ Player >> boardSquare [
 	^ location boardSquare.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 Player >> chooseTargetFrom: game [
 
 	| target |
@@ -64,7 +63,7 @@ Player >> chooseTargetFrom: game [
 { #category : #drawing }
 Player >> draw: card [
 
-	hand := hand + card.
+	hand add: card.
 ]
 
 { #category : #accessing }
@@ -110,12 +109,6 @@ Player >> name [
 ]
 
 { #category : #accessing }
-Player >> newHand: cardsHandNew [
-
-	hand:=cardsHandNew.
-]
-
-{ #category : #accessing }
 Player >> pickACard [
 
 	| card |
@@ -154,14 +147,9 @@ Player >> position [
 { #category : #removing }
 Player >> remove: card from: deck [
 
-	| usedCard deckCollection|
+	| usedCard |
 	usedCard := deck detect: [ :cardboard | cardboard name = card name ].
-	deckCollection :=deck.
-	deckCollection class=Array
-		ifTrue:[deckCollection :=deck asOrderedCollection.
-				  deckCollection remove:usedCard.
-				  self newHand:deckCollection.]
-		ifFalse:[deck remove: usedCard.]
+	deck remove: usedCard.
 ]
 
 { #category : #accessing }

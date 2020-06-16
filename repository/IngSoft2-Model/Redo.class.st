@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Redo class >> onDeck [
 
 	| effectNumber |
@@ -16,7 +16,7 @@ Redo class >> onDeck [
 		type: 'Instant'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 Redo >> cardUsedBy: player within: game [
 
 	player draw: game lastCardUsed.
@@ -25,7 +25,7 @@ Redo >> cardUsedBy: player within: game [
 	game lastUsed: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 Redo >> usedBy: player within: game [
 
 	(game deck anySatisfy: [ :card | card name = game lastCardUsed name ])

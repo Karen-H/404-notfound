@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Acceleration class >> onDeck [
 
 	| effectNumber |
@@ -16,7 +16,7 @@ Acceleration class >> onDeck [
 		type: 'Permanent'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 Acceleration >> usedBy: player within: game [
 
 	game players do: [ :member | member active: self ].

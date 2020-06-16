@@ -79,7 +79,7 @@ CardsTest >> setUp [
 
 { #category : #tests }
 CardsTest >> testCancellationRemovesActiveCardFromKaren [
-	"You must CHOOSE first KAREN and second ACCELERATION"
+
 	| karen andre players game |
 	karen := self newPlayer: 'Karen' drawing: self anAcceleration + self aCancellation.
 	andre := self newPlayer: 'Andre' drawing: self aCancellation + self anOverload.
@@ -106,7 +106,7 @@ CardsTest >> testCardDiscardedFromPlayersHandWhenUsed [
 
 { #category : #tests }
 CardsTest >> testKarenPicksSpeedFromHandAndUsesItOnHerself [
-	"You must choose first SPEED and second KAREN"
+
 	| karen andre players game card |
 	karen := self newPlayer: 'Karen' drawing: self anOverload + self aSpeed.
 	andre := self newPlayer: 'Andre' drawing: self aRedo + self aRepeat.
@@ -122,7 +122,8 @@ CardsTest >> testKarenPicksSpeedFromHandAndUsesItOnHerself [
 
 { #category : #tests }
 CardsTest >> testOverloadAppliesItsEffectOnKaren [
-	"You must choose first KAREN and second KAREN"
+
+	"Select Karen twice"
 	| karen andre players game |
 	karen := self newPlayer: 'Karen' drawing: self anAcceleration + self aCancellation.
 	andre := self newPlayer: 'Andre' drawing: self anOverload + self anOverload.
@@ -135,7 +136,7 @@ CardsTest >> testOverloadAppliesItsEffectOnKaren [
 
 { #category : #tests }
 CardsTest >> testPermanentCardRemainsActiveDuringTheGame [
-	"You must choose first YES and second REPEAT"
+
 	| karen andre players game |
 	karen := self newPlayer: 'Karen' drawing: self anAcceleration + self aCancellation.
 	andre := self newPlayer: 'Andre' drawing: self aCancellation + self anOverload.
@@ -162,7 +163,9 @@ CardsTest >> testRedoAppliesSameEffectAsTheLastCardUsed [
 	self anAcceleration usedBy: karen within: game.
 	andre turn: true.
 	self aRedo usedBy: andre within: game.
-	self assert: karen effect equals: 2.
+	self 
+		assert: andre effect equals: 2;
+		assert: karen effect equals: 2.
 ]
 
 { #category : #tests }
@@ -176,7 +179,6 @@ CardsTest >> testRepeatAppliesSameEffectAsTheLastTileSteppedOn [
 	board := Board of: 25 with: DrawCard at: 20.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 19 within: game.
-	self assert: karen hand size equals: 3.
 	self aRepeat usedBy: karen within: game.
 	self assert: karen hand size equals: 3.
 ]

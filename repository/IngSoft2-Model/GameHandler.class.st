@@ -16,7 +16,7 @@ GameHandler >> fallsBehindFinalPosition: tentativePosition [
 	^ tentativePosition < 1.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GameHandler >> move: player rolling: dice within: game [
 
 	| tentativePosition square |
@@ -45,7 +45,7 @@ GameHandler >> moveForward: player to: tentativePosition within: game [
 		ifFalse: [ ^ tentativePosition ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GameHandler >> shift: player to: tentativePosition limitedBy: boardSize [
 
 	| lapCount |
@@ -54,7 +54,7 @@ GameHandler >> shift: player to: tentativePosition limitedBy: boardSize [
 	^ (tentativePosition + (lapCount negated * boardSize)).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GameHandler >> shift: player to: tentativePosition within: game [
 
 	| lapCount newPosition |

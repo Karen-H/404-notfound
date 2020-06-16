@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Cancellation class >> onDeck [
 
 	| effectNumber |
@@ -38,15 +38,12 @@ Cancellation >> pickActiveCardFrom: target [
 	^ card
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Cancellation >> usedBy: player within: game [
 
 	| target card players |
-	"players := game players
-		collect: [ :member | member activeCards isNotEmpty ].
-	players isEmpty
-		ifTrue: [ ^ self ]."
-	players := game players.
+	players := game players select: [ :member | member activeCards isNotEmpty ].
+	players isEmpty ifTrue: [ ^ self ].
 	target := self chooseTargetBetween: players.
 	[ target isNil ] whileTrue: [ self chooseTargetBetween: players ].
 	card := self pickActiveCardFrom: target.

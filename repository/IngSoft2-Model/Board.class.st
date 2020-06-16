@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance variables' }
 Board class >> distribute: squares of: panel with: tiles using: effect at: index [
 
 	| square panelNew |
@@ -20,17 +20,14 @@ Board class >> distribute: squares with: tiles [
 
 	| square panel |
 	panel := OrderedCollection new.
-	
 	panel := self distribute: squares of: panel with: tiles using: AtomicBomb at: 1. 
 	panel := self distribute: squares of: panel with: tiles using: DrawCard at: 2.
 	panel := self distribute: squares of: panel with: tiles using: MoonWalk at: 3.
 	panel := self distribute: squares of: panel with: tiles using: SpeedUp at: 4.
 	panel := self distribute: squares of: panel with: tiles using: WormHole at: 5.
-	
 	tiles size timesRepeat: [ 
-		panel := panel + ( NoEffect on: (square := tiles atRandom) ).
+		panel := panel + (NoEffect on: (square := tiles atRandom)).
 		tiles remove: square ].
-	
 	^ panel.
 ]
 

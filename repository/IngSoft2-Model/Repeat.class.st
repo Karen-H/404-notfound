@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 Repeat class >> onDeck [
 
 	| effectNumber |
@@ -16,7 +16,7 @@ Repeat class >> onDeck [
 		type: 'Instant'.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Repeat >> usedBy: player within: game [
 
 	( game board anySatisfy: [ :tile | tile type = game lastSquareSteppedOn type ] )
