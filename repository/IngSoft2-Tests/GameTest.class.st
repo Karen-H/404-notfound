@@ -1,3 +1,10 @@
+"
+This class contains tests.
+Don't run all tests at the same time. You must run them one by one.
+In each test is commented how to use each one.
+WARNING:
+			if you run everything at the same time, you won't know what test is.
+"
 Class {
 	#name : #GameTest,
 	#superclass : #TestCase,
