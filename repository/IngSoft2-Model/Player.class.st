@@ -33,7 +33,7 @@ Player class >> drawing: cards name: player [
 { #category : #drawing }
 Player >> active: card [
 
-	activeCards := activeCards + card.
+	activeCards add:card.
 ]
 
 { #category : #accessing }
