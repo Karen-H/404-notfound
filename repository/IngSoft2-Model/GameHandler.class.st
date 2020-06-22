@@ -43,6 +43,7 @@ GameHandler >> moveForward: player to: tentativePosition within: game [
 	( self exceedsFinalPosition: tentativePosition limitedBy: game board size ) 
 		ifTrue: [ ^ self shift: player to: tentativePosition within: game ]
 		ifFalse: [ ^ tentativePosition ].
+]
 
 { #category : #playing }
 GameHandler >> shift: player to: tentativePosition limitedBy: boardSize [
@@ -51,6 +52,7 @@ GameHandler >> shift: player to: tentativePosition limitedBy: boardSize [
 	lapCount := 0.
 	player location changeLap: lapCount + player lap.
 	^ (tentativePosition + (lapCount negated * boardSize)).
+]
 
 { #category : #playing }
 GameHandler >> shift: player to: tentativePosition within: game [ 
