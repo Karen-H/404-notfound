@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-BoardCreator class >> distribute: squares of: panel with: tiles using: effect at: index [
+BoardCreator >> distribute: squares of: panel with: tiles using: effect at: index [
 
 	|square panelNew|
 	panelNew := panel.
@@ -17,7 +17,7 @@ BoardCreator class >> distribute: squares of: panel with: tiles using: effect at
 ]
 
 { #category : #'instance variables' }
-BoardCreator class >> distribute: squares with: tiles [
+BoardCreator >> distribute: squares with: tiles [
 
 	| square panel |
 	panel := OrderedCollection new.
@@ -34,7 +34,7 @@ BoardCreator class >> distribute: squares with: tiles [
 ]
 
 { #category : #'instance creation' }
-BoardCreator class >> of: squares with: squareType at: position [
+BoardCreator >> of: squares with: squareType at: position [
 
 	| board tiles square |
 	board := OrderedCollection new.
@@ -49,7 +49,7 @@ BoardCreator class >> of: squares with: squareType at: position [
 ]
 
 { #category : #'instance creation' }
-BoardCreator class >> withRandomlyDistributed: squares [
+BoardCreator >> withRandomlyDistributed: squares [
 
 	| tiles atomicBombNum moonWalkNum speedUpNum wormHoleNum panel drawCardNum |
 	tiles := (1 to: squares) asOrderedCollection.
