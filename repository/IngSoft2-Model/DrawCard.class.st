@@ -7,14 +7,10 @@ Class {
 { #category : #'instance creation' }
 DrawCard class >> on: boardNumber [
 
-	| effectNumber |
-	effectNumber := 0.
-	
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
 		initialize: boardNumber
-		with: effectNumber
 		type: 'DrawCard'.
 ]
 
@@ -26,4 +22,22 @@ DrawCard >> applyEffectOn: player within: game [
 	card := deck atRandom.
 	player draw: card.
 	game lastSteppedOn: self.
+]
+
+{ #category : #initialization }
+DrawCard >> initialize: boardNumber type: name [
+
+	positionOnBoard := boardNumber.
+	type := name.
+]
+
+{ #category : #playing }
+DrawCard >> move: player within: game [
+
+	| newPosition |
+	newPosition := GameHandler new
+	moveForward: player
+	to: player position
+	within: game.
+	player location changeSquare: newPosition
 ]

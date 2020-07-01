@@ -104,7 +104,7 @@ GameTest >> setUp [
 GameTest >> testBoardDistribution [
 
 	| board |
-	board := Board withRandomlyDistributed: 100.
+	board := BoardCreator withRandomlyDistributed: 100.
 
 	self
 		assert: ( board count: [ :square | square type = 'AtomicBomb' ] ) equals: 2;
@@ -213,7 +213,7 @@ GameTest >> testPlayerDrawsACard [
 	"Select 'No' when prompted"
 	| players board game |
 	players := OrderedCollection with: karen.
-	board := Board of: 25 with: DrawCard at: 20.
+	board := BoardCreator of: 25 with: DrawCard at: 20.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	self assert: karen hand size equals: 2.
 	gameHandler move: karen rolling: 19 within: game.
@@ -226,7 +226,7 @@ GameTest >> testPlayerMovesDueToAtomicBomb [
 	"Select 'No' when prompted (2 times)"
 	| players board game |
 	players := karen + andre.
-	board := Board of: 15 with: AtomicBomb at: 11.
+	board := BoardCreator of: 15 with: AtomicBomb at: 11.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	andre location changeSquare: 4.
 	gameHandler move: karen rolling: 10 within: game.
@@ -241,7 +241,7 @@ GameTest >> testPlayerMovesDueToMoonWalk [
 	"Select 'No' when prompted (2 times)"
 	| players board game |
 	players := karen + andre.
-	board := Board of: 25 with: MoonWalk at: 20.
+	board := BoardCreator of: 25 with: MoonWalk at: 20.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	andre location changeSquare: 5.
 	gameHandler move: karen rolling: 19 within: game.
@@ -257,7 +257,7 @@ GameTest >> testPlayerMovesDueToSpeedUp [
 	"Select 'No' when prompted"
 	| players board game |
 	players := OrderedCollection with: karen.
-	board := Board of: 15 with: SpeedUp at: 5.
+	board := BoardCreator of: 15 with: SpeedUp at: 5.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 4 within: game.
 	
@@ -270,7 +270,7 @@ GameTest >> testPlayerMovesDueToWormHole [
 	"Select 'No' when prompted"
 	| players board game |
 	players := OrderedCollection with: karen.
-	board := Board of: 15 with: WormHole at: 10.
+	board := BoardCreator of: 15 with: WormHole at: 10.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 9 within: game.
 	
@@ -283,7 +283,7 @@ GameTest >> testPlayerStaysAtSamePositionWhenItArrivesToASquareWithNoEffect [
 	"Select 'No' when prompted"
 	| players board game |
 	players := OrderedCollection with: karen.
-	board := Board of: 15 with: NoEffect at: 4.
+	board := BoardCreator of: 15 with: NoEffect at: 4.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 3 within: game.
 

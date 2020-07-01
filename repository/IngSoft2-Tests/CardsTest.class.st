@@ -176,7 +176,7 @@ CardsTest >> testRepeatAppliesSameEffectAsTheLastTileSteppedOn [
 	karen := self newPlayer: 'Karen' drawing: self aRepeat + self aSpeed.
 	gameHandler := GameHandler new.
 	players := OrderedCollection with: karen.
-	board := Board of: 25 with: DrawCard at: 20.
+	board := BoardCreator of: 25 with: DrawCard at: 20.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 19 within: game.
 	self aRepeat usedBy: karen within: game.

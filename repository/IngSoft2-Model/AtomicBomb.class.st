@@ -11,7 +11,6 @@ AtomicBomb class >> on: boardNumber [
 		
 	^ self new 
 		initialize: boardNumber
-		with: boardNumber negated + 1
 		type: 'AtomicBomb'.
 ]
 
@@ -20,4 +19,22 @@ AtomicBomb >> applyEffectOn: player within: game [
 
 	game players do: [ :gamer | gamer location changeSquare: 1 ].
 	game lastSteppedOn: self.
+]
+
+{ #category : #initialization }
+AtomicBomb >> initialize: boardNumber type: name [
+
+	positionOnBoard := boardNumber.
+	type := name.
+]
+
+{ #category : #playing }
+AtomicBomb >> move: player within: game [
+
+	| newPosition |
+	newPosition := GameHandler new
+	moveForward: player
+	to: player position
+	within: game.
+	player location changeSquare: newPosition
 ]

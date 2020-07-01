@@ -1,6 +1,9 @@
 Class {
 	#name : #MoonWalk,
 	#superclass : #Effect,
+	#instVars : [
+		'effectNumber'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -27,6 +30,31 @@ MoonWalk >> applyEffectOn: player within: game [
 	otherPlayers := game players reject: [ :gamer | gamer = player ].
 	self moving:otherPlayers in:game.
 		
+]
+
+{ #category : #accessing }
+MoonWalk >> effectNumber [
+
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+MoonWalk >> initialize: boardNumber with: effect type: name [
+
+	positionOnBoard := boardNumber.
+	effectNumber := effect.
+	type := name.
+]
+
+{ #category : #playing }
+MoonWalk >> move: player within: game [
+
+	| newPosition |
+	newPosition := GameHandler new
+	moveForward: player
+	to: player position + effectNumber
+	within: game.
+	player location changeSquare: newPosition
 ]
 
 { #category : #playing }
