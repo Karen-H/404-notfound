@@ -34,12 +34,6 @@ Overload >> initialize: effect with: aNumber type: cardType [
 ]
 
 { #category : #testing }
-Overload >> isInstant [
-	
-	^false.
-]
-
-{ #category : #testing }
 Overload >> isInstant:player within:game [
 	
 ]
