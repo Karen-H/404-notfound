@@ -13,10 +13,8 @@ Class {
 	#instVars : [
 		'karen',
 		'andre',
-		'simpleBoard10',
 		'juli',
 		'fran',
-		'mixBoard20',
 		'noEffect10SquaresBoard',
 		'diverseEffects20SquaresBoard',
 		'gameHandler',
