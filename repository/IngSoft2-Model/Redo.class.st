@@ -35,6 +35,6 @@ Redo >> usedBy: player within: game [
 		ifFalse: [ ^ self ].
 	player turn
 		ifTrue: [ self cardUsedBy: player within: game ]
-		ifFalse: [ game lastCardUsed type = 'Instant'
+		ifFalse: [ game lastCardUsed isInstant
 				ifTrue: [ self cardUsedBy: player within: game ] ]
 ]

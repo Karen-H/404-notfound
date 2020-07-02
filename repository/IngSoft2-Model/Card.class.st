@@ -8,6 +8,14 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #testing }
+Card >> isInstant [
+	
+	(type = 'Instant')
+		ifTrue:[^true].
+	^false.
+]
+
 { #category : #accessing }
 Card >> name [
 

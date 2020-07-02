@@ -1,9 +1,6 @@
 Class {
 	#name : #SquareTest,
 	#superclass : #TestCase,
-	#instVars : [
-		'simpleBoard10'
-	],
 	#category : #'IngSoft2-Tests'
 }
 
