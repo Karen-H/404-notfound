@@ -33,11 +33,11 @@ DrawCard >> initialize: boardNumber type: name [
 
 { #category : #playing }
 DrawCard >> move: player within: game [
-
+"
 	| newPosition |
 	newPosition := GameHandler new
 	moveForward: player
 	to: player position
 	within: game.
-	player location changeSquare: newPosition
+	player location changeSquare: newPosition"
 ]
