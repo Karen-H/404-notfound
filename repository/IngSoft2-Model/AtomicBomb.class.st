@@ -10,8 +10,7 @@ AtomicBomb class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initialize: boardNumber
-		type: 'AtomicBomb'.
+		initialize:'AtomicBomb'.
 ]
 
 { #category : #playing }
@@ -22,8 +21,6 @@ AtomicBomb >> applyEffectOn: player within: game [
 ]
 
 { #category : #initialization }
-AtomicBomb >> initialize: boardNumber type: name [
-
-	positionOnBoard := boardNumber.
+AtomicBomb >> initialize:name [
 	type := name.
 ]

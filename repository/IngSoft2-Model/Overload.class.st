@@ -44,8 +44,6 @@ Overload >> usedBy: player in:otherPlayer within: game [
 { #category : #playing }
 Overload >> usedBy: player within: game [
 
-	"| target |
-	target := player chooseTargetFrom: game."
 	player active: self.
 	player remove: self from: player hand.
 	game lastUsed: self.

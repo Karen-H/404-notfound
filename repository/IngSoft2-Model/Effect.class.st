@@ -2,8 +2,7 @@ Class {
 	#name : #Effect,
 	#superclass : #Object,
 	#instVars : [
-		'type',
-		'positionOnBoard'
+		'type'
 	],
 	#category : #'IngSoft2-Model'
 }

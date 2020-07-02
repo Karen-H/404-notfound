@@ -10,8 +10,7 @@ NoEffect class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initialize: boardNumber
-		type: 'NoEffect'.
+		initialize: 'NoEffect'.
 ]
 
 { #category : #playing }
@@ -19,8 +18,7 @@ NoEffect >> applyEffectOn: player within: game [
 ]
 
 { #category : #initialization }
-NoEffect >> initialize: boardNumber type: name [
+NoEffect >> initialize: name [
 
-	positionOnBoard := boardNumber.
 	type := name.
 ]

@@ -16,9 +16,8 @@ WormHole class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initialize: boardNumber
-		with: effectNumber
-		type: 'WormHole'.
+		initialize: 'WormHole'
+		with: effectNumber.
 ]
 
 { #category : #playing }
@@ -40,9 +39,8 @@ WormHole >> effectNumber [
 ]
 
 { #category : #initialization }
-WormHole >> initialize: boardNumber with: effect type: name [
+WormHole >> initialize: name with: effect [
 
-	positionOnBoard := boardNumber.
 	effectNumber := effect.
 	type := name.
 ]

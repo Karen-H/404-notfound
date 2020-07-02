@@ -16,9 +16,8 @@ SpeedUp class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initialize: boardNumber
-		with: effectNumber
-		type: 'SpeedUp'.
+		initialize:  'SpeedUp'
+		with: effectNumber.
 ]
 
 { #category : #playing }
@@ -40,9 +39,8 @@ SpeedUp >> effectNumber [
 ]
 
 { #category : #initialization }
-SpeedUp >> initialize: boardNumber with: effect type: name [
+SpeedUp >> initialize: name with: effect [
 
-	positionOnBoard := boardNumber.
 	effectNumber := effect.
 	type := name.
 ]

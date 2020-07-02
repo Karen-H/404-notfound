@@ -18,9 +18,8 @@ MoonWalk class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 	
 	^ self new 
-		initialize: boardNumber 
-		with: effectNumber
-		type: 'MoonWalk'.
+		initialize: 'MoonWalk'
+		with: effectNumber.
 ]
 
 { #category : #playing }
@@ -39,9 +38,8 @@ MoonWalk >> effectNumber [
 ]
 
 { #category : #initialization }
-MoonWalk >> initialize: boardNumber with: effect type: name [
+MoonWalk >> initialize: name with: effect [
 
-	positionOnBoard := boardNumber.
 	effectNumber := effect.
 	type := name.
 ]

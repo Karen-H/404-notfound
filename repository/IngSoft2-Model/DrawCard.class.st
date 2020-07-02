@@ -10,8 +10,7 @@ DrawCard class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initialize: boardNumber
-		type: 'DrawCard'.
+		initialize:'DrawCard'.
 ]
 
 { #category : #playing }
@@ -25,8 +24,7 @@ DrawCard >> applyEffectOn: player within: game [
 ]
 
 { #category : #initialization }
-DrawCard >> initialize: boardNumber type: name [
+DrawCard >> initialize: name [
 
-	positionOnBoard := boardNumber.
 	type := name.
 ]
