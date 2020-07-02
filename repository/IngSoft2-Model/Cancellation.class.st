@@ -38,10 +38,13 @@ Cancellation >> isInstant:player within:game [
 Cancellation >> usedBy: player in:otherPlayer within: game [
 
 	| card  |
-	(game players select:[:member|member activeCards isNotEmpty])ifEmpty: [ ^ self].
-	card := (otherPlayer  activeCards)first.
-	card ifNil: [^self].
-	otherPlayer remove: card from: otherPlayer activeCards.
-	player remove: self from: player hand.
-	game lastUsed: self
+	(game players select:[:member|member activeCards isNotEmpty])
+		ifNotEmpty: [  
+		card := (otherPlayer  activeCards)first.
+		card ifNotNil: [
+			otherPlayer remove: card from: otherPlayer activeCards.
+			player remove: self from: player hand.
+			game lastUsed: self
+			]. 
+		].
 ]

@@ -38,8 +38,9 @@ Redo >> isInstant:player within:game [
 Redo >> usedBy: player within: game [
 
 	(game deck anySatisfy: [ :card | card name = game lastCardUsed name ])
-		ifFalse: [ ^ self ].
-	player turn
-		ifTrue: [ self cardUsedBy: player within: game ]
-		ifFalse: [ game lastCardUsed isInstant:player within:game.]
+		ifTrue: [ 
+			player turn
+				ifTrue: [ self cardUsedBy: player within: game ]
+				ifFalse: [ game lastCardUsed isInstant:player within:game.]
+		].
 ]
