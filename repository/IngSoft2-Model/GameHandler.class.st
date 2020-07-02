@@ -21,7 +21,7 @@ GameHandler >> move: player rolling: dice within: game [
 
 	| tentativePosition square |
 	player turn: true.
-	tentativePosition := self moveForward: player to: player position + player effect + dice within: game.
+	tentativePosition := self moveForward: player to: player boardSquare + player effect + dice within: game.
 	player location changeSquare: tentativePosition.
 	square := game board at: tentativePosition.
 	square applyEffectOn: player within: game.

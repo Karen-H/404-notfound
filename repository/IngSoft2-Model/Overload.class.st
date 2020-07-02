@@ -33,6 +33,17 @@ Overload >> initialize: effect with: aNumber type: cardType [
 	type := cardType.
 ]
 
+{ #category : #testing }
+Overload >> isInstant [
+	
+	^false.
+]
+
+{ #category : #testing }
+Overload >> isInstant:player within:game [
+	
+]
+
 { #category : #playing }
 Overload >> usedBy: player in:otherPlayer within: game [
 

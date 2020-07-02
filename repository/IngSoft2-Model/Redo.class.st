@@ -28,6 +28,12 @@ Redo >> initialize: effect type: cardType [
 	type := cardType.
 ]
 
+{ #category : #testing }
+Redo >> isInstant:player within:game [
+	
+	self cardUsedBy: player within:game.
+]
+
 { #category : #playing }
 Redo >> usedBy: player within: game [
 
@@ -35,6 +41,5 @@ Redo >> usedBy: player within: game [
 		ifFalse: [ ^ self ].
 	player turn
 		ifTrue: [ self cardUsedBy: player within: game ]
-		ifFalse: [ game lastCardUsed isInstant
-				ifTrue: [ self cardUsedBy: player within: game ] ]
+		ifFalse: [ game lastCardUsed isInstant:player within:game.]
 ]

@@ -166,8 +166,8 @@ GameTest >> testPlayUntilGameOverWinsPlayerOne [
 	game play: dice.
 	
 	self
-		assert: karen position equals: 10;
-		assert: andre position equals: 8;
+		assert: karen boardSquare equals: 10;
+		assert: andre boardSquare equals: 8;
 		assert: game whoWon equals: karen
 ]
 
@@ -184,8 +184,8 @@ GameTest >> testPlayUntilGameOverWinsPlayerTwo [
 	game play: dice.
 	
 	self
-		assert: karen position equals: 4;
-		assert: andre position equals: 10;
+		assert: karen boardSquare  equals: 4;
+		assert: andre boardSquare  equals: 10;
 		assert: game whoWon equals: andre
 ]
 
@@ -200,7 +200,7 @@ GameTest >> testPlayerCantExceedMaxPositionOnFinalLap [
 	game play: d8.
 	
 	self 
-		assert: karen position equals: 10;
+		assert: karen boardSquare  equals: 10;
 		assert: karen lap equals: 2.
 
 ]
@@ -229,8 +229,8 @@ GameTest >> testPlayerMovesDueToAtomicBomb [
 	andre location changeSquare: 4.
 	gameHandler move: karen rolling: 10 within: game.
 	self
-		assert: karen position equals: 1;
-		assert: andre position equals: 1
+		assert: karen boardSquare  equals: 1;
+		assert: andre boardSquare  equals: 1
 ]
 
 { #category : #tests }
@@ -245,8 +245,8 @@ GameTest >> testPlayerMovesDueToMoonWalk [
 	gameHandler move: karen rolling: 19 within: game.
 	
 	self 
-		assert: karen position equals: 20;
-		assert: andre position equals: 3.
+		assert: karen boardSquare  equals: 20;
+		assert: andre boardSquare  equals: 3.
 ]
 
 { #category : #tests }
@@ -259,7 +259,7 @@ GameTest >> testPlayerMovesDueToSpeedUp [
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 4 within: game.
 	
-	self assert: karen position equals: 9.
+	self assert: karen boardSquare  equals: 9.
 ]
 
 { #category : #tests }
@@ -272,7 +272,7 @@ GameTest >> testPlayerMovesDueToWormHole [
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 9 within: game.
 	
-	self assert: karen position equals: 6.
+	self assert: karen boardSquare equals: 6.
 ]
 
 { #category : #tests }
@@ -285,7 +285,7 @@ GameTest >> testPlayerStaysAtSamePositionWhenItArrivesToASquareWithNoEffect [
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 3 within: game.
 
-	self assert: karen position equals: 4.
+	self assert: karen boardSquare  equals: 4.
 ]
 
 { #category : #tests }
@@ -299,8 +299,8 @@ GameTest >> testPlayersFinalPositionsWithMixBoard [
 	game play: d15.
 	
 	self
-		assert: karen position equals: 12;
-		assert: andre position equals: 20;
+		assert: karen boardSquare  equals: 12;
+		assert: andre boardSquare  equals: 20;
 		assert: game whoWon equals: andre.
 		
 	players := game results.
@@ -323,8 +323,8 @@ GameTest >> testPlayersFinalPositionsWithSimpleBoard [
 	game play: dice.
 	
 	self
-		assert: karen position equals: 8;
-		assert: andre position equals: 10;
+		assert: karen boardSquare  equals: 8;
+		assert: andre boardSquare  equals: 10;
 		assert: game whoWon equals: andre.
 		
 	players := game results.

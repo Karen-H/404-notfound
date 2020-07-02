@@ -33,6 +33,10 @@ Acceleration >> initialize: effect with: aNumber type: cardType [
 	type := cardType.
 ]
 
+{ #category : #testing }
+Acceleration >> isInstant:player within:game [
+]
+
 { #category : #playing }
 Acceleration >> usedBy: player within: game [
 

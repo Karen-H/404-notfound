@@ -48,6 +48,6 @@ MoonWalk >> initialize: name with: effect [
 MoonWalk >> moving:otherPlayers in:game [
 	otherPlayers 
 	do: [ :member | member location changeSquare: 
-			(GameHandler new moveBackwards: member to: member position + effectNumber limitedBy: game board size) ].
+			(GameHandler new moveBackwards: member to: member boardSquare  + effectNumber limitedBy: game board size) ].
 	game lastSteppedOn: self.
 ]

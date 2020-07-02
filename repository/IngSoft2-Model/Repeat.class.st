@@ -12,11 +12,26 @@ Repeat class >> onDeck [
 		type: 'Instant'.
 ]
 
+{ #category : #playing }
+Repeat >> cardUsedBy: player within: game [
+
+	player draw: game lastCardUsed.
+	game lastCardUsed usedBy: player within: game.
+	player remove: self from: player hand.
+	game lastUsed: self
+]
+
 { #category : #initialization }
 Repeat >> initialize: effect type: cardType [
 
 	name := effect.
 	type := cardType.
+]
+
+{ #category : #testing }
+Repeat >> isInstant:player within:game [
+	
+	self cardUsedBy: player within:game.
 ]
 
 { #category : #playing }

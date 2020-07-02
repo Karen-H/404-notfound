@@ -33,6 +33,11 @@ Speed >> initialize: effect with: aNumber type: cardType [
 	type := cardType.
 ]
 
+{ #category : #testing }
+Speed >> isInstant:player within:game [
+	
+]
+
 { #category : #playing }
 Speed >> usedBy: player in:otherPlayer within: game [
 

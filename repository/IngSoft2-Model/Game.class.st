@@ -16,7 +16,7 @@ Class {
 { #category : #asserting }
 Game class >> assert: players startOn: board [
 
-	(players select: [ :player | player position > board size ]) isEmpty
+	(players select: [ :player | player boardSquare > board size ]) isEmpty
 		ifFalse: [ InstanceCreationFailed signal: 'The player must start on a valid position' ]
 
 ]
@@ -105,7 +105,7 @@ Game >> initialize: panel playedBy: playersList with: rounds using: cards [
 { #category : #playing }
 Game >> isOver [
 
-	^ players anySatisfy: [ :player | player position = board size and: player lap = laps ].
+	^ players anySatisfy: [ :player | player boardSquare = board size and: player lap = laps ].
 ]
 
 { #category : #accessing }
@@ -156,16 +156,16 @@ Game >> players [
 Game >> results [
 	
 	^ players sort: [ :aPlayer :anotherPlayer |
-		aPlayer position > anotherPlayer position
-			or: [ aPlayer position = anotherPlayer position
-				and: [ aPlayer position > anotherPlayer lap ] ] ]
+		aPlayer boardSquare  > anotherPlayer boardSquare 
+			or: [ aPlayer boardSquare  = anotherPlayer boardSquare 
+				and: [ aPlayer boardSquare  > anotherPlayer lap ] ] ]
 ]
 
 { #category : #playing }
 Game >> whoWon [
 
 	players 
-		detect: [ :player | player position = board size and: player lap = laps ]
+		detect: [ :player | player boardSquare = board size and: player lap = laps ]
 		ifFound: [ :winner | ^ winner ]
 		ifNone: [ GameException signal: 'Play, you fools!' ]
 ]

@@ -96,12 +96,6 @@ Player >> name [
 	^ name.
 ]
 
-{ #category : #accessing }
-Player >> position [
-
-	^ location boardSquare.
-]
-
 { #category : #removing }
 Player >> remove: card from: deck [
 
