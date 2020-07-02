@@ -47,17 +47,6 @@ MoonWalk >> initialize: boardNumber with: effect type: name [
 ]
 
 { #category : #playing }
-MoonWalk >> move: player within: game [
-
-	| newPosition |
-	newPosition := GameHandler new
-	moveForward: player
-	to: player position + effectNumber
-	within: game.
-	player location changeSquare: newPosition
-]
-
-{ #category : #playing }
 MoonWalk >> moving:otherPlayers in:game [
 	otherPlayers 
 	do: [ :member | member location changeSquare: 

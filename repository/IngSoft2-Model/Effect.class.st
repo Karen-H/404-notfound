@@ -21,12 +21,6 @@ Effect >> applyEffectOn: player within: game [
 	self subclassResponsibility.
 ]
 
-{ #category : #playing }
-Effect >> move: player within: game [
-
-	self subclassResponsibility.
-]
-
 { #category : #accessing }
 Effect >> type [
 

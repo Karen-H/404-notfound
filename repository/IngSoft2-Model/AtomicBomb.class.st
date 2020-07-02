@@ -27,14 +27,3 @@ AtomicBomb >> initialize: boardNumber type: name [
 	positionOnBoard := boardNumber.
 	type := name.
 ]
-
-{ #category : #playing }
-AtomicBomb >> move: player within: game [
-"
-	| newPosition |
-	newPosition := GameHandler new
-	moveForward: player
-	to: player position
-	within: game.
-	player location changeSquare: newPosition"
-]
