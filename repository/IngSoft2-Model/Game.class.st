@@ -96,7 +96,7 @@ Game >> initialize: panel playedBy: playersList with: rounds using: cards [
 	board := panel.
 	players := playersList.
 	laps := rounds.
-	deck := cards.
+	deck := cards asOrderedCollection.
 	activeCards := OrderedCollection new.
 	lastCardUsed := Card new.
 	lastSquareSteppedOn := Effect new.
