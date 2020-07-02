@@ -16,6 +16,20 @@ Overload class >> onDeck [
 		type: 'Permanent'.
 ]
 
+{ #category : #accessing }
+Overload >> effectNumber [
+
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+Overload >> initialize: effect with: aNumber type: cardType [
+
+	name := effect.
+	effectNumber := aNumber.
+	type := cardType.
+]
+
 { #category : #playing }
 Overload >> usedBy: player in:otherPlayer within: game [
 

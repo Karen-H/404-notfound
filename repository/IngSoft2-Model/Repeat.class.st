@@ -6,14 +6,17 @@ Class {
 
 { #category : #'instance creation' }
 Repeat class >> onDeck [
-
-	| effectNumber |
-	effectNumber := 0.
 			
 	^ self new 
 		initialize: 'Repeat'
-		with: effectNumber
 		type: 'Instant'.
+]
+
+{ #category : #initialization }
+Repeat >> initialize: effect type: cardType [
+
+	name := effect.
+	type := cardType.
 ]
 
 { #category : #playing }

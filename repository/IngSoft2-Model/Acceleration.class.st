@@ -16,6 +16,20 @@ Acceleration class >> onDeck [
 		type: 'Permanent'.
 ]
 
+{ #category : #accessing }
+Acceleration >> effectNumber [
+
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+Acceleration >> initialize: effect with: aNumber type: cardType [
+
+	name := effect.
+	effectNumber := aNumber.
+	type := cardType.
+]
+
 { #category : #playing }
 Acceleration >> usedBy: player within: game [
 

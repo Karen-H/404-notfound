@@ -7,12 +7,8 @@ Class {
 { #category : #'instance creation' }
 Cancellation class >> onDeck [
 
-	| effectNumber |
-	effectNumber := 0.
-			
 	^ self new 
 		initialize: 'Cancellation'
-		with: effectNumber
 		type: 'Instant'.
 ]
 
@@ -25,6 +21,13 @@ Cancellation >> chooseTargetBetween: players [
 		values: players
 		title: 'Remove active card from'.
 	^ target
+]
+
+{ #category : #initialization }
+Cancellation >> initialize: effect type: cardType [
+
+	name := effect.
+	type := cardType.
 ]
 
 { #category : #accessing }

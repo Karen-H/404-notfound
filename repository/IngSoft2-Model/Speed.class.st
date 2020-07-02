@@ -16,6 +16,20 @@ Speed class >> onDeck [
 		type: 'Permanent'.
 ]
 
+{ #category : #accessing }
+Speed >> effectNumber [
+
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+Speed >> initialize: effect with: aNumber type: cardType [
+
+	name := effect.
+	effectNumber := aNumber.
+	type := cardType.
+]
+
 { #category : #playing }
 Speed >> usedBy: player in:otherPlayer within: game [
 

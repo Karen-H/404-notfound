@@ -10,20 +10,6 @@ Class {
 }
 
 { #category : #accessing }
-Card >> effectNumber [
-
-	^ effectNumber.
-]
-
-{ #category : #initialization }
-Card >> initialize: effect with: aNumber type: cardType [
-
-	name := effect.
-	effectNumber := aNumber.
-	type := cardType.
-]
-
-{ #category : #accessing }
 Card >> name [
 
 	^ name.

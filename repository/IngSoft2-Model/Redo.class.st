@@ -7,12 +7,8 @@ Class {
 { #category : #'instance creation' }
 Redo class >> onDeck [
 
-	| effectNumber |
-	effectNumber := 0.
-			
 	^ self new 
 		initialize: 'Redo'
-		with: effectNumber
 		type: 'Instant'.
 ]
 
@@ -23,6 +19,13 @@ Redo >> cardUsedBy: player within: game [
 	game lastCardUsed usedBy: player within: game.
 	player remove: self from: player hand.
 	game lastUsed: self
+]
+
+{ #category : #initialization }
+Redo >> initialize: effect type: cardType [
+
+	name := effect.
+	type := cardType.
 ]
 
 { #category : #playing }
