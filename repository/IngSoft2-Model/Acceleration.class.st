@@ -1,6 +1,9 @@
 Class {
 	#name : #Acceleration,
 	#superclass : #Card,
+	#instVars : [
+		'effectNumber'
+	],
 	#category : #'IngSoft2-Model'
 }
 

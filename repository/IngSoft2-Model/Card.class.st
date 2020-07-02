@@ -3,8 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'type',
-		'name',
-		'effectNumber'
+		'name'
 	],
 	#category : #'IngSoft2-Model'
 }

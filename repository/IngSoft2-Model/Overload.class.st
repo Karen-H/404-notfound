@@ -1,6 +1,9 @@
 Class {
 	#name : #Overload,
 	#superclass : #Card,
+	#instVars : [
+		'effectNumber'
+	],
 	#category : #'IngSoft2-Model'
 }
 
