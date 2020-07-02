@@ -152,6 +152,15 @@ Player >> remove: card from: deck [
 	deck remove: usedCard.
 ]
 
+{ #category : #'as yet unclassified' }
+Player >> throwCard:aCard [
+	|cardInThisHand|
+	cardInThisHand:= hand collect:[:cardBoard|cardBoard name = aCard].
+	cardInThisHand ifNotNil:[
+				^hand detect:[:cardd|cardd name=aCard].
+			]
+]
+
 { #category : #accessing }
 Player >> turn [
 

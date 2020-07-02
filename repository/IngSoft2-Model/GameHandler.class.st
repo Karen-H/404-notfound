@@ -21,7 +21,6 @@ GameHandler >> move: player rolling: dice within: game [
 
 	| tentativePosition square |
 	player turn: true.
-	game players do: [ :member | member playACardWithin: game ].
 	tentativePosition := self moveForward: player to: player position + player effect + dice within: game.
 	player location changeSquare: tentativePosition.
 	square := game board at: tentativePosition.

@@ -39,15 +39,32 @@ Cancellation >> pickActiveCardFrom: target [
 ]
 
 { #category : #playing }
+Cancellation >> usedBy: player in:otherPlayer within: game [
+
+	| target card players |
+	players := game players
+		select:[:member|member activeCards isNotEmpty].
+	players isEmpty
+	   ifTrue: [ ^ self].
+	target := otherPlayer.
+	card := (target activeCards)first.
+	[ card isNil ] whileTrue: [^self].
+	target remove: card from: target activeCards.
+	player remove: self from: player hand.
+	game lastUsed: self
+]
+
+{ #category : #playing }
 Cancellation >> usedBy: player within: game [
 
 	| target card players |
-	players := game players select: [ :member | member activeCards isNotEmpty ].
-	players isEmpty ifTrue: [ ^ self ].
-	target := self chooseTargetBetween: players.
-	[ target isNil ] whileTrue: [ self chooseTargetBetween: players ].
-	card := self pickActiveCardFrom: target.
-	[ card isNil ] whileTrue: [ card := self pickActiveCardFrom: target ].
+	players := game players
+		select:[:member|member activeCards isNotEmpty].
+	players isEmpty
+	   ifTrue: [ ^ self].
+	target := player.
+	card := (player activeCards)first.
+	[ card isNil ] whileTrue: [^self].
 	target remove: card from: target activeCards.
 	player remove: self from: player hand.
 	game lastUsed: self

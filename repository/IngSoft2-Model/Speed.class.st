@@ -17,11 +17,16 @@ Speed class >> onDeck [
 ]
 
 { #category : #playing }
-Speed >> usedBy: player within: game [
+Speed >> usedBy: player in:otherPlayer within: game [
 
-	| target |
-	target := player chooseTargetFrom: game.
-	target active: self.
+	otherPlayer active:self.
+	player remove: self from: player hand.
+	game lastUsed: self.
+]
+
+{ #category : #playing }
+Speed >> usedBy: player within: game [
+	player active:self.
 	player remove: self from: player hand.
 	game lastUsed: self.
 ]

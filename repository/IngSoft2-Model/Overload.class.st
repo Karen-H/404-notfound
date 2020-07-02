@@ -17,6 +17,14 @@ Overload class >> onDeck [
 ]
 
 { #category : #playing }
+Overload >> usedBy: player in:otherPlayer within: game [
+
+	otherPlayer active: self.
+	player remove: self from: player hand.
+	game lastUsed: self.
+]
+
+{ #category : #playing }
 Overload >> usedBy: player within: game [
 
 	| target |
