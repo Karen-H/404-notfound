@@ -52,20 +52,3 @@ Position >> lap [
 
 	^ lap.
 ]
-
-{ #category : #accessing }
-Position >> lap: newLap [
-
-	|newPosition|
-	newPosition:= self initializeWithSquareNew: self boardSquare lapNEW:newLap.
-	^newPosition.
-]
-
-{ #category : #playing }
-Position >> square: newSquare [
-	
-	|newPosition|
-	newPosition :=self initializeWithSquareNew: newSquare lapNEW: self lap.
-	^newPosition. 
-	
-]

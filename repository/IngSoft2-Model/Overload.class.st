@@ -45,11 +45,3 @@ Overload >> usedBy: player in:otherPlayer within: game [
 	player remove: self from: player hand.
 	game lastUsed: self.
 ]
-
-{ #category : #playing }
-Overload >> usedBy: player within: game [
-
-	player active: self.
-	player remove: self from: player hand.
-	game lastUsed: self.
-]

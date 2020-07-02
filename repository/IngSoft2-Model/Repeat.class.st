@@ -16,7 +16,7 @@ Repeat class >> onDeck [
 Repeat >> cardUsedBy: player within: game [
 
 	player draw: game lastCardUsed.
-	game lastCardUsed usedBy: player within: game.
+	game lastCardUsed usedBy: player in:player within: game.
 	player remove: self from: player hand.
 	game lastUsed: self
 ]

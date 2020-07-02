@@ -86,7 +86,7 @@ CardsTest >> testCancellationRemovesActiveCardFromKaren [
 	players := karen + andre.
 	game := Game playedBy: players on: noEffect10SquaresBoard with: 1 using: deck.
 	self anAcceleration usedBy: karen within: game.
-	self aCancellation usedBy: karen within: game.
+	self aCancellation usedBy: karen in:karen within: game.
 	self
 		assert: karen activeCards isEmpty;
 		assert: andre activeCards size equals: 1
