@@ -12,33 +12,11 @@ Cancellation class >> onDeck [
 		type: 'Instant'.
 ]
 
-{ #category : #accessing }
-Cancellation >> chooseTargetBetween: players [
-
-	| target |
-	target := UIManager default
-		chooseFrom: (players collect: [ :gamer | gamer name ])
-		values: players
-		title: 'Remove active card from'.
-	^ target
-]
-
 { #category : #initialization }
 Cancellation >> initialize: effect type: cardType [
 
 	name := effect.
 	type := cardType.
-]
-
-{ #category : #accessing }
-Cancellation >> pickActiveCardFrom: target [
-
-	| card |
-	card := UIManager default
-		chooseFrom: (target activeCards collect: [ :cardboard | cardboard name ])
-		values: target activeCards
-		title: 'Pick a card'.
-	^ card
 ]
 
 { #category : #playing }

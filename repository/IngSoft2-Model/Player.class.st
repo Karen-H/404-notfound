@@ -48,18 +48,6 @@ Player >> boardSquare [
 	^ location boardSquare.
 ]
 
-{ #category : #playing }
-Player >> chooseTargetFrom: game [
-
-	| target |
-	target := UIManager default chooseFrom: 
-		(game players collect: [ :player | player name ]) values: game players title: 'Choose a target'.
-	[ target isNil ] whileTrue:
-		[ target := UIManager default chooseFrom: 
-			(game players collect: [ :player | player name ]) values: game players title: 'Choose a target' ].
-	^ target.
-]
-
 { #category : #drawing }
 Player >> draw: card [
 
@@ -109,36 +97,6 @@ Player >> name [
 ]
 
 { #category : #accessing }
-Player >> pickACard [
-
-	| card |
-	card := UIManager default
-		chooseFrom: (hand collect: [ :cardboard | cardboard name ])
-		values: hand
-		 title: 'Pick a card'.
-	[ card isNil ]
-		whileTrue: [ card := UIManager default
-				chooseFrom: (hand collect: [ :cardboard | cardboard name ])
-				values: hand
-				title: 'Pick a card' ].
-	^ card
-]
-
-{ #category : #accessing }
-Player >> playACardWithin: game [
-
-	| play card |
-	hand isEmpty ifTrue: [ ^ self ].
-	play := self wantsToPlayACard.
-	play = 'Y' ifFalse: [ ^ self ].
-	card := self pickACard.
-	turn 
-		ifTrue: [ card usedBy: self within: game ] 
-		ifFalse: [ card type = 'Instant' 
-			ifTrue: [ card usedBy: self within: game ] ]
-]
-
-{ #category : #accessing }
 Player >> position [
 
 	^ location boardSquare.
@@ -171,14 +129,4 @@ Player >> turn [
 Player >> turn: value [
 
 	turn := value.
-]
-
-{ #category : #accessing }
-Player >> wantsToPlayACard [
-
-	| play |
-	play := UIManager default chooseFrom: #(#Yes #No) values: #(#Y #N) title: 'Play a card?'.
-	[ play isNil ]
-		whileTrue: [ play := UIManager default chooseFrom: #(#Yes #No) values: #(#Y #N) title: 'Play a card?' ].
-	^ play
 ]
