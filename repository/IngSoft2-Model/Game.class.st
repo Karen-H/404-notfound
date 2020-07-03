@@ -155,10 +155,7 @@ Game >> players [
 { #category : #playing }
 Game >> results [
 	
-	^ players sort: [ :aPlayer :anotherPlayer |
-		aPlayer boardSquare  > anotherPlayer boardSquare 
-			or: [ aPlayer boardSquare  = anotherPlayer boardSquare 
-				and: [ aPlayer boardSquare  > anotherPlayer lap ] ] ]
+	^ Position new resultsOfHowTheyGot:players.
 ]
 
 { #category : #playing }

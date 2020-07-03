@@ -34,3 +34,11 @@ Position >> lap [
 
 	^ lap.
 ]
+
+{ #category : #'as yet unclassified' }
+Position >> resultsOfHowTheyGot:players [
+	^ players sort: [ :aPlayer :anotherPlayer |
+		aPlayer boardSquare  > anotherPlayer boardSquare 
+			or: [ aPlayer boardSquare  = anotherPlayer boardSquare 
+				and: [ aPlayer boardSquare  > anotherPlayer lap ] ] ]
+]
