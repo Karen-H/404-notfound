@@ -28,7 +28,7 @@ WormHole >> applyEffectOn: player within: game [
 	moveBackwards: player
 	to: player boardSquare  + effectNumber
 	limitedBy: game board size.
-	player location changeSquare: newPosition.
+	player square: newPosition.
 	game lastSteppedOn: self.
 ]
 

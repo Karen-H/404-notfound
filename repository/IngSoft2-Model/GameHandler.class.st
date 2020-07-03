@@ -22,7 +22,7 @@ GameHandler >> move: player rolling: dice within: game [
 	| tentativePosition square |
 	player turn: true.
 	tentativePosition := self moveForward: player to: player boardSquare + player effect + dice within: game.
-	player location changeSquare: tentativePosition.
+	player square: tentativePosition.
 	square := game board at: tentativePosition.
 	square applyEffectOn: player within: game.
 	player turn: false.
@@ -49,7 +49,7 @@ GameHandler >> shift: player to: tentativePosition limitedBy: boardSize [
 
 	| lapCount |
 	lapCount := 0.
-	player location changeLap: lapCount + player lap.
+	player lap: lapCount + player lap.
 	^ (tentativePosition + (lapCount negated * boardSize)).
 ]
 
@@ -61,8 +61,8 @@ GameHandler >> shift: player to: tentativePosition within: game [
 	newPosition := tentativePosition - (lapCount * game board size).
 	player lap + lapCount > game laps
 		ifTrue: [ 
-			player location changeLap:game laps.
+			player lap:game laps.
 			newPosition := game board size ]
-		ifFalse: [ player location changeLap: player lap + lapCount ].
+		ifFalse: [ player lap: player lap + lapCount ].
 	^ newPosition.
 ]

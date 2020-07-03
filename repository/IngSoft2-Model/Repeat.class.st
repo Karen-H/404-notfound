@@ -38,7 +38,7 @@ Repeat >> isInstant:player within:game [
 Repeat >> usedBy: player within: game [
 
 	( game board anySatisfy: [ :tile | tile type = game lastSquareSteppedOn type ] )
-		ifFalse: [ ^ self ].
+		ifTrue: [ ^ self ].
 	game lastSquareSteppedOn applyEffectOn: player within: game.
 	player remove: self from: player hand.
 	game lastUsed: self.
