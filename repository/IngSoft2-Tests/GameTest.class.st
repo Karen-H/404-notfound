@@ -141,20 +141,6 @@ GameTest >> testGameCreationFailsWithoutPlayers [
 ]
 
 { #category : #tests }
-GameTest >> testGameJuliNotHere [
-
-	"| players board game |
-	players := karen + andre.
-	board := BoardCreator new of: 15 with: AtomicBomb at: 11.
-	game := Game playedBy: players on: board with: 2 using:deck.
-	andre square: 4.
-	gameHandler move: juli rolling: 10 within: game.
-	self
-		assert: andre boardSquare equals:1;
-		assert: karen boardSquare equals:1."
-]
-
-{ #category : #tests }
 GameTest >> testGameNotOver [
 
 	| players game |
