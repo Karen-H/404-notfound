@@ -34,6 +34,12 @@ Speed >> initialize: effect with: aNumber type: cardType [
 ]
 
 { #category : #testing }
+Speed >> isDestroyed:player in:otherPlayer within:game [ 
+	
+	otherPlayer remove:self from: otherPlayer activeCards.
+]
+
+{ #category : #testing }
 Speed >> isInstant:player within:game [
 	
 ]

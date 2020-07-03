@@ -42,15 +42,9 @@ Cancellation >> usedBy: player in:otherPlayer within: game [
 		ifNotEmpty: [  
 		card := (otherPlayer  activeCards)first.
 		card ifNotNil: [
-			(card name = 'Acceleration') ifFalse:[
-			otherPlayer remove: card from: otherPlayer activeCards.
+			card isDestroyed: player in: otherPlayer within: game.
 			player remove: self from: player hand.
-			game lastUsed: self
+			game lastUsed: self.
 				]
-			ifTrue:[
-				game players do:[:person|
-						person remove: card from:person activeCards]
-				]
-			]. 
 		].
 ]

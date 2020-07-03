@@ -29,6 +29,12 @@ Repeat >> initialize: effect type: cardType [
 ]
 
 { #category : #testing }
+Repeat >> isDestroyed:player in:otherPlayer within:game [ 
+	
+	otherPlayer remove:self from: otherPlayer activeCards.
+]
+
+{ #category : #testing }
 Repeat >> isInstant:player within:game [
 	
 	self cardUsedBy: player within:game.

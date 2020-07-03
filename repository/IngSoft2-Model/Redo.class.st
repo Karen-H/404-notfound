@@ -29,6 +29,12 @@ Redo >> initialize: effect type: cardType [
 ]
 
 { #category : #testing }
+Redo >> isDestroyed:player in:otherPlayer within:game [ 
+	
+	otherPlayer remove:self from: otherPlayer activeCards.
+]
+
+{ #category : #testing }
 Redo >> isInstant:player within:game [
 	
 	self cardUsedBy: player within:game.

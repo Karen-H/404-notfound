@@ -34,6 +34,12 @@ Overload >> initialize: effect with: aNumber type: cardType [
 ]
 
 { #category : #testing }
+Overload >> isDestroyed:player in:otherPlayer within:game [ 
+	
+	otherPlayer remove:self from: otherPlayer activeCards.
+]
+
+{ #category : #testing }
 Overload >> isInstant:player within:game [
 	
 ]

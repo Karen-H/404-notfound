@@ -34,6 +34,15 @@ Acceleration >> initialize: effect with: aNumber type: cardType [
 ]
 
 { #category : #testing }
+Acceleration >> isDestroyed:player in:otherPlayer within:game [ 
+	
+	game players do:[
+				:person|person remove:self from: person activeCards.
+			].
+	
+]
+
+{ #category : #testing }
 Acceleration >> isInstant:player within:game [
 ]
 
