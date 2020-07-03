@@ -89,7 +89,7 @@ CardsTest >> testCancellationRemovesActiveCardFromKaren [
 	self aCancellation usedBy: karen in:karen within: game.
 	self
 		assert: karen activeCards isEmpty;
-		assert: andre activeCards size equals: 1
+		assert: andre activeCards isEmpty.
 ]
 
 { #category : #tests }
