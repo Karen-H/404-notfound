@@ -153,12 +153,6 @@ Game >> players [
 ]
 
 { #category : #playing }
-Game >> results [
-	
-	^ Position new resultsOfHowTheyGot:players.
-]
-
-{ #category : #playing }
 Game >> whoWon [
 
 	players 

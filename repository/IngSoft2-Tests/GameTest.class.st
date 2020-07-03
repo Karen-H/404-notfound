@@ -303,7 +303,7 @@ GameTest >> testPlayersFinalPositionsWithMixBoard [
 		assert: andre boardSquare  equals: 20;
 		assert: game whoWon equals: andre.
 		
-	players := game results.
+	players := Position new results:players.
 	self 
 		assert: players first equals: andre;
 		assert: players second equals: karen.
@@ -327,7 +327,7 @@ GameTest >> testPlayersFinalPositionsWithSimpleBoard [
 		assert: andre boardSquare  equals: 10;
 		assert: game whoWon equals: andre.
 		
-	players := game results.
+	players := Position new results:players.
 	self 
 		assert: players first equals: andre;
 		assert: players second equals: karen.
