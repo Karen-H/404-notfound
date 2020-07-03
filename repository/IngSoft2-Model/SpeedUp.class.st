@@ -28,7 +28,7 @@ SpeedUp >> applyEffectOn: player within: game [
 	moveForward: player
 	to: player boardSquare  + effectNumber
 	within: game.
-	player location changeSquare: newPosition.
+	player square: newPosition.
 	game lastSteppedOn: self.
 ]
 

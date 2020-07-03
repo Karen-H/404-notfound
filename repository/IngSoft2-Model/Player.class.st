@@ -70,7 +70,7 @@ Player >> hand [
 { #category : #initialization }
 Player >> initializeWith: cards name: player [
 
-	location := Position start.
+	location := Position positionNewLap: 0 withNewSquare: 1.
 	hand := cards.
 	effect := 0.
 	name := player.
@@ -82,6 +82,14 @@ Player >> initializeWith: cards name: player [
 Player >> lap [
 
 	^ location lap.
+]
+
+{ #category : #accessing }
+Player >> lap:newLap [
+	
+	|nextPosition|
+	nextPosition:=Position positionNewLap: newLap  withNewSquare: location boardSquare.
+	location:=nextPosition.
 ]
 
 { #category : #accessing }
@@ -104,7 +112,15 @@ Player >> remove: card from: deck [
 	deck remove: usedCard.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+Player >> square:newSquare [
+	
+	|nextPosition|
+	nextPosition:=Position positionNewLap: location lap withNewSquare: newSquare.
+	location:=nextPosition.
+]
+
+{ #category : #accessing }
 Player >> throwCard:aCard [
 	|cardInThisHand|
 	cardInThisHand:= hand collect:[:cardBoard|cardBoard name = aCard].

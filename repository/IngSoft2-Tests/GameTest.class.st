@@ -226,7 +226,7 @@ GameTest >> testPlayerMovesDueToAtomicBomb [
 	players := karen + andre.
 	board := BoardCreator new of: 15 with: AtomicBomb at: 11.
 	game := Game playedBy: players on: board with: 2 using: deck.
-	andre location changeSquare: 4.
+	andre square: 4.
 	gameHandler move: karen rolling: 10 within: game.
 	self
 		assert: karen boardSquare  equals: 1;
@@ -241,7 +241,7 @@ GameTest >> testPlayerMovesDueToMoonWalk [
 	players := karen + andre.
 	board := BoardCreator new of: 25 with: MoonWalk at: 20.
 	game := Game playedBy: players on: board with: 2 using: deck.
-	andre location changeSquare: 5.
+	andre square: 5.
 	gameHandler move: karen rolling: 19 within: game.
 	
 	self 

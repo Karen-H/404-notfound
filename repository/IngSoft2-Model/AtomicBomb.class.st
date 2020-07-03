@@ -16,7 +16,7 @@ AtomicBomb class >> on: boardNumber [
 { #category : #playing }
 AtomicBomb >> applyEffectOn: player within: game [
 
-	game players do: [ :gamer | gamer location changeSquare: 1 ].
+	game players do: [ :gamer | gamer square: 1 ].
 	game lastSteppedOn: self.
 ]
 

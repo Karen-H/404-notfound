@@ -8,6 +8,12 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #testing }
+Card >> isInstant:player within:game [
+	
+	self subclassResponsibility.
+]
+
 { #category : #accessing }
 Card >> name [
 
