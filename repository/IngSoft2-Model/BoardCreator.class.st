@@ -4,6 +4,21 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #'instance creation' }
+BoardCreator class >> of: squares with: squareType at: position [
+
+	| board tiles square |
+	board := OrderedCollection new.
+	tiles := (1 to: squares) asOrderedCollection.
+	squares timesRepeat: [ 
+		square := tiles first.
+		board := square = position
+			ifTrue: [ board + (squareType on: position) ]
+			ifFalse: [ board + (NoEffect on: square) ].
+		tiles remove: square ].
+	^ board
+]
+
 { #category : #accessing }
 BoardCreator >> distribute: squares of: panel with: tiles using: effect at: index [
 
@@ -31,21 +46,6 @@ BoardCreator >> distribute: squares with: tiles [
 		tiles remove: square ].
 	^ panel.
 
-]
-
-{ #category : #'instance creation' }
-BoardCreator >> of: squares with: squareType at: position [
-
-	| board tiles square |
-	board := OrderedCollection new.
-	tiles := (1 to: squares) asOrderedCollection.
-	squares timesRepeat: [ 
-		square := tiles first.
-		board := square = position
-			ifTrue: [ board + (squareType on: position) ]
-			ifFalse: [ board + (NoEffect on: square) ].
-		tiles remove: square ].
-	^ board
 ]
 
 { #category : #'instance creation' }
