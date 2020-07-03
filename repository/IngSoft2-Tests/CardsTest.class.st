@@ -73,7 +73,7 @@ CardsTest >> setUp [
 	super setUp.
 	
 	noEffect10SquaresBoard := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (NoEffect on: 5) + (NoEffect on: 6) + (NoEffect on: 7) + (NoEffect on: 8) + (NoEffect on: 9) + (NoEffect on: 10).
-	deck := self newDeck cards.
+	deck := self newDeck.
 
 ]
 

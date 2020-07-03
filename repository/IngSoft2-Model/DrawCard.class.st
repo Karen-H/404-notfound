@@ -16,9 +16,8 @@ DrawCard class >> on: boardNumber [
 { #category : #playing }
 DrawCard >> applyEffectOn: player within: game [
 
-	| deck card |
-	deck := game deck.
-	card := deck atRandom.
+	| card |
+	card := game deck takeNextCard.
 	player draw: card.
 	game lastSteppedOn: self.
 ]

@@ -42,8 +42,10 @@ Redo >> isInstant:player within:game [
 
 { #category : #playing }
 Redo >> usedBy: player within: game [
-
-	(game deck anySatisfy: [ :card | card name = game lastCardUsed name ])
+	
+	|deck|
+	deck:=game deck cards.
+	(deck anySatisfy: [ :card | card name = game lastCardUsed name ])
 		ifTrue: [ 
 			player turn
 				ifTrue: [ self cardUsedBy: player within: game ]

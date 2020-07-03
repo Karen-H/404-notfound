@@ -57,7 +57,7 @@ Game class >> playedBy: players on: board with: rounds using: deck [
 		assertPlayersGreaterThanZero: players;
 		assert: players startOn: board;
 		assertLapsGreaterThanZero: rounds;
-		assertDeckIsNotEmpty: deck.
+		assertDeckIsNotEmpty: deck cards.
 
 	^ self new
 		initialize: board
@@ -96,7 +96,7 @@ Game >> initialize: panel playedBy: playersList with: rounds using: cards [
 	board := panel.
 	players := playersList.
 	laps := rounds.
-	deck := cards asOrderedCollection.
+	deck := cards.
 	activeCards := OrderedCollection new.
 	lastCardUsed := Card new.
 	lastSquareSteppedOn := Effect new.

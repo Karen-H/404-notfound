@@ -26,3 +26,9 @@ Deck >> initialize [
 	cards := Acceleration onDeck + Cancellation onDeck + Overload onDeck 
 				+ Redo onDeck + Repeat onDeck + Speed onDeck.
 ]
+
+{ #category : #'as yet unclassified' }
+Deck >> takeNextCard [ 
+	
+	^cards atRandom.
+]
