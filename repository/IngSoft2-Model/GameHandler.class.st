@@ -19,13 +19,14 @@ GameHandler >> fallsBehindFinalPosition: tentativePosition [
 { #category : #playing }
 GameHandler >> move: player rolling: dice within: game [
 
-	| tentativePosition square |
-	player turn: true.
-	tentativePosition := self moveForward: player to: player boardSquare + player effect + dice within: game.
-	player square: tentativePosition.
+	| playerNow tentativePosition square |
+	playerNow:=game beAtPlay: player.
+	playerNow turn: true.
+	tentativePosition := self moveForward: playerNow to: playerNow boardSquare + playerNow effect + dice within: game.
+	playerNow square: tentativePosition.
 	square := game board at: tentativePosition.
-	square applyEffectOn: player within: game.
-	player turn: false.
+	square applyEffectOn: playerNow within: game.
+	playerNow turn: false.
 ]
 
 { #category : #playing }
