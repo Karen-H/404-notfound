@@ -35,7 +35,7 @@ Position >> lap [
 	^ lap.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Position >> results:players [
 	
 	^ players sort: [ :aPlayer :anotherPlayer |
