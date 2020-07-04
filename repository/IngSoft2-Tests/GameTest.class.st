@@ -77,9 +77,9 @@ GameTest >> newGameHandler [
 { #category : #tests }
 GameTest >> newPlayer: playerName drawing: cards [
 
-	| player |
-	player := Player drawing: cards name: playerName.
-	^ player
+	
+	^Player drawing: cards name: playerName.
+	
 ]
 
 { #category : #running }

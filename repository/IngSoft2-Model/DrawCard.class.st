@@ -16,10 +16,8 @@ DrawCard class >> on: boardNumber [
 { #category : #playing }
 DrawCard >> applyEffectOn: player within: game [
 
-	| card |
 	game beAtPlay:player.
-	card := game deck takeNextCard.
-	player draw: card.
+	player draw: game deck takeNextCard.
 	game lastSteppedOn: self.
 ]
 

@@ -63,9 +63,8 @@ CardsTest >> newDeck [
 { #category : #'instance creation' }
 CardsTest >> newPlayer: playerName drawing: cards [
 
-	| player |
-	player := Player drawing: cards name: playerName.
-	^ player
+	
+	^Player drawing: cards name: playerName.
 ]
 
 { #category : #running }

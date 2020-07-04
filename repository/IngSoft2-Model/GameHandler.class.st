@@ -32,10 +32,9 @@ GameHandler >> move: player rolling: dice within: game [
 { #category : #playing }
 GameHandler >> moveBackwards: player to: tentativePosition limitedBy: boardSize within:game [ 
 
-	|playerNow|
-	playerNow:=game beAtPlay:player.
+	game beAtPlay:player.
 	( self fallsBehindFinalPosition: tentativePosition )
-		ifTrue: [ ^ self shift: playerNow to: tentativePosition limitedBy: boardSize ]
+		ifTrue: [ ^ self shift: player to: tentativePosition limitedBy: boardSize ]
 		ifFalse: [ ^ tentativePosition ].
 ]
 
@@ -51,10 +50,8 @@ GameHandler >> moveForward: player to: tentativePosition within: game [
 { #category : #playing }
 GameHandler >> shift: player to: tentativePosition limitedBy: boardSize [
 
-	| lapCount |
-	lapCount := 0.
-	player lap: lapCount + player lap.
-	^ (tentativePosition + (lapCount negated * boardSize)).
+	player lap: 0 + player lap.
+	^ (tentativePosition + (0 negated * boardSize)).
 ]
 
 { #category : #playing }
