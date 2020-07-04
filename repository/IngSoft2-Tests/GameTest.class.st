@@ -63,8 +63,9 @@ GameTest >> anOverload [
 GameTest >> newDeck [
 
 	| cards |
-	cards := Deck assembled.
-	^ cards
+	cards:=Acceleration onDeck + Cancellation onDeck + Overload onDeck + Redo onDeck + 
+	Repeat onDeck + Speed onDeck.
+	^ Deck assembled:cards.
 ]
 
 { #category : #tests }
@@ -138,20 +139,6 @@ GameTest >> testGameCreationFailsWithoutPlayers [
 		withMessageText: 'There must be at least 1 player'
 
 
-]
-
-{ #category : #tests }
-GameTest >> testGameJuliNotHere [
-
-	"| players board game |
-	players := karen + andre.
-	board := BoardCreator new of: 15 with: AtomicBomb at: 11.
-	game := Game playedBy: players on: board with: 2 using:deck.
-	andre square: 4.
-	gameHandler move: juli rolling: 10 within: game.
-	self
-		assert: andre boardSquare equals:1;
-		assert: karen boardSquare equals:1."
 ]
 
 { #category : #tests }

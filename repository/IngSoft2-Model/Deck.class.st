@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #'instance creation' }
-Deck class >> assembled [
+Deck class >> assembled:cards [
 
-	^ self new.
+	^ self new initializeWith:cards.
 ]
 
 { #category : #accessing }
@@ -20,14 +20,12 @@ Deck >> cards [
 ]
 
 { #category : #initialization }
-Deck >> initialize [ 
+Deck >> initializeWith:cardsReceived [
 
-	super initialize.
-	cards := Acceleration onDeck + Cancellation onDeck + Overload onDeck 
-				+ Redo onDeck + Repeat onDeck + Speed onDeck.
+	cards:=cardsReceived.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Deck >> takeNextCard [ 
 	
 	^cards atRandom.

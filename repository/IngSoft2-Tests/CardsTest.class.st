@@ -55,8 +55,9 @@ CardsTest >> anOverload [
 CardsTest >> newDeck [
 
 	| cards |
-	cards := Deck assembled.
-	^ cards
+	cards:=Acceleration onDeck + Cancellation onDeck + Overload onDeck + Redo onDeck + 
+	Repeat onDeck + Speed onDeck.
+	^ Deck assembled:cards.
 ]
 
 { #category : #'instance creation' }
