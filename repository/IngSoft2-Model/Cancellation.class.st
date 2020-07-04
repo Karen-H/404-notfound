@@ -7,48 +7,45 @@ Class {
 { #category : #'instance creation' }
 Cancellation class >> onDeck [
 
-	| effectNumber |
-	effectNumber := 0.
-			
 	^ self new 
 		initialize: 'Cancellation'
-		with: effectNumber
 		type: 'Instant'.
 ]
 
-{ #category : #accessing }
-Cancellation >> chooseTargetBetween: players [
+{ #category : #playing }
+Cancellation >> cardUsedBy: player within: game [
 
-	| target |
-	target := UIManager default
-		chooseFrom: (players collect: [ :gamer | gamer name ])
-		values: players
-		title: 'Remove active card from'.
-	^ target
+	player draw: game lastCardUsed.
+	game lastCardUsed usedBy: player in:player within: game.
+	player remove: self from: player hand.
+	game lastUsed: self
 ]
 
-{ #category : #accessing }
-Cancellation >> pickActiveCardFrom: target [
+{ #category : #initialization }
+Cancellation >> initialize: effect type: cardType [
 
-	| card |
-	card := UIManager default
-		chooseFrom: (target activeCards collect: [ :cardboard | cardboard name ])
-		values: target activeCards
-		title: 'Pick a card'.
-	^ card
+	name := effect.
+	type := cardType.
+]
+
+{ #category : #testing }
+Cancellation >> isInstant:player within:game [
+	
+	self cardUsedBy: player within:game.
 ]
 
 { #category : #playing }
-Cancellation >> usedBy: player within: game [
+Cancellation >> usedBy: player in:otherPlayer within: game [
 
-	| target card players |
-	players := game players select: [ :member | member activeCards isNotEmpty ].
-	players isEmpty ifTrue: [ ^ self ].
-	target := self chooseTargetBetween: players.
-	[ target isNil ] whileTrue: [ self chooseTargetBetween: players ].
-	card := self pickActiveCardFrom: target.
-	[ card isNil ] whileTrue: [ card := self pickActiveCardFrom: target ].
-	target remove: card from: target activeCards.
-	player remove: self from: player hand.
-	game lastUsed: self
+	| card  |
+	game beAtPlay:player.
+	(game players select:[:member|member activeCards isNotEmpty])
+		ifNotEmpty: [  
+		card := (otherPlayer  activeCards)first.
+		card ifNotNil: [
+			card isDestroyed: player in: otherPlayer within: game.
+			player remove: self from: player hand.
+			game lastUsed: self.
+				]
+		].
 ]

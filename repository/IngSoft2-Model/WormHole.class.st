@@ -1,6 +1,9 @@
 Class {
 	#name : #WormHole,
 	#superclass : #Effect,
+	#instVars : [
+		'effectNumber'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -13,19 +16,32 @@ WormHole class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initialize: boardNumber
-		with: effectNumber
-		type: 'WormHole'.
+		initialize: 'WormHole'
+		with: effectNumber.
 ]
 
 { #category : #playing }
 WormHole >> applyEffectOn: player within: game [
 
 	| newPosition |
+	game beAtPlay:player.
 	newPosition := GameHandler new 
 	moveBackwards: player
-	to: player position + effectNumber
-	limitedBy: game board size.
-	player location changeSquare: newPosition.
+	to: player boardSquare  + effectNumber
+	limitedBy: game board size within:game.
+	player square: newPosition.
 	game lastSteppedOn: self.
+]
+
+{ #category : #accessing }
+WormHole >> effectNumber [
+
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+WormHole >> initialize: name with: effect [
+
+	effectNumber := effect.
+	type := name.
 ]

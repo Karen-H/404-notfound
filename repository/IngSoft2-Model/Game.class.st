@@ -16,7 +16,7 @@ Class {
 { #category : #asserting }
 Game class >> assert: players startOn: board [
 
-	(players select: [ :player | player position > board size ]) isEmpty
+	(players select: [ :player | player boardSquare > board size ]) isEmpty
 		ifFalse: [ InstanceCreationFailed signal: 'The player must start on a valid position' ]
 
 ]
@@ -57,7 +57,7 @@ Game class >> playedBy: players on: board with: rounds using: deck [
 		assertPlayersGreaterThanZero: players;
 		assert: players startOn: board;
 		assertLapsGreaterThanZero: rounds;
-		assertDeckIsNotEmpty: deck.
+		assertDeckIsNotEmpty: deck cards.
 
 	^ self new
 		initialize: board
@@ -69,13 +69,21 @@ Game class >> playedBy: players on: board with: rounds using: deck [
 { #category : #accessing }
 Game >> active: card [
 
-	activeCards := activeCards + card.
+	activeCards add: card.
 ]
 
 { #category : #accessing }
 Game >> activeCards [
 
 	^ activeCards.
+]
+
+{ #category : #playing }
+Game >> beAtPlay:playerNow [
+
+	players 
+		detect: [ :player | player name = playerNow name ]
+		ifNone: [ GameException signal: 'Not Stay.' ]
 ]
 
 { #category : #accessing }
@@ -105,7 +113,7 @@ Game >> initialize: panel playedBy: playersList with: rounds using: cards [
 { #category : #playing }
 Game >> isOver [
 
-	^ players anySatisfy: [ :player | player position = board size and: player lap = laps ].
+	^ players anySatisfy: [ :player | player boardSquare = board size and: player lap = laps ].
 ]
 
 { #category : #accessing }
@@ -153,19 +161,10 @@ Game >> players [
 ]
 
 { #category : #playing }
-Game >> results [
-	
-	^ players sort: [ :aPlayer :anotherPlayer |
-		aPlayer position > anotherPlayer position
-			or: [ aPlayer position = anotherPlayer position
-				and: [ aPlayer position > anotherPlayer lap ] ] ]
-]
-
-{ #category : #playing }
 Game >> whoWon [
 
 	players 
-		detect: [ :player | player position = board size and: player lap = laps ]
+		detect: [ :player | player boardSquare = board size and: player lap = laps ]
 		ifFound: [ :winner | ^ winner ]
 		ifNone: [ GameException signal: 'Play, you fools!' ]
 ]

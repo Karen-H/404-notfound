@@ -55,16 +55,16 @@ CardsTest >> anOverload [
 CardsTest >> newDeck [
 
 	| cards |
-	cards := Deck assembled.
-	^ cards
+	cards:=Acceleration onDeck + Cancellation onDeck + Overload onDeck + Redo onDeck + 
+	Repeat onDeck + Speed onDeck.
+	^ Deck assembled:cards.
 ]
 
 { #category : #'instance creation' }
 CardsTest >> newPlayer: playerName drawing: cards [
 
-	| player |
-	player := Player drawing: cards name: playerName.
-	^ player
+	
+	^Player drawing: cards name: playerName.
 ]
 
 { #category : #running }
@@ -73,23 +73,23 @@ CardsTest >> setUp [
 	super setUp.
 	
 	noEffect10SquaresBoard := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (NoEffect on: 5) + (NoEffect on: 6) + (NoEffect on: 7) + (NoEffect on: 8) + (NoEffect on: 9) + (NoEffect on: 10).
-	deck := self newDeck cards.
+	deck := self newDeck.
 
 ]
 
 { #category : #tests }
 CardsTest >> testCancellationRemovesActiveCardFromKaren [
-
+	"You must CHOOSE first KAREN and second ACCELERATION"
 	| karen andre players game |
 	karen := self newPlayer: 'Karen' drawing: self anAcceleration + self aCancellation.
 	andre := self newPlayer: 'Andre' drawing: self aCancellation + self anOverload.
 	players := karen + andre.
 	game := Game playedBy: players on: noEffect10SquaresBoard with: 1 using: deck.
 	self anAcceleration usedBy: karen within: game.
-	self aCancellation usedBy: karen within: game.
+	self aCancellation usedBy: karen in:karen within: game.
 	self
 		assert: karen activeCards isEmpty;
-		assert: andre activeCards size equals: 1
+		assert: andre activeCards isEmpty.
 ]
 
 { #category : #tests }
@@ -106,14 +106,14 @@ CardsTest >> testCardDiscardedFromPlayersHandWhenUsed [
 
 { #category : #tests }
 CardsTest >> testKarenPicksSpeedFromHandAndUsesItOnHerself [
-
+	"You must choose first SPEED and second KAREN"
 	| karen andre players game card |
 	karen := self newPlayer: 'Karen' drawing: self anOverload + self aSpeed.
 	andre := self newPlayer: 'Andre' drawing: self aRedo + self aRepeat.
 	players := karen + andre.
 	game := Game playedBy: players on: noEffect10SquaresBoard with: 1 using: deck.
-	card := karen pickACard.
-	card usedBy: karen within: game.
+	card:=karen throwCard:'Speed'.
+	card usedBy:karen in:karen within:game.
 	self 
 		assert: karen hand size equals: 1;
 		assert: karen effect equals: 1;
@@ -122,22 +122,24 @@ CardsTest >> testKarenPicksSpeedFromHandAndUsesItOnHerself [
 
 { #category : #tests }
 CardsTest >> testOverloadAppliesItsEffectOnKaren [
-
-	"Select Karen twice"
-	| karen andre players game |
+	"Select Karen twice but andre throw all hand"
+	| karen andre players game cardFirstSelectAndre cardSecondSelectAndre |
 	karen := self newPlayer: 'Karen' drawing: self anAcceleration + self aCancellation.
 	andre := self newPlayer: 'Andre' drawing: self anOverload + self anOverload.
 	players := karen + andre.
 	game := Game playedBy: players on: noEffect10SquaresBoard with: 1 using: deck.
-	self anOverload usedBy: andre within: game.
-	self anOverload usedBy: andre within: game.
+	cardFirstSelectAndre:=andre throwCard: 'Overload'.
+	cardSecondSelectAndre:=andre throwCard: 'Overload'.
+	cardFirstSelectAndre  usedBy: andre in:karen within: game.
+	cardSecondSelectAndre  usedBy: andre in:karen within: game.
 	self assert: karen effect equals: -4.
+	self assert: andre hand isEmpty.
 ]
 
 { #category : #tests }
 CardsTest >> testPermanentCardRemainsActiveDuringTheGame [
-
-	| karen andre players game |
+	"You must choose first YES and second REPEAT"
+	| karen andre players game cardFirstSelectKaren|
 	karen := self newPlayer: 'Karen' drawing: self anAcceleration + self aCancellation.
 	andre := self newPlayer: 'Andre' drawing: self aCancellation + self anOverload.
 	players := karen + andre.
@@ -145,7 +147,8 @@ CardsTest >> testPermanentCardRemainsActiveDuringTheGame [
 	self
 		assert: karen activeCards isEmpty;
 		assert: andre activeCards isEmpty.
-	self anAcceleration usedBy: karen within: game.
+	cardFirstSelectKaren :=karen throwCard: 'Acceleration'.
+	cardFirstSelectKaren usedBy: karen within: game.
 	self
 		assert: karen activeCards size equals: 1;
 		assert: andre activeCards size equals: 1.
@@ -155,14 +158,16 @@ CardsTest >> testPermanentCardRemainsActiveDuringTheGame [
 { #category : #tests }
 CardsTest >> testRedoAppliesSameEffectAsTheLastCardUsed [
 
-	| karen andre players game |
+	| karen andre players game cardFirstSelectKaren cardFirstSelectAndre |
 	karen := self newPlayer: 'Karen' drawing: self anAcceleration + self aCancellation.
 	andre := self newPlayer: 'Andre' drawing: self aCancellation + self aRedo.
 	players := karen + andre.
 	game := Game playedBy: players on: noEffect10SquaresBoard with: 1 using: deck.
-	self anAcceleration usedBy: karen within: game.
-	andre turn: true.
-	self aRedo usedBy: andre within: game.
+	cardFirstSelectKaren:= karen throwCard: 'Acceleration'.
+	cardFirstSelectKaren usedBy: karen within: game.
+	cardFirstSelectAndre:=andre throwCard: 'Redo'.
+	andre turn:true.
+	cardFirstSelectAndre usedBy: andre within: game.
 	self 
 		assert: andre effect equals: 2;
 		assert: karen effect equals: 2.
@@ -170,15 +175,16 @@ CardsTest >> testRedoAppliesSameEffectAsTheLastCardUsed [
 
 { #category : #tests }
 CardsTest >> testRepeatAppliesSameEffectAsTheLastTileSteppedOn [
-
 	"Select 'No' when prompted"
-	| players board game karen gameHandler |
+	| players board game karen gameHandler cardFirstSelectKaren |
 	karen := self newPlayer: 'Karen' drawing: self aRepeat + self aSpeed.
 	gameHandler := GameHandler new.
 	players := OrderedCollection with: karen.
-	board := Board of: 25 with: DrawCard at: 20.
+	board := BoardCreator of: 25 with: DrawCard at: 20.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 19 within: game.
-	self aRepeat usedBy: karen within: game.
+	self assert:karen hand size equals:3.
+	cardFirstSelectKaren:= karen throwCard: 'Repeat'.
+	cardFirstSelectKaren usedBy: karen within: game.
 	self assert: karen hand size equals: 3.
 ]

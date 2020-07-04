@@ -1,6 +1,9 @@
 Class {
 	#name : #MoonWalk,
 	#superclass : #Effect,
+	#instVars : [
+		'effectNumber'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -15,24 +18,37 @@ MoonWalk class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 	
 	^ self new 
-		initialize: boardNumber 
-		with: effectNumber
-		type: 'MoonWalk'.
+		initialize: 'MoonWalk'
+		with: effectNumber.
 ]
 
 { #category : #playing }
 MoonWalk >> applyEffectOn: player within: game [
 
 	| otherPlayers |
+	game beAtPlay:player.
 	otherPlayers := game players reject: [ :gamer | gamer = player ].
 	self moving:otherPlayers in:game.
 		
 ]
 
+{ #category : #accessing }
+MoonWalk >> effectNumber [
+
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+MoonWalk >> initialize: name with: effect [
+
+	effectNumber := effect.
+	type := name.
+]
+
 { #category : #playing }
 MoonWalk >> moving:otherPlayers in:game [
 	otherPlayers 
-	do: [ :member | member location changeSquare: 
-			(GameHandler new moveBackwards: member to: member position + effectNumber limitedBy: game board size) ].
+	do: [ :member | member square: 
+			(GameHandler new moveBackwards: member to: member boardSquare  + effectNumber limitedBy: game board size within:game) ].
 	game lastSteppedOn: self.
 ]

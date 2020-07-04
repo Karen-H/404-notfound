@@ -1,6 +1,9 @@
 Class {
 	#name : #Speed,
 	#superclass : #Card,
+	#instVars : [
+		'effectNumber'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -16,12 +19,36 @@ Speed class >> onDeck [
 		type: 'Permanent'.
 ]
 
-{ #category : #playing }
-Speed >> usedBy: player within: game [
+{ #category : #accessing }
+Speed >> effectNumber [
 
-	| target |
-	target := player chooseTargetFrom: game.
-	target active: self.
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+Speed >> initialize: effect with: aNumber type: cardType [
+
+	name := effect.
+	effectNumber := aNumber.
+	type := cardType.
+]
+
+{ #category : #testing }
+Speed >> isDestroyed:player in:otherPlayer within:game [ 
+	
+	otherPlayer remove:self from: otherPlayer activeCards.
+]
+
+{ #category : #testing }
+Speed >> isInstant:player within:game [
+	
+]
+
+{ #category : #playing }
+Speed >> usedBy: player in:otherPlayer within: game [
+
+	game beAtPlay:player.
+	otherPlayer active:self.
 	player remove: self from: player hand.
 	game lastUsed: self.
 ]

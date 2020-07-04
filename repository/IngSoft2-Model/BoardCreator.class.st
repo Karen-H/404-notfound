@@ -1,11 +1,26 @@
 Class {
-	#name : #Board,
+	#name : #BoardCreator,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #'instance creation' }
+BoardCreator class >> of: squares with: squareType at: position [
+
+	| board tiles square |
+	board := OrderedCollection new.
+	tiles := (1 to: squares) asOrderedCollection.
+	squares timesRepeat: [ 
+		square := tiles first.
+		board := square = position
+			ifTrue: [ board + (squareType on: position) ]
+			ifFalse: [ board + (NoEffect on: square) ].
+		tiles remove: square ].
+	^ board
+]
+
 { #category : #accessing }
-Board class >> distribute: squares of: panel with: tiles using: effect at: index [
+BoardCreator >> distribute: squares of: panel with: tiles using: effect at: index [
 
 	|square panelNew|
 	panelNew := panel.
@@ -17,18 +32,7 @@ Board class >> distribute: squares of: panel with: tiles using: effect at: index
 ]
 
 { #category : #'instance variables' }
-Board class >> distribute: squares of: panel with: tiles using: effect at: index [
-
-	| square panelNew |
-	panelNew := panel.
-	(squares at: index) timesRepeat: [
-		panelNew := panelNew + (effect on: (square := tiles atRandom)).
-		tiles remove: square ].
-	^ panelNew.
-]
-
-{ #category : #'instance variables' }
-Board class >> distribute: squares with: tiles [
+BoardCreator >> distribute: squares with: tiles [
 
 	| square panel |
 	panel := OrderedCollection new.
@@ -45,22 +49,7 @@ Board class >> distribute: squares with: tiles [
 ]
 
 { #category : #'instance creation' }
-Board class >> of: squares with: squareType at: position [
-
-	| board tiles square |
-	board := OrderedCollection new.
-	tiles := (1 to: squares) asOrderedCollection.
-	squares timesRepeat: [ 
-		square := tiles first.
-		board := square = position
-			ifTrue: [ board + (squareType on: position) ]
-			ifFalse: [ board + (NoEffect on: square) ].
-		tiles remove: square ].
-	^ board
-]
-
-{ #category : #'instance creation' }
-Board class >> withRandomlyDistributed: squares [
+BoardCreator >> withRandomlyDistributed: squares [
 
 	| tiles atomicBombNum moonWalkNum speedUpNum wormHoleNum panel drawCardNum |
 	tiles := (1 to: squares) asOrderedCollection.

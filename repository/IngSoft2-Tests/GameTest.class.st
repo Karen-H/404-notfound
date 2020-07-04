@@ -13,10 +13,8 @@ Class {
 	#instVars : [
 		'karen',
 		'andre',
-		'simpleBoard10',
 		'juli',
 		'fran',
-		'mixBoard20',
 		'noEffect10SquaresBoard',
 		'diverseEffects20SquaresBoard',
 		'gameHandler',
@@ -65,8 +63,9 @@ GameTest >> anOverload [
 GameTest >> newDeck [
 
 	| cards |
-	cards := Deck assembled.
-	^ cards
+	cards:=Acceleration onDeck + Cancellation onDeck + Overload onDeck + Redo onDeck + 
+	Repeat onDeck + Speed onDeck.
+	^ Deck assembled:cards.
 ]
 
 { #category : #tests }
@@ -78,9 +77,9 @@ GameTest >> newGameHandler [
 { #category : #tests }
 GameTest >> newPlayer: playerName drawing: cards [
 
-	| player |
-	player := Player drawing: cards name: playerName.
-	^ player
+	
+	^Player drawing: cards name: playerName.
+	
 ]
 
 { #category : #running }
@@ -93,7 +92,7 @@ GameTest >> setUp [
 	juli := self newPlayer: 'Juli' drawing: self anOverload + self aRedo.
 	fran := self newPlayer: 'Fran' drawing: self aRepeat + self aSpeed.
 	gameHandler := self newGameHandler.
-	deck := self newDeck cards.
+	deck := self newDeck.
 	
 	noEffect10SquaresBoard := (NoEffect on: 1) + (NoEffect on: 2) + (NoEffect on: 3) + (NoEffect on: 4) + (NoEffect on: 5) + (NoEffect on: 6) + (NoEffect on: 7) + (NoEffect on: 8) + (NoEffect on: 9) + (NoEffect on: 10).
 	
@@ -104,7 +103,7 @@ GameTest >> setUp [
 GameTest >> testBoardDistribution [
 
 	| board |
-	board := Board withRandomlyDistributed: 100.
+	board := BoardCreator new withRandomlyDistributed: 100.
 
 	self
 		assert: ( board count: [ :square | square type = 'AtomicBomb' ] ) equals: 2;
@@ -168,8 +167,8 @@ GameTest >> testPlayUntilGameOverWinsPlayerOne [
 	game play: dice.
 	
 	self
-		assert: karen position equals: 10;
-		assert: andre position equals: 8;
+		assert: karen boardSquare equals: 10;
+		assert: andre boardSquare equals: 8;
 		assert: game whoWon equals: karen
 ]
 
@@ -186,8 +185,8 @@ GameTest >> testPlayUntilGameOverWinsPlayerTwo [
 	game play: dice.
 	
 	self
-		assert: karen position equals: 4;
-		assert: andre position equals: 10;
+		assert: karen boardSquare  equals: 4;
+		assert: andre boardSquare  equals: 10;
 		assert: game whoWon equals: andre
 ]
 
@@ -202,7 +201,7 @@ GameTest >> testPlayerCantExceedMaxPositionOnFinalLap [
 	game play: d8.
 	
 	self 
-		assert: karen position equals: 10;
+		assert: karen boardSquare  equals: 10;
 		assert: karen lap equals: 2.
 
 ]
@@ -213,7 +212,7 @@ GameTest >> testPlayerDrawsACard [
 	"Select 'No' when prompted"
 	| players board game |
 	players := OrderedCollection with: karen.
-	board := Board of: 25 with: DrawCard at: 20.
+	board := BoardCreator of: 25 with: DrawCard at: 20.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	self assert: karen hand size equals: 2.
 	gameHandler move: karen rolling: 19 within: game.
@@ -226,13 +225,13 @@ GameTest >> testPlayerMovesDueToAtomicBomb [
 	"Select 'No' when prompted (2 times)"
 	| players board game |
 	players := karen + andre.
-	board := Board of: 15 with: AtomicBomb at: 11.
+	board := BoardCreator of: 15 with: AtomicBomb at: 11.
 	game := Game playedBy: players on: board with: 2 using: deck.
-	andre location changeSquare: 4.
+	andre square: 4.
 	gameHandler move: karen rolling: 10 within: game.
 	self
-		assert: karen position equals: 1;
-		assert: andre position equals: 1
+		assert: karen boardSquare  equals: 1;
+		assert: andre boardSquare  equals: 1
 ]
 
 { #category : #tests }
@@ -241,14 +240,14 @@ GameTest >> testPlayerMovesDueToMoonWalk [
 	"Select 'No' when prompted (2 times)"
 	| players board game |
 	players := karen + andre.
-	board := Board of: 25 with: MoonWalk at: 20.
+	board := BoardCreator of: 25 with: MoonWalk at: 20.
 	game := Game playedBy: players on: board with: 2 using: deck.
-	andre location changeSquare: 5.
+	andre square: 5.
 	gameHandler move: karen rolling: 19 within: game.
 	
 	self 
-		assert: karen position equals: 20;
-		assert: andre position equals: 3.
+		assert: karen boardSquare  equals: 20;
+		assert: andre boardSquare  equals: 3.
 ]
 
 { #category : #tests }
@@ -257,11 +256,11 @@ GameTest >> testPlayerMovesDueToSpeedUp [
 	"Select 'No' when prompted"
 	| players board game |
 	players := OrderedCollection with: karen.
-	board := Board of: 15 with: SpeedUp at: 5.
+	board := BoardCreator of: 15 with: SpeedUp at: 5.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 4 within: game.
 	
-	self assert: karen position equals: 9.
+	self assert: karen boardSquare  equals: 9.
 ]
 
 { #category : #tests }
@@ -270,11 +269,11 @@ GameTest >> testPlayerMovesDueToWormHole [
 	"Select 'No' when prompted"
 	| players board game |
 	players := OrderedCollection with: karen.
-	board := Board of: 15 with: WormHole at: 10.
+	board := BoardCreator of: 15 with: WormHole at: 10.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 9 within: game.
 	
-	self assert: karen position equals: 6.
+	self assert: karen boardSquare equals: 6.
 ]
 
 { #category : #tests }
@@ -283,11 +282,11 @@ GameTest >> testPlayerStaysAtSamePositionWhenItArrivesToASquareWithNoEffect [
 	"Select 'No' when prompted"
 	| players board game |
 	players := OrderedCollection with: karen.
-	board := Board of: 15 with: NoEffect at: 4.
+	board := BoardCreator of: 15 with: NoEffect at: 4.
 	game := Game playedBy: players on: board with: 2 using: deck.
 	gameHandler move: karen rolling: 3 within: game.
 
-	self assert: karen position equals: 4.
+	self assert: karen boardSquare  equals: 4.
 ]
 
 { #category : #tests }
@@ -301,11 +300,11 @@ GameTest >> testPlayersFinalPositionsWithMixBoard [
 	game play: d15.
 	
 	self
-		assert: karen position equals: 12;
-		assert: andre position equals: 20;
+		assert: karen boardSquare  equals: 12;
+		assert: andre boardSquare  equals: 20;
 		assert: game whoWon equals: andre.
 		
-	players := game results.
+	players := Position new results:players.
 	self 
 		assert: players first equals: andre;
 		assert: players second equals: karen.
@@ -325,11 +324,11 @@ GameTest >> testPlayersFinalPositionsWithSimpleBoard [
 	game play: dice.
 	
 	self
-		assert: karen position equals: 8;
-		assert: andre position equals: 10;
+		assert: karen boardSquare  equals: 8;
+		assert: andre boardSquare  equals: 10;
 		assert: game whoWon equals: andre.
 		
-	players := game results.
+	players := Position new results:players.
 	self 
 		assert: players first equals: andre;
 		assert: players second equals: karen.

@@ -7,12 +7,8 @@ Class {
 { #category : #'instance creation' }
 Redo class >> onDeck [
 
-	| effectNumber |
-	effectNumber := 0.
-			
 	^ self new 
 		initialize: 'Redo'
-		with: effectNumber
 		type: 'Instant'.
 ]
 
@@ -25,13 +21,33 @@ Redo >> cardUsedBy: player within: game [
 	game lastUsed: self
 ]
 
+{ #category : #initialization }
+Redo >> initialize: effect type: cardType [
+
+	name := effect.
+	type := cardType.
+]
+
+{ #category : #testing }
+Redo >> isDestroyed:player in:otherPlayer within:game [ 
+	
+	otherPlayer remove:self from: otherPlayer activeCards.
+]
+
+{ #category : #testing }
+Redo >> isInstant:player within:game [
+	
+	self cardUsedBy: player within:game.
+]
+
 { #category : #playing }
 Redo >> usedBy: player within: game [
-
-	(game deck anySatisfy: [ :card | card name = game lastCardUsed name ])
-		ifFalse: [ ^ self ].
-	player turn
-		ifTrue: [ self cardUsedBy: player within: game ]
-		ifFalse: [ game lastCardUsed type = 'Instant'
-				ifTrue: [ self cardUsedBy: player within: game ] ]
+	
+	game beAtPlay:player.
+	(game deck cards anySatisfy: [ :card | card name = game lastCardUsed name ])
+		ifTrue: [ 
+			player turn
+				ifTrue: [ self cardUsedBy: player within: game ]
+				ifFalse: [ game lastCardUsed isInstant:player within:game.]
+		].
 ]

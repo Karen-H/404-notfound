@@ -20,18 +20,19 @@ GameHandler >> fallsBehindFinalPosition: tentativePosition [
 GameHandler >> move: player rolling: dice within: game [
 
 	| tentativePosition square |
+	game beAtPlay: player.
 	player turn: true.
-	game players do: [ :member | member playACardWithin: game ].
-	tentativePosition := self moveForward: player to: player position + player effect + dice within: game.
-	player location changeSquare: tentativePosition.
+	tentativePosition := self moveForward: player to: player boardSquare + player effect + dice within: game.
+	player square: tentativePosition.
 	square := game board at: tentativePosition.
 	square applyEffectOn: player within: game.
 	player turn: false.
 ]
 
 { #category : #playing }
-GameHandler >> moveBackwards: player to: tentativePosition limitedBy: boardSize [
+GameHandler >> moveBackwards: player to: tentativePosition limitedBy: boardSize within:game [ 
 
+	game beAtPlay:player.
 	( self fallsBehindFinalPosition: tentativePosition )
 		ifTrue: [ ^ self shift: player to: tentativePosition limitedBy: boardSize ]
 		ifFalse: [ ^ tentativePosition ].
@@ -40,6 +41,7 @@ GameHandler >> moveBackwards: player to: tentativePosition limitedBy: boardSize 
 { #category : #playing }
 GameHandler >> moveForward: player to: tentativePosition within: game [
 
+	game beAtPlay:player.
 	( self exceedsFinalPosition: tentativePosition limitedBy: game board size ) 
 		ifTrue: [ ^ self shift: player to: tentativePosition within: game ]
 		ifFalse: [ ^ tentativePosition ].
@@ -48,10 +50,8 @@ GameHandler >> moveForward: player to: tentativePosition within: game [
 { #category : #playing }
 GameHandler >> shift: player to: tentativePosition limitedBy: boardSize [
 
-	| lapCount |
-	lapCount := 0.
-	player location changeLap: lapCount + player lap.
-	^ (tentativePosition + (lapCount negated * boardSize)).
+	player lap: 0 + player lap.
+	^ (tentativePosition + (0 negated * boardSize)).
 ]
 
 { #category : #playing }
@@ -62,8 +62,8 @@ GameHandler >> shift: player to: tentativePosition within: game [
 	newPosition := tentativePosition - (lapCount * game board size).
 	player lap + lapCount > game laps
 		ifTrue: [ 
-			player location changeLap:game laps.
+			player lap:game laps.
 			newPosition := game board size ]
-		ifFalse: [ player location changeLap: player lap + lapCount ].
+		ifFalse: [ player lap: player lap + lapCount ].
 	^ newPosition.
 ]

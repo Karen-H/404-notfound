@@ -8,10 +8,12 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
-Position class >> start [
-
-	^ self new.
+{ #category : #'instance creation' }
+Position class >> positionNewLap: lap withNewSquare: square [
+	
+	^self new
+		initialize: lap
+		withSquare: square.
 ]
 
 { #category : #accessing }
@@ -20,28 +22,24 @@ Position >> boardSquare [
 	^ boardSquare.
 ]
 
-{ #category : #accessing }
-Position >> changeLap: newLap [
-
-	lap := newLap.
-]
-
-{ #category : #playing }
-Position >> changeSquare: newPosition [
-
-	boardSquare := newPosition.
-]
-
 { #category : #initialization }
-Position >> initialize [
+Position >> initialize:lapNow withSquare: squareNow [
 
-	super initialize.
-	lap := 0.
-	boardSquare := 1.
+	lap := lapNow.
+	boardSquare := squareNow.
 ]
 
 { #category : #accessing }
 Position >> lap [
 
 	^ lap.
+]
+
+{ #category : #accessing }
+Position >> results:players [
+	
+	^ players sort: [ :aPlayer :anotherPlayer |
+		aPlayer boardSquare  > anotherPlayer boardSquare 
+			or: [ aPlayer boardSquare  = anotherPlayer boardSquare 
+				and: [ aPlayer boardSquare  > anotherPlayer lap ] ] ]
 ]

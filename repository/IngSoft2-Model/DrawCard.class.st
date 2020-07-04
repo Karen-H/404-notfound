@@ -7,23 +7,22 @@ Class {
 { #category : #'instance creation' }
 DrawCard class >> on: boardNumber [
 
-	| effectNumber |
-	effectNumber := 0.
-	
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initialize: boardNumber
-		with: effectNumber
-		type: 'DrawCard'.
+		initialize:'DrawCard'.
 ]
 
 { #category : #playing }
 DrawCard >> applyEffectOn: player within: game [
 
-	| deck card |
-	deck := game deck.
-	card := deck atRandom.
-	player draw: card.
+	game beAtPlay:player.
+	player draw: game deck takeNextCard.
 	game lastSteppedOn: self.
+]
+
+{ #category : #initialization }
+DrawCard >> initialize: name [
+
+	type := name.
 ]

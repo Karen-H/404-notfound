@@ -1,6 +1,9 @@
 Class {
 	#name : #SpeedUp,
 	#superclass : #Effect,
+	#instVars : [
+		'effectNumber'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -13,7 +16,32 @@ SpeedUp class >> on: boardNumber [
 	self assertNumberGreaterThanZero: boardNumber.
 		
 	^ self new 
-		initialize: boardNumber
-		with: effectNumber
-		type: 'SpeedUp'.
+		initialize:  'SpeedUp'
+		with: effectNumber.
+]
+
+{ #category : #playing }
+SpeedUp >> applyEffectOn: player within: game [
+
+	| newPosition |
+	game beAtPlay:player.
+	newPosition := GameHandler new
+	moveForward: player
+	to: player boardSquare  + effectNumber
+	within: game.
+	player square: newPosition.
+	game lastSteppedOn: self.
+]
+
+{ #category : #accessing }
+SpeedUp >> effectNumber [
+
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+SpeedUp >> initialize: name with: effect [
+
+	effectNumber := effect.
+	type := name.
 ]

@@ -1,6 +1,9 @@
 Class {
 	#name : #Overload,
 	#superclass : #Card,
+	#instVars : [
+		'effectNumber'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -16,12 +19,36 @@ Overload class >> onDeck [
 		type: 'Permanent'.
 ]
 
-{ #category : #playing }
-Overload >> usedBy: player within: game [
+{ #category : #accessing }
+Overload >> effectNumber [
 
-	| target |
-	target := player chooseTargetFrom: game.
-	target active: self.
+	^ effectNumber.
+]
+
+{ #category : #initialization }
+Overload >> initialize: effect with: aNumber type: cardType [
+
+	name := effect.
+	effectNumber := aNumber.
+	type := cardType.
+]
+
+{ #category : #testing }
+Overload >> isDestroyed:player in:otherPlayer within:game [ 
+	
+	otherPlayer remove:self from: otherPlayer activeCards.
+]
+
+{ #category : #testing }
+Overload >> isInstant:player within:game [
+	
+]
+
+{ #category : #playing }
+Overload >> usedBy: player in:otherPlayer within: game [
+
+	game beAtPlay:player.
+	otherPlayer active: self.
 	player remove: self from: player hand.
 	game lastUsed: self.
 ]

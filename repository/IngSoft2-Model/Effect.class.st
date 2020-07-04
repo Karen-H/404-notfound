@@ -2,9 +2,7 @@ Class {
 	#name : #Effect,
 	#superclass : #Object,
 	#instVars : [
-		'effectNumber',
-		'type',
-		'positionOnBoard'
+		'type'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -19,38 +17,7 @@ Effect class >> assertNumberGreaterThanZero: boardNumber [
 { #category : #playing }
 Effect >> applyEffectOn: player within: game [
 
-	| newPosition |
-	newPosition := GameHandler new
-	moveForward: player
-	to: player position + effectNumber
-	within: game.
-	player location changeSquare: newPosition.
-	game lastSteppedOn: self.
-]
-
-{ #category : #accessing }
-Effect >> effectNumber [
-
-	^ effectNumber.
-]
-
-{ #category : #initialization }
-Effect >> initialize: boardNumber with: effect type: name [
-
-	positionOnBoard := boardNumber.
-	effectNumber := effect.
-	type := name.
-]
-
-{ #category : #playing }
-Effect >> move: player within: game [
-
-	| newPosition |
-	newPosition := GameHandler new
-	moveForward: player
-	to: player position + effectNumber
-	within: game.
-	player location changeSquare: newPosition
+	self subclassResponsibility.
 ]
 
 { #category : #accessing }

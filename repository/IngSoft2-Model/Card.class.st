@@ -3,24 +3,15 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'type',
-		'name',
-		'effectNumber'
+		'name'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
-Card >> effectNumber [
-
-	^ effectNumber.
-]
-
-{ #category : #initialization }
-Card >> initialize: effect with: aNumber type: cardType [
-
-	name := effect.
-	effectNumber := aNumber.
-	type := cardType.
+{ #category : #testing }
+Card >> isInstant:player within:game [
+	
+	self subclassResponsibility.
 ]
 
 { #category : #accessing }
