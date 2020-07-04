@@ -19,14 +19,14 @@ GameHandler >> fallsBehindFinalPosition: tentativePosition [
 { #category : #playing }
 GameHandler >> move: player rolling: dice within: game [
 
-	| playerNow tentativePosition square |
-	playerNow:=game beAtPlay: player.
-	playerNow turn: true.
-	tentativePosition := self moveForward: playerNow to: playerNow boardSquare + playerNow effect + dice within: game.
-	playerNow square: tentativePosition.
+	| tentativePosition square |
+	game beAtPlay: player.
+	player turn: true.
+	tentativePosition := self moveForward: player to: player boardSquare + player effect + dice within: game.
+	player square: tentativePosition.
 	square := game board at: tentativePosition.
-	square applyEffectOn: playerNow within: game.
-	playerNow turn: false.
+	square applyEffectOn: player within: game.
+	player turn: false.
 ]
 
 { #category : #playing }
@@ -42,10 +42,9 @@ GameHandler >> moveBackwards: player to: tentativePosition limitedBy: boardSize 
 { #category : #playing }
 GameHandler >> moveForward: player to: tentativePosition within: game [
 
-	|playerNow|
-	playerNow:=game beAtPlay:player.
+	game beAtPlay:player.
 	( self exceedsFinalPosition: tentativePosition limitedBy: game board size ) 
-		ifTrue: [ ^ self shift: playerNow to: tentativePosition within: game ]
+		ifTrue: [ ^ self shift: player to: tentativePosition within: game ]
 		ifFalse: [ ^ tentativePosition ].
 ]
 

@@ -24,6 +24,7 @@ SpeedUp class >> on: boardNumber [
 SpeedUp >> applyEffectOn: player within: game [
 
 	| newPosition |
+	game beAtPlay:player.
 	newPosition := GameHandler new
 	moveForward: player
 	to: player boardSquare  + effectNumber

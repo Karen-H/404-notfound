@@ -43,6 +43,7 @@ Repeat >> isInstant:player within:game [
 { #category : #playing }
 Repeat >> usedBy: player within: game [
 
+	game beAtPlay:player.
 	( game board anySatisfy: [ :tile | tile type = game lastSquareSteppedOn type ] )
 		ifTrue: [ ^ self ].
 	game lastSquareSteppedOn applyEffectOn: player within: game.

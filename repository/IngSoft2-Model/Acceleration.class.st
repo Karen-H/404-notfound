@@ -49,6 +49,7 @@ Acceleration >> isInstant:player within:game [
 { #category : #playing }
 Acceleration >> usedBy: player within: game [
 
+	game beAtPlay:player.
 	game players do: [ :member | member active: self ].
 	player remove: self from: player hand.
 	game lastUsed: self.

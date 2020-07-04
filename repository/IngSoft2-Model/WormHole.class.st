@@ -24,6 +24,7 @@ WormHole class >> on: boardNumber [
 WormHole >> applyEffectOn: player within: game [
 
 	| newPosition |
+	game beAtPlay:player.
 	newPosition := GameHandler new 
 	moveBackwards: player
 	to: player boardSquare  + effectNumber

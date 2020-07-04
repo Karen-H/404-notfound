@@ -38,6 +38,7 @@ Cancellation >> isInstant:player within:game [
 Cancellation >> usedBy: player in:otherPlayer within: game [
 
 	| card  |
+	game beAtPlay:player.
 	(game players select:[:member|member activeCards isNotEmpty])
 		ifNotEmpty: [  
 		card := (otherPlayer  activeCards)first.

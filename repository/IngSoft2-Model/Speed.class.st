@@ -47,6 +47,7 @@ Speed >> isInstant:player within:game [
 { #category : #playing }
 Speed >> usedBy: player in:otherPlayer within: game [
 
+	game beAtPlay:player.
 	otherPlayer active:self.
 	player remove: self from: player hand.
 	game lastUsed: self.

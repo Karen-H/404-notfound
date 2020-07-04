@@ -83,7 +83,6 @@ Game >> beAtPlay:playerNow [
 
 	players 
 		detect: [ :player | player name = playerNow name ]
-		ifFound: [ :winner | ^playerNow]
 		ifNone: [ GameException signal: 'Not Stay.' ]
 ]
 

@@ -15,6 +15,8 @@ NoEffect class >> on: boardNumber [
 
 { #category : #playing }
 NoEffect >> applyEffectOn: player within: game [
+	
+	game beAtPlay:player.
 ]
 
 { #category : #initialization }

@@ -26,6 +26,7 @@ MoonWalk class >> on: boardNumber [
 MoonWalk >> applyEffectOn: player within: game [
 
 	| otherPlayers |
+	game beAtPlay:player.
 	otherPlayers := game players reject: [ :gamer | gamer = player ].
 	self moving:otherPlayers in:game.
 		

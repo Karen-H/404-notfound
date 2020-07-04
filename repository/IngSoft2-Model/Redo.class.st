@@ -44,6 +44,7 @@ Redo >> isInstant:player within:game [
 Redo >> usedBy: player within: game [
 	
 	|deck|
+	game beAtPlay:player.
 	deck:=game deck cards.
 	(deck anySatisfy: [ :card | card name = game lastCardUsed name ])
 		ifTrue: [ 
